@@ -4,9 +4,12 @@
 <title>Brightmoor Connection Database</title>
 </head>
 <body style="background-color:Beige;">
+
+<!--include scripts for pattern field for phone numbers, dates, etc-->
 <script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.maskedinput.js" type="text/javascript"></script>
 
+<!--script for pattern masks-->
 <script>
 jQuery(function($){
    $("#EnrollmentDate").mask("99/99/99",{placeholder:"mm/dd/yy"});
@@ -17,8 +20,11 @@ jQuery(function($){
 </script>
 
 <?php
+
+//set timezone for strtotime php function to convert date to MySQL format from input format
 date_default_timezone_set('America/Detroit');
-//functions
+
+//functions to create various form items
 function checkBox($valueName, $labelName) {
 	global $row;
     if ($row[$valueName]!='1'){
@@ -65,9 +71,9 @@ function emailInput($valueName, $labelName) {
 
 <h1>Brightmoor Connection Database</h1>
 <?php require_once ('nav.html'); ?>
-<form id="dropDownMenu" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 
-<!--drop down menu-->
+<!--start drop down menu-->
+<form id="dropDownMenu" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 <select name="ClientID" onchange="change()">
 <option value="NewRecord">New Record</option>
 
