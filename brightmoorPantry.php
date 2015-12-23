@@ -112,7 +112,6 @@ function change(){
 //connect to database using php script
 require_once ('mysql_connect.php');
 
-//echo "id: " . $_POST[ClientID]. "<br>";
 $sql = "SELECT * FROM Clients WHERE ClientID='$_POST[ClientID]'";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
@@ -235,9 +234,10 @@ echo'<input type="submit" value="Update Client Information"/></fieldset></form>'
 echo '<input type="submit" value="Enter new client"/></fieldset></form>
    		';
 }
+
+//family members code
 $familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$_POST[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
 $familyMembersResult = $conn->query($familyMembersSql);
-//$familyMembersRow = $familyMembersResult->fetch_assoc();
 
 echo '
 
@@ -272,15 +272,8 @@ if ($familyMembersResult->num_rows > 0) {
 	echo 'Save new client before entering family information';
 	}
     
-   //echo "0 results. <a href=\"brightmoorPantryFamilyMemberInsert.php\">Enter a new Family Member</a><br><br>";
  if ($row[ClientID]!=""){ 
- 	/*echo '<form action="brightmoorPantryFamilyMemberInsert.php" method="post">Enter a new Family Member for '.$row[FirstName].' 			'.$row[LastName].'
-   <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
-   <input type="hidden" name="FirstName" value="' .$row[FirstName]. '" />
-   <input type="hidden" name="LastName" value="' .$row[LastName]. '" />
-   <input type="submit" value="Enter new family member"/>
-   </form>';*/
-   echo '<form action="FamilyMemberInsert.php" method="post">
+   echo '<form action="InsertFamilyMember.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
 <label for="FamilyMemberName">Name: </label><input type="text" id="FamilyMemberName" name="FamilyMemberName" value="' .$familyMembersRow[FamilyMemberName].'"/>
 <label for="Relationship">Relationship: </label><input type="text" id="Relationship" name="Relationship" value="'.$familyMembersRow[Relationship].'"/>
@@ -294,7 +287,6 @@ if ($familyMembersResult->num_rows > 0) {
 </form>
 ';
    }
-
 
 $conn->close();
 
