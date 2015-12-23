@@ -20,11 +20,6 @@ $arrlength = count($posts);
 for($x = 0; $x < $arrlength; $x++) {
     $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
 }
-/*
-for($x = 0; $x < $arrlength; $x++) {
-   	echo '<br>';
-    echo $fieldArray[$x];
-}*/
 
 $stmt = $conn->prepare("INSERT INTO FamilyMembers (ClientID, FamilyMemberName, Age, Gender, Relationship) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param('sssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4]);
@@ -40,30 +35,6 @@ if ($stmt->execute() == TRUE) {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
 	echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
 }
-
-
-/*
-$sql="INSERT INTO FamilyMembers (ClientID, FamilyMemberName, Age, Gender, Relationship)
-
-VALUES
-('$_POST[ClientID]','$_POST[FamilyMemberName]','$_POST[FamilyMemberAge]','$_POST[FamilyMemberGender]','$_POST[Relationship]')";
-
- 
-if ($conn->query($sql) === TRUE) {
-    echo 'New record created successfully.<br><br>';
-  echo '<form action="brightmoorPantry.php" method="post">';
-  
-  //echo 'Enter a new Family Member for '.$_POST[FirstName].' 			'.$_POST[LastName].'';
-  
-  echo '
-    <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
-    <input type="submit" value="Return to Client Page"/>
-   </form>
-    ';
-    require_once ('nav.html');
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}*/
 
 $conn->close();
 
