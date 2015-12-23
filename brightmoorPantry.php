@@ -248,7 +248,7 @@ echo '
 
 if ($familyMembersResult->num_rows > 0) {
     while($familyMembersRow = $familyMembersResult->fetch_assoc()) {
-        
+        //output existing family member info
         echo '
         <form action="UpdateFamilyMember.php" method="post">
 <input type="hidden" name="FamilyMemberID" value="'.$familyMembersRow[FamilyMemberID].'" />
@@ -268,25 +268,25 @@ if ($familyMembersResult->num_rows > 0) {
 ';
     }
     
-} else {
-	echo 'Save new client before entering family information';
-	}
-    
+}
+
  if ($row[ClientID]!=""){ 
    echo '<form action="InsertFamilyMember.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
-<label for="FamilyMemberName">Name: </label><input type="text" id="FamilyMemberName" name="FamilyMemberName" value="' .$familyMembersRow[FamilyMemberName].'"/>
-<label for="Relationship">Relationship: </label><input type="text" id="Relationship" name="Relationship" value="'.$familyMembersRow[Relationship].'"/>
-<label for="FamilyMemberAge">Age: </label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge" value="' .$familyMembersRow[Age]. '">
+<label for="FamilyMemberName">Name: </label><input type="text" id="FamilyMemberName" name="FamilyMemberName"/>
+<label for="Relationship">Relationship: </label><input type="text" id="Relationship" name="Relationship"/>
+<label for="FamilyMemberAge">Age: </label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge">
 <label for="FamilyMemberGender">Gender: </label><select id="FamilyMemberGender" name="FamilyMemberGender">
-  			<option value="' .$familyMembersRow[Gender]. '">' .$familyMembersRow[Gender]. '</option>
+  			<option value=""></option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
 		</select>
 <input type="submit" value="Enter new family member"/>
 </form>
 ';
-   }
+   } else {
+	echo 'Save new client before entering family information';
+	}
 
 $conn->close();
 
