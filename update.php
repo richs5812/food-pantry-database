@@ -39,10 +39,6 @@ $posts = array($_POST[FirstName],$_POST[LastName],$_POST[Address],$_POST[Address
 //create array to place either post value or NULL
 $fieldArray = array();
 
-/*
-$fieldName = array("FirstName", "LastName", "Address", "Address2", "HomePhoneNumber", "ZipCode", "Age", "Gender", "Pregnant", "EnrollmentDate", "AddressVerified", "EmailAddress", "CellPhoneNumber", "FamilySize", "AdultsNumber", "AgeRange05", "AgeRange617", "AgeRange1829", "AgeRange3039", "AgeRange4049", "AgeRange5064", "AgeRange65", "StoveYes", "StoveNo", "StateEmergencyRelease", "FoodStampAssistance", "LimitedHealthServicesReferral", "AdditionalServices", "OtherNotes", "CoatOrder", "PreviousChristmasFoodYes", "PreviousChristmasFoodNo", "CoatOrderDate", "ChildrenNumber");
-*/
-
 //loop through each post value and assign NULL value if no input
 $arrlength = count($posts);
 for($x = 0; $x < $arrlength; $x++) {

@@ -184,8 +184,6 @@ numberInput("AgeRange1829", "18-29");
 
 numberInput("AgeRange3039", "30-39");
 
-echo '<br>';
-
 numberInput("AgeRange4049", "40-49");
 
 numberInput("AgeRange5064", "50-64");
@@ -273,7 +271,7 @@ if ($familyMembersResult->num_rows > 0) {
  if ($row[ClientID]!=""){ 
    echo '<form action="InsertFamilyMember.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
-<label for="FamilyMemberName">Name: </label><input type="text" id="FamilyMemberName" name="FamilyMemberName"/>
+<label for="FamilyMemberName">Name: </label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST[autofocus].'/>
 <label for="Relationship">Relationship: </label><input type="text" id="Relationship" name="Relationship"/>
 <label for="FamilyMemberAge">Age: </label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge">
 <label for="FamilyMemberGender">Gender: </label><select id="FamilyMemberGender" name="FamilyMemberGender">

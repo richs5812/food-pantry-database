@@ -33,6 +33,7 @@ if (isset($_POST['Update'])) {
 	   echo 'Family member record updated successfully.<br><br>
  		<form action="brightmoorPantry.php" method="post">
     	<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    	<input type="hidden" name="autofocus" value="autofocus" />
     	<input type="submit" value="Return to Client Page" autofocus/>
    		</form>
     	';
@@ -45,7 +46,7 @@ if (isset($_POST['Update'])) {
     //delete action if Delete button was clicked
     $sql="DELETE FROM FamilyMembers WHERE FamilyMemberID='$_POST[FamilyMemberID]'";
     if ($conn->query($sql) === TRUE) {
-    echo "Family Member record deleted. FamilyMemberID is: $_POST[FamilyMemberID] <br><br>";
+    echo "Family Member record deleted.<br><br>";
     echo '<form action="brightmoorPantry.php" method="post">
     <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
     <input type="submit" autofocus value="Return to Client Page" />

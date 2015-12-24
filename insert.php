@@ -31,7 +31,27 @@ $stmt = $conn->prepare("INSERT INTO Clients (FirstName, LastName, Address, Addre
 $stmt->bind_param('ssssssssssssssssssssssssssssssssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4], $fieldArray[5], $fieldArray[6], $fieldArray[7], $fieldArray[8], $fieldArray[9], $fieldArray[10], $fieldArray[11], $fieldArray[12], $fieldArray[13], $fieldArray[14], $fieldArray[15], $fieldArray[16], $fieldArray[17], $fieldArray[18], $fieldArray[19], $fieldArray[20], $fieldArray[21], $fieldArray[22], $fieldArray[23], $fieldArray[24], $fieldArray[25], $fieldArray[26], $fieldArray[27], $fieldArray[28], $fieldArray[29], $fieldArray[30], $fieldArray[31], $fieldArray[32], $fieldArray[33]);
 
 if ($stmt->execute() == TRUE) {
-  echo  "New record created successfully";
+	//select clientID that was just created
+  $sql = "SELECT ClientID FROM Clients WHERE FirstName='$_POST[FirstName]' AND LastName='$_POST[LastName]' AND Address='$_POST[Address]'";
+  $Result = $conn->query($sql);
+  $ResultsRow = $Result->fetch_assoc();
+
+	echo 'New client record created successfully.<br><br>
+	<form action="brightmoorPantry.php" method="post">
+    <input type="hidden" name="ClientID" value="' .$ResultsRow[ClientID]. '" />
+    <input type="submit" value="Return to Client Page" autofocus/>
+   </form>
+    ';
+  /*echo  "New record created successfully";
+  //select clientID that was just created
+  $sql = "SELECT ClientID FROM Clients WHERE FirstName='$_POST[FirstName]' AND LastName='$_POST[LastName]' AND Address='$_POST[Address]'";
+  $Result = $conn->query($sql);
+  
+  while($ResultsRow = $Result->fetch_assoc()) {
+  echo $ResultsRow[ClientID];  
+  }
+
+  echo $_POST[FirstName];*/
   echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
 } else {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
