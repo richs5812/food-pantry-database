@@ -1,7 +1,7 @@
 <?
 $servername = "localhost";
-$username = "root";
-$password = "Brightmoor2015!";
+$username = "user1";
+$password = "BrightmoorConnect2016!";
 $dbname = "BrightmoorConnect";
 
 // Create connection

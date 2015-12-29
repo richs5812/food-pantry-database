@@ -1,6 +1,15 @@
+<?php
+session_start();
+if(empty($_SESSION["username"])) {
+header('Location: login.php');
+exit;
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brightmoor Connection Database</title>
 </head>
 <body style="background-color:Beige;">
@@ -58,7 +67,7 @@ function dateInput($valueName, $labelName) {
 		$displayDate="  /  /  ";
 		}
 
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="date" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
+	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
 }
 
 function emailInput($valueName, $labelName) {
@@ -70,6 +79,13 @@ function emailInput($valueName, $labelName) {
 ?>
 
 <h1>Brightmoor Connection Database</h1>
+<?php
+// Echo session variables that were set on previous page
+echo "user name is " . $_SESSION["username"] . ".<br>";
+//echo "Favorite animal is " . $_SESSION["favanimal"] . ".";
+?>
+
+
 <?php require_once ('nav.html'); ?>
 
 <!--start drop down menu-->
