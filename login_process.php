@@ -22,8 +22,11 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
 
         session_start();
+        //take user to database if username/password combo found
         $_SESSION["username"] = $_POST[username];
-
+        header('Location: brightmoorPantry.php');
+		exit;
+/*
         while ($row = $result->fetch_array(MYSQLI_NUM))
         {
         
@@ -32,13 +35,14 @@ if ($result->num_rows > 0) {
                 print "$r ";
             }
             print "\n";
-        }
+        }*/
         
 } else {
-	echo 'No results <br />';
+	header('Location: brightmoorPantry.php');
+	//echo 'No results <br />';
 	}
 
-  echo '<a href="login.php">Return to login form</a><br /><a href="brightmoorPantry.php">Go to database</a>';
+  //echo '<a href="login.php">Return to login form</a><br /><a href="brightmoorPantry.php">Go to database</a>';
   
 } else {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";

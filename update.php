@@ -1,3 +1,11 @@
+<?php
+//code for session variable to make sure user is logged in
+session_start();
+if(empty($_SESSION["username"])) {
+header('Location: login.php');
+exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>

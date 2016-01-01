@@ -1,4 +1,12 @@
 <?php
+//code for session variable to make sure user is logged in
+session_start();
+if(empty($_SESSION["username"])) {
+header('Location: login.php');
+exit;
+}
+?>
+<?php
 
 //set timezone for strtotime php function to convert date to MySQL format from input format
 date_default_timezone_set('America/Detroit');
@@ -42,16 +50,6 @@ if ($stmt->execute() == TRUE) {
     <input type="submit" value="Return to Client Page" autofocus/>
    </form>
     ';
-  /*echo  "New record created successfully";
-  //select clientID that was just created
-  $sql = "SELECT ClientID FROM Clients WHERE FirstName='$_POST[FirstName]' AND LastName='$_POST[LastName]' AND Address='$_POST[Address]'";
-  $Result = $conn->query($sql);
-  
-  while($ResultsRow = $Result->fetch_assoc()) {
-  echo $ResultsRow[ClientID];  
-  }
-
-  echo $_POST[FirstName];*/
   echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
 } else {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";

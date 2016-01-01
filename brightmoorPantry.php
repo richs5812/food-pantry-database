@@ -1,10 +1,10 @@
 <?php
+//code for session variable to make sure user is logged in
 session_start();
 if(empty($_SESSION["username"])) {
 header('Location: login.php');
 exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,7 @@ exit;
 </head>
 <body style="background-color:Beige;">
 
-<!--include scripts for pattern field for phone numbers, dates, etc-->
+<!--include javascript for pattern field for phone numbers, dates, etc-->
 <script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.maskedinput.js" type="text/javascript"></script>
 
@@ -81,8 +81,7 @@ function emailInput($valueName, $labelName) {
 <h1>Brightmoor Connection Database</h1>
 <?php
 // Echo session variables that were set on previous page
-echo "user name is " . $_SESSION["username"] . ".<br>";
-//echo "Favorite animal is " . $_SESSION["favanimal"] . ".";
+//echo "user name is " . $_SESSION["username"] . ".<br>";
 ?>
 
 
