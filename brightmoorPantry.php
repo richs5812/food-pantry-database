@@ -28,55 +28,8 @@ jQuery(function($){
 });
 </script>
 
-<?php
-
-//set timezone for strtotime php function to convert date to MySQL format from input format
-date_default_timezone_set('America/Detroit');
-
-//functions to create various form items
-function checkBox($valueName, $labelName) {
-	global $row;
-    if ($row[$valueName]!='1'){
-echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="hidden" name="'.$valueName.'" value="0" />
-			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" />';
-} else {
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/>';
-}	
-}
-
-function textInput($valueName, $labelName) {
-	global $row;
-	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
-}
-
-function numberInput($valueName, $labelName, $maxNum = "99999") {
-	global $row;
-	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="'.$maxNum.'"/>';	
-}
-
-function dateInput($valueName, $labelName) {
-	global $row;
-	
-	//$originalDate = $row[$valueName];
-	if ($row[$valueName]!=NULL){
-	$displayDate = date("m-d-y", strtotime($row[$valueName]));
-	}
-		if ($row[ClientID] == ""){
-		$displayDate="  /  /  ";
-		}
-
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
-}
-
-function emailInput($valueName, $labelName) {
-	global $row;
-	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="email" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName] .'"/>';	
-}
-
-?>
+<!-- include functions to create form items-->
+<?php require_once ('functions.php');?>
 
 <h1>Brightmoor Connection Database</h1>
 <?php
@@ -87,40 +40,7 @@ function emailInput($valueName, $labelName) {
 
 <?php require_once ('nav.html'); ?>
 
-<!--start drop down menu-->
-<form id="dropDownMenu" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-<select name="ClientID" onchange="change()">
-<option value="NewRecord">New Record</option>
-
-<?php 
-require_once ('mysql_connect.php');
-
-$sql = "SELECT ClientID, FirstName, LastName FROM Clients ORDER BY LastName ASC, FirstName ASC;";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    // output data of each row 
-    while($row = $result->fetch_assoc()) {
-    	if ($row[ClientID]==$_POST[ClientID]){
-    		$selected = "selected";
-    	}else{
-    		$selected = "";
-    		}
-        echo '<option value="'. $row['ClientID'] .'" '.$selected.'>'. $row['LastName'] .', '. $row['FirstName'] .'</option>';
-    }
-} else {
-    echo "0 results";
-}
-?>
-</select>
-
-<script>
-function change(){
-    document.getElementById("dropDownMenu").submit();
-}
-</script>
-
-</form>
-<!--end drop down menu-->
+<?php require_once ('client_drop_down.php'); ?>
 
 <?php
 
