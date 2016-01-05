@@ -10,10 +10,7 @@ exit;
 <html>
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brightmoor Connection Database</title>
-</head>
-<body style="background-color:Beige;">
-
+<link rel="stylesheet" href="db_styles.css">
 <!--include javascript for pattern field for phone numbers, dates, etc-->
 <script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.maskedinput.js" type="text/javascript"></script>
@@ -27,22 +24,30 @@ jQuery(function($){
    $("#CellPhoneNumber").mask("(999)999-9999");
 });
 </script>
+<title>Brightmoor Connection Database</title>
+</head>
+<body>
 
 <!-- include functions to create form items-->
 <?php require_once ('functions.php');?>
-
-<h1>Brightmoor Connection Database</h1>
+<header>
+	<img src="images/brightmoor_logo.jpg" width=500px>
+	<h1>Brightmoor Connection Database</h1>
+</header>
 <?php
 // Echo session variables that were set on previous page
 //echo "user name is " . $_SESSION["username"] . ".<br>";
 ?>
 
-
+<nav>
 <?php require_once ('nav.html'); ?>
+</nav>
 
-<?php require_once ('client_drop_down.php'); ?>
+<section>
+<?php 
 
-<?php
+echo '<br />';
+require_once ('client_drop_down.php');
 
 //connect to database using php script
 require_once ('mysql_connect.php');
@@ -196,7 +201,7 @@ if ($familyMembersResult->num_rows > 0) {
 		</select>
 
 <input type="submit" name="Update" value="Update Record"/>
-<input type="submit" name="Delete" value="Delete Record"/>
+<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this family member record?\');"/>
 </form>
 ';
     }
@@ -224,6 +229,7 @@ if ($familyMembersResult->num_rows > 0) {
 $conn->close();
 
 ?>
+</section>
 
 </body>
 </html>

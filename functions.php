@@ -20,6 +20,12 @@ function textInput($valueName, $labelName) {
 	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
 }
 
+function noLabelTextInput($valueName) {
+	global $row;
+	
+	echo '<input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
+}
+
 function numberInput($valueName, $labelName, $maxNum = "99999") {
 	global $row;
 	
@@ -38,6 +44,20 @@ function dateInput($valueName, $labelName) {
 		}
 
 	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
+}
+
+function noLabelDateInput($valueName) {
+	global $row;
+	
+	//$originalDate = $row[$valueName];
+	if ($row[$valueName]!=NULL){
+	$displayDate = date("m/d/y", strtotime($row[$valueName]));
+	}
+		if ($row[ClientID] == ""){
+		$displayDate="  /  /  ";
+		}
+
+	echo '<input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
 }
 
 function emailInput($valueName, $labelName) {
