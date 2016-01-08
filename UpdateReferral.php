@@ -26,7 +26,7 @@ if (isset($_POST['Update'])) {
 	//format dates for MySQL from input format
     date_default_timezone_set('America/Detroit');
 	if($_POST[ReferralDate]!=NULL){
-	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST[AppointmentDate]));
+	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST[ReferralDate]));
 	} else {
 	$sqlFormattedReferralDate = NULL;
 	}

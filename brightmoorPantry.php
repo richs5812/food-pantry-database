@@ -24,6 +24,18 @@ jQuery(function($){
    $("#CellPhoneNumber").mask("(999)999-9999");
 });
 </script>
+
+<!-- date picker-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#ReferralDate" ).datepicker({dateFormat: "mm/dd/y"});
+  });
+  </script>
+  <!-- end date picker-->
 <title>Brightmoor Connection Database</title>
 </head>
 <body>
@@ -44,6 +56,7 @@ jQuery(function($){
 </nav>
 
 <section>
+<!--client information form-->
 <?php 
 
 echo '<br />';
@@ -173,6 +186,9 @@ echo '<input type="submit" value="Enter new client"/></fieldset></form>
    		';
 }
 
+?>
+
+<?php
 //family members code
 $familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$_POST[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
 $familyMembersResult = $conn->query($familyMembersSql);
@@ -237,6 +253,9 @@ if ($familyMembersResult->num_rows > 0) {
 	echo 'Save new client before entering family information.</fieldset>';
 	}
 	
+?>
+
+<?php
 //referrals code
 $referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$_POST[ClientID]'";
 $referralsResult = $conn->query($referralsSql);
@@ -281,10 +300,16 @@ if ($referralsResult->num_rows > 0) {
 	echo '</select></td>';
 	//end referral type drop down menu
 
+	//date picker for existing referral dates
+	echo '<script>
+	  $(function() {
+    	$( "#ReferralDate'.$referralsRow[ReferralID].'" ).datepicker({dateFormat: "mm/dd/y"});
+  	});
+  	</script>';
 
 //	<td><input type="text" id="ReferralType'.$referralsRow[FamilyMemberID].'" name="ReferralType" value="' .$referralsRow[ReferralType].'"/></td>
 echo '
-	<td><input type="text" id="ReferralDate" name="ReferralDate" value="'.$referralsRow[ReferralDate].'"/></td>
+	<td><input type="text" id="ReferralDate'.$referralsRow[ReferralID].'" name="ReferralDate" value="'.$referralsRow[ReferralDate].'"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow[ReferralNotes]. '"></td>
 	<td><input type="submit" name="Update" value="Update Record"/>
 	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
@@ -316,7 +341,7 @@ echo '
 	//end referral type drop down menu
 
 echo '
-	<td><input type="text" id="ReferralDate" name="ReferralDate"/></td>
+	<td><input type="text" id="ReferralDate" name="ReferralDate" onclick="this.innerHTML=Date()"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes"/></td>
 	<td><input type="submit" value="Enter new referral"/></td>
 </tr>
