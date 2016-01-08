@@ -188,9 +188,9 @@ echo '<input type="submit" value="Enter new client"/></fieldset></form>
 
 ?>
 
+<!--family member form -->
 <?php
-//family members code
-$familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$_POST[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
+$familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$row[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
 $familyMembersResult = $conn->query($familyMembersSql);
 
 echo '
@@ -255,9 +255,9 @@ if ($familyMembersResult->num_rows > 0) {
 	
 ?>
 
+<!--referrals form -->
 <?php
-//referrals code
-$referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$_POST[ClientID]'";
+$referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$row[ClientID]'";
 $referralsResult = $conn->query($referralsSql);
 echo '<fieldset>
 		<legend>Referral Information</legend>';
@@ -273,7 +273,6 @@ if ($row[ClientID]!=""){
 		</tr>';
 if ($referralsResult->num_rows > 0) {
     while($referralsRow = $referralsResult->fetch_assoc()) {
-        //output existing family member info
         echo '
         <form action="UpdateReferral.php" method="post">
 <input type="hidden" name="ReferralID" value="'.$referralsRow[ReferralID].'" />
@@ -352,6 +351,107 @@ echo '
    } else {
 	echo 'Save new client before entering referral information.</fieldset>';
 	}
+?>
+
+<!--appointments form -->
+<?php
+$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]'";
+$appointmentsResult = $conn->query($appointmentsSql);
+echo '<fieldset>
+		<legend>Appointment Information</legend>';
+		
+if ($row[ClientID]!=""){ 
+	     echo '   
+            <table border="1">
+		<tr>
+    		<th>Appointment Date</th>
+    		<th>Appointment Status</th> 
+    		<th>Notes</th> 
+    		<th></th>
+		</tr>';
+if ($appointmentsResult->num_rows > 0) {
+    while($appointmentsRow = $appointmentsResult->fetch_assoc()) {
+        echo '
+        <form action="UpdateReferral.php" method="post">
+<input type="hidden" name="ReferralID" value="'.$referralsRow[ReferralID].'" />
+<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
+<tr>';
+//display referral type in drop down menu
+	echo '<td>';
+	echo '<select name="ReferralType">';
+	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
+	$referralTypeResult = $conn->query($referralTypeSql);
+	if ($referralTypeResult->num_rows > 0) {
+    // output data of each row 
+    while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
+    	if ($referralTypeRow[ReferralType]==$referralsRow[ReferralType]){
+    		$selected = "selected";
+    	}else{
+    		$selected = "";
+    		}
+        echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+    }
+	} else {
+		echo "0 results";
+	}
+	echo '</select></td>';
+	//end referral type drop down menu
+
+	//date picker for existing referral dates
+	echo '<script>
+	  $(function() {
+    	$( "#ReferralDate'.$referralsRow[ReferralID].'" ).datepicker({dateFormat: "mm/dd/y"});
+  	});
+  	</script>';
+
+//	<td><input type="text" id="ReferralType'.$referralsRow[FamilyMemberID].'" name="ReferralType" value="' .$referralsRow[ReferralType].'"/></td>
+echo '
+	<td><input type="text" id="ReferralDate'.$referralsRow[ReferralID].'" name="ReferralDate" value="'.$referralsRow[ReferralDate].'"/></td>
+	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow[ReferralNotes]. '"></td>
+	<td><input type="submit" name="Update" value="Update Record"/>
+	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
+</tr>
+</form>
+';
+    }
+    }
+    
+   echo '<form action="InsertReferral.php" method="post">
+<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
+<tr>';
+
+//display referral type in drop down menu
+	echo '<td>';
+	echo '<select name="ReferralType">
+			<option></option>';
+	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
+	$referralTypeResult = $conn->query($referralTypeSql);
+	if ($referralTypeResult->num_rows > 0) {
+    // output data of each row 
+    while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
+    	echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+    }
+	} else {
+		echo "0 results";
+	}
+	echo '</select></td>';
+	//end referral type drop down menu
+
+echo '
+	<td><input type="text" id="ReferralDate" name="ReferralDate" onclick="this.innerHTML=Date()"/></td>
+	<td><input type="text" id="ReferralNotes" name="ReferralNotes"/></td>
+	<td><input type="submit" value="Enter new referral"/></td>
+</tr>
+</table>
+</fieldset>
+</form>
+';
+   } else {
+	echo 'Save new client before entering referral information.</fieldset>';
+	}
+?>
+
+<?php
 
 $conn->close();
 
