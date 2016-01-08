@@ -178,12 +178,20 @@ $familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers
 $familyMembersResult = $conn->query($familyMembersSql);
 
 echo '
-
 <fieldset>
-    <legend>Family Information:</legend>
-    
+	<legend>Family Information:</legend>
 ';
 
+ if ($row[ClientID]!=""){ 
+	     echo '   
+            <table border="1">
+		<tr>
+    		<th>Name</th>
+    		<th>Relationship</th> 
+    		<th>Age</th> 
+    		<th>Gender</th>
+    		<th></th>
+		</tr>';
 if ($familyMembersResult->num_rows > 0) {
     while($familyMembersRow = $familyMembersResult->fetch_assoc()) {
         //output existing family member info
@@ -191,39 +199,133 @@ if ($familyMembersResult->num_rows > 0) {
         <form action="UpdateFamilyMember.php" method="post">
 <input type="hidden" name="FamilyMemberID" value="'.$familyMembersRow[FamilyMemberID].'" />
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
-<label for="FamilyMemberName'.$familyMembersRow[FamilyMemberID].'">Name: </label><input type="text" id="FamilyMemberName'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberName" value="' .$familyMembersRow[FamilyMemberName].'"/>
-<label for="Relationship'.$familyMembersRow[FamilyMemberID].'">Relationship: </label><input type="text" id="Relationship'.$familyMembersRow[FamilyMemberID].'" name="Relationship" value="'.$familyMembersRow[Relationship].'"/>
-<label for="FamilyMemberAge'.$familyMembersRow[FamilyMemberID].'">Age: </label><input type="number" id="FamilyMemberAge'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberAge" value="' .$familyMembersRow[Age]. '">
-<label for="FamilyMemberGender'.$familyMembersRow[FamilyMemberID].'">Gender: </label><select id="FamilyMemberGender'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberGender">
+<tr>
+	<td><label for="FamilyMemberName'.$familyMembersRow[FamilyMemberID].'"></label><input type="text" id="FamilyMemberName'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberName" value="' .$familyMembersRow[FamilyMemberName].'"/></td>
+	<td><label for="Relationship'.$familyMembersRow[FamilyMemberID].'"></label><input type="text" id="Relationship'.$familyMembersRow[FamilyMemberID].'" name="Relationship" value="'.$familyMembersRow[Relationship].'"/></td>
+	<td><label for="FamilyMemberAge'.$familyMembersRow[FamilyMemberID].'"></label><input type="number" id="FamilyMemberAge'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberAge" value="' .$familyMembersRow[Age]. '"></td>
+	<td><label for="FamilyMemberGender'.$familyMembersRow[FamilyMemberID].'"></label><select id="FamilyMemberGender'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberGender">
   			<option value="' .$familyMembersRow[Gender]. '">' .$familyMembersRow[Gender]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
-		</select>
-
-<input type="submit" name="Update" value="Update Record"/>
-<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this family member record?\');"/>
+		</select></td>
+	<td><input type="submit" name="Update" value="Update Record"/>
+	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this family member record?\');"/></td>
+</tr>
 </form>
 ';
     }
+    }
     
-}
-
- if ($row[ClientID]!=""){ 
    echo '<form action="InsertFamilyMember.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
-<label for="FamilyMemberName">Name: </label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST[autofocus].'/>
-<label for="Relationship">Relationship: </label><input type="text" id="Relationship" name="Relationship"/>
-<label for="FamilyMemberAge">Age: </label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge">
-<label for="FamilyMemberGender">Gender: </label><select id="FamilyMemberGender" name="FamilyMemberGender">
+<tr>
+	<td><label for="FamilyMemberName"></label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST[autofocus].'/></td>
+	<td><label for="Relationship"></label><input type="text" id="Relationship" name="Relationship"/></td>
+	<td><label for="FamilyMemberAge"></label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge"></td>
+	<td><label for="FamilyMemberGender"></label><select id="FamilyMemberGender" name="FamilyMemberGender">
   			<option value=""></option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
-		</select>
-<input type="submit" value="Enter new family member"/>
+		</select></td>
+	<td><input type="submit" value="Enter new family member"/></td>
+</tr>
+</table>
+</fieldset>
 </form>
 ';
    } else {
-	echo 'Save new client before entering family information';
+	echo 'Save new client before entering family information.</fieldset>';
+	}
+	
+//referrals code
+$referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$_POST[ClientID]'";
+$referralsResult = $conn->query($referralsSql);
+echo '<fieldset>
+		<legend>Referral Information</legend>';
+		
+if ($row[ClientID]!=""){ 
+	     echo '   
+            <table border="1">
+		<tr>
+    		<th>Referral Type</th>
+    		<th>Referral Date</th> 
+    		<th>Notes</th> 
+    		<th></th>
+		</tr>';
+if ($referralsResult->num_rows > 0) {
+    while($referralsRow = $referralsResult->fetch_assoc()) {
+        //output existing family member info
+        echo '
+        <form action="UpdateReferral.php" method="post">
+<input type="hidden" name="ReferralID" value="'.$referralsRow[ReferralID].'" />
+<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
+<tr>';
+//display referral type in drop down menu
+	echo '<td>';
+	echo '<select name="ReferralType">';
+	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
+	$referralTypeResult = $conn->query($referralTypeSql);
+	if ($referralTypeResult->num_rows > 0) {
+    // output data of each row 
+    while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
+    	if ($referralTypeRow[ReferralType]==$referralsRow[ReferralType]){
+    		$selected = "selected";
+    	}else{
+    		$selected = "";
+    		}
+        echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+    }
+	} else {
+		echo "0 results";
+	}
+	echo '</select></td>';
+	//end referral type drop down menu
+
+
+//	<td><input type="text" id="ReferralType'.$referralsRow[FamilyMemberID].'" name="ReferralType" value="' .$referralsRow[ReferralType].'"/></td>
+echo '
+	<td><input type="text" id="ReferralDate" name="ReferralDate" value="'.$referralsRow[ReferralDate].'"/></td>
+	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow[ReferralNotes]. '"></td>
+	<td><input type="submit" name="Update" value="Update Record"/>
+	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
+</tr>
+</form>
+';
+    }
+    }
+    
+   echo '<form action="InsertReferral.php" method="post">
+<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
+<tr>';
+
+//display referral type in drop down menu
+	echo '<td>';
+	echo '<select name="ReferralType">
+			<option></option>';
+	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
+	$referralTypeResult = $conn->query($referralTypeSql);
+	if ($referralTypeResult->num_rows > 0) {
+    // output data of each row 
+    while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
+    	echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+    }
+	} else {
+		echo "0 results";
+	}
+	echo '</select></td>';
+	//end referral type drop down menu
+
+echo '
+	<td><input type="text" id="ReferralDate" name="ReferralDate"/></td>
+	<td><input type="text" id="ReferralNotes" name="ReferralNotes"/></td>
+	<td><input type="submit" value="Enter new referral"/></td>
+</tr>
+</table>
+</fieldset>
+</form>
+';
+   } else {
+	echo 'Save new client before entering referral information.</fieldset>';
 	}
 
 $conn->close();

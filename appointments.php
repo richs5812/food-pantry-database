@@ -145,29 +145,9 @@ $result = $conn->query($sql);
 	//form to update and delete appointments
 	echo '<form action="UpdateAppointment.php" method="post">
 	<input type="hidden" name="AppointmentID" value="' .$row[AppointmentID]. '" />';
-	//display client name in drop down menu
-	/*echo '<tr><td>';
-	echo '<select name="ClientID">';
-	$dropDownSql = "SELECT ClientID, FirstName, LastName FROM Clients ORDER BY LastName ASC, FirstName ASC;";
-	$dropDownResult = $conn->query($dropDownSql);
-	if ($dropDownResult->num_rows > 0) {
-    // output data of each row 
-    while($dropDownRow = $dropDownResult->fetch_assoc()) {
-    	if ($dropDownRow[ClientID]==$row[ClientID]){
-    		$selected = "selected";
-    	}else{
-    		$selected = "";
-    		}
-        echo '<option value="'. $dropDownRow['ClientID'] .'" '.$selected.'>'. $dropDownRow['LastName'] .', '. $dropDownRow['FirstName'] .'</option>';
-    }
-	} else {
-		echo "0 results";
-	}
-	echo '</select></td>';*/
-	//end client drop down menu
 	
 	//display client name
-	echo '<td>';
+	echo '<tr><td>';
 	echo '<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />';
 	echo ''.$row[LastName].', '.$row[FirstName].'';
 	echo '</td>';
