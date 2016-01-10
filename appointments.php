@@ -180,7 +180,7 @@ $result = $conn->query($sql);
 	//end appointment status drop down menu
 
 	echo '<td>';
-	noLabelTextInput("Notes");
+	noLabelTextInput("AppointmentNotes");
 	echo '</td>';
 	
 	echo '
@@ -238,7 +238,7 @@ $result = $conn->query($sql);
 	echo '</select></td>';
 	//end appointment status drop down menu
 	echo '<td>';
-	noLabelTextInput("Notes");
+	noLabelTextInput("AppointmentNotes");
 	echo '</td>';
 	echo'<td><input type="submit" name="Insert" value="Create Appointment"/></td>';
     echo '</tr></form></table>';

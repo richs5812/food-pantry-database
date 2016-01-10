@@ -25,7 +25,7 @@ jQuery(function($){
 });
 </script>
 
-<!-- date picker-->
+<!-- date pickers-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -33,6 +33,11 @@ jQuery(function($){
   <script>
   $(function() {
     $( "#ReferralDate" ).datepicker({dateFormat: "mm/dd/y"});
+  });
+  </script>
+  <script>
+  $(function() {
+    $( "#AppointmentDate" ).datepicker({dateFormat: "mm/dd/y"});
   });
   </script>
   <!-- end date picker-->
@@ -306,9 +311,13 @@ if ($referralsResult->num_rows > 0) {
   	});
   	</script>';
 
-//	<td><input type="text" id="ReferralType'.$referralsRow[FamilyMemberID].'" name="ReferralType" value="' .$referralsRow[ReferralType].'"/></td>
+	//display formatted referral date
+	if ($referralsRow[ReferralDate]!=NULL){
+	$referralDisplayDate = date("m/d/y", strtotime($referralsRow[ReferralDate]));
+	}
+
 echo '
-	<td><input type="text" id="ReferralDate'.$referralsRow[ReferralID].'" name="ReferralDate" value="'.$referralsRow[ReferralDate].'"/></td>
+	<td><input type="text" id="ReferralDate'.$referralsRow[ReferralID].'" name="ReferralDate" value="'.$referralDisplayDate.'"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow[ReferralNotes]. '"></td>
 	<td><input type="submit" name="Update" value="Update Record"/>
 	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
@@ -340,7 +349,7 @@ echo '
 	//end referral type drop down menu
 
 echo '
-	<td><input type="text" id="ReferralDate" name="ReferralDate" onclick="this.innerHTML=Date()"/></td>
+	<td><input type="text" id="ReferralDate" name="ReferralDate"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes"/></td>
 	<td><input type="submit" value="Enter new referral"/></td>
 </tr>
@@ -355,7 +364,7 @@ echo '
 
 <!--appointments form -->
 <?php
-$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]'";
+$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]'";
 $appointmentsResult = $conn->query($appointmentsSql);
 echo '<fieldset>
 		<legend>Appointment Information</legend>';
@@ -372,75 +381,81 @@ if ($row[ClientID]!=""){
 if ($appointmentsResult->num_rows > 0) {
     while($appointmentsRow = $appointmentsResult->fetch_assoc()) {
         echo '
-        <form action="UpdateReferral.php" method="post">
-<input type="hidden" name="ReferralID" value="'.$referralsRow[ReferralID].'" />
+        <form action="UpdateAppointment.php" method="post">
+<input type="hidden" name="AppointmentID" value="'.$appointmentsRow[AppointmentID].'" />
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
 <tr>';
-//display referral type in drop down menu
+
+	//date picker for existing appointment dates
+	echo '<script>
+	  $(function() {
+    	$( "#AppointmentDate'.$appointmentsRow[AppointmentID].'" ).datepicker({dateFormat: "mm/dd/y"});
+  	});
+  	</script>';
+	
+	//display appointment date
+	if ($appointmentsRow[AppointmentDate]!=NULL){
+	$appointmentDisplayDate = date("m/d/y", strtotime($appointmentsRow[AppointmentDate]));
+	}
+
+	echo '<td><input type="text" id="AppointmentDate'.$appointmentsRow[AppointmentID].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+
+	//display appointment status in drop down menu
 	echo '<td>';
-	echo '<select name="ReferralType">';
-	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
-	$referralTypeResult = $conn->query($referralTypeSql);
-	if ($referralTypeResult->num_rows > 0) {
+	echo '<select name="AppointmentStatus">';
+	$apptStatusSql = "SELECT AppointmentStatus FROM AppointmentStatus;";
+	$apptStatusResult = $conn->query($apptStatusSql);
+	if ($apptStatusResult->num_rows > 0) {
     // output data of each row 
-    while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
-    	if ($referralTypeRow[ReferralType]==$referralsRow[ReferralType]){
+    while($apptStatusRow = $apptStatusResult->fetch_assoc()) {
+    	if ($apptStatusRow[AppointmentStatus]==$appointmentsRow[AppointmentStatus]){
     		$selected = "selected";
     	}else{
     		$selected = "";
     		}
-        echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+        echo '<option value="'. $apptStatusRow['AppointmentStatus'] .'" '.$selected.'>'. $apptStatusRow['AppointmentStatus'] .'</option>';
     }
 	} else {
 		echo "0 results";
 	}
 	echo '</select></td>';
-	//end referral type drop down menu
+	//end appointment status drop down menu
 
-	//date picker for existing referral dates
-	echo '<script>
-	  $(function() {
-    	$( "#ReferralDate'.$referralsRow[ReferralID].'" ).datepicker({dateFormat: "mm/dd/y"});
-  	});
-  	</script>';
-
-//	<td><input type="text" id="ReferralType'.$referralsRow[FamilyMemberID].'" name="ReferralType" value="' .$referralsRow[ReferralType].'"/></td>
 echo '
-	<td><input type="text" id="ReferralDate'.$referralsRow[ReferralID].'" name="ReferralDate" value="'.$referralsRow[ReferralDate].'"/></td>
-	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow[ReferralNotes]. '"></td>
+	<td><input type="text" id="AppointmentNotes" name="AppointmentNotes" value="' .$appointmentsRow[AppointmentNotes]. '"></td>
 	<td><input type="submit" name="Update" value="Update Record"/>
-	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
+	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this appointment record?\');"/></td>
 </tr>
 </form>
 ';
     }
     }
     
-   echo '<form action="InsertReferral.php" method="post">
+   echo '<form action="InsertAppointment.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
-<tr>';
-
-//display referral type in drop down menu
+<tr>
+	<td><input type="text" id="AppointmentDate" name="NewAppointmentPicker"/></td>';
+	
+	//display appointment status in drop down menu
 	echo '<td>';
-	echo '<select name="ReferralType">
-			<option></option>';
-	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
-	$referralTypeResult = $conn->query($referralTypeSql);
-	if ($referralTypeResult->num_rows > 0) {
+	echo '<select name="AppointmentStatus">';
+	$apptStatusSql = "SELECT AppointmentStatus FROM AppointmentStatus;";
+	$apptStatusResult = $conn->query($apptStatusSql);
+	if ($apptStatusResult->num_rows > 0) {
     // output data of each row 
-    while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
-    	echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+    while($apptStatusRow = $apptStatusResult->fetch_assoc()) {
+    	echo '<option value="'. $apptStatusRow['AppointmentStatus'] .'">'. $apptStatusRow['AppointmentStatus'] .'</option>';
     }
 	} else {
 		echo "0 results";
 	}
 	echo '</select></td>';
-	//end referral type drop down menu
+	//end appointment status drop down menu
 
-echo '
-	<td><input type="text" id="ReferralDate" name="ReferralDate" onclick="this.innerHTML=Date()"/></td>
-	<td><input type="text" id="ReferralNotes" name="ReferralNotes"/></td>
-	<td><input type="submit" value="Enter new referral"/></td>
+	
+echo'
+	<td><input type="text" id="AppointmentNotes" name="AppointmentNotes"/></td>
+	<td><input type="submit" value="Enter new appointment"/></td>
 </tr>
 </table>
 </fieldset>

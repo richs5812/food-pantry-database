@@ -46,10 +46,22 @@ function dateInput($valueName, $labelName) {
 	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
 }
 
+function referralDateInput($valueName) {
+	global $referralsRow;
+	
+	if ($referralsRow[$valueName]!=NULL){
+	$displayDate = date("m/d/y", strtotime($referralsRow[$valueName]));
+	}
+		if ($referralsRow[ClientID] == ""){
+		$displayDate="  /  /  ";
+		}
+
+	echo '<input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
+}
+
 function noLabelDateInput($valueName) {
 	global $row;
 	
-	//$originalDate = $row[$valueName];
 	if ($row[$valueName]!=NULL){
 	$displayDate = date("m/d/y", strtotime($row[$valueName]));
 	}

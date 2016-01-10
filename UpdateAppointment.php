@@ -31,7 +31,7 @@ if (isset($_POST['Update'])) {
 	}
     
     //code to update record
-    $posts = array($_POST[ClientID],$sqlFormattedAppointmentDate,$_POST[AppointmentStatus],$_POST[Notes],$_POST[AppointmentID]);
+    $posts = array($_POST[ClientID],$sqlFormattedAppointmentDate,$_POST[AppointmentStatus],$_POST[AppointmentNotes],$_POST[AppointmentID]);
 
 	$fieldArray = array();
 
@@ -41,7 +41,7 @@ if (isset($_POST['Update'])) {
 	    $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
 	}
 
-	$stmt = $conn->prepare("UPDATE Appointments SET ClientID=?, AppointmentDate=?, AppointmentStatus=?, Notes=? WHERE AppointmentID=?");
+	$stmt = $conn->prepare("UPDATE Appointments SET ClientID=?, AppointmentDate=?, AppointmentStatus=?, AppointmentNotes=? WHERE AppointmentID=?");
 
 	$stmt->bind_param('sssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4]);
 

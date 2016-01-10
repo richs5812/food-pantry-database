@@ -28,7 +28,7 @@ require_once ('mysql_connect.php');
 	$sqlFormattedAppointmentDate = NULL;
 	}
 
-$posts = array($_POST[ClientID],$sqlFormattedAppointmentDate,$_POST[AppointmentStatus],$_POST[Notes]);
+$posts = array($_POST[ClientID],$sqlFormattedAppointmentDate,$_POST[AppointmentStatus],$_POST[AppointmentNotes]);
 
 $fieldArray = array();
 //assign null values if blank
@@ -37,7 +37,7 @@ for($x = 0; $x < $arrlength; $x++) {
     $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
 }
 
-$stmt = $conn->prepare("INSERT INTO Appointments (ClientID, AppointmentDate, AppointmentStatus, Notes) VALUES (?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO Appointments (ClientID, AppointmentDate, AppointmentStatus, AppointmentNotes) VALUES (?, ?, ?, ?)");
 $stmt->bind_param('ssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3]);
 
 if ($stmt->execute() == TRUE) {
