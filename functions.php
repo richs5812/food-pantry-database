@@ -59,7 +59,7 @@ function referralDateInput($valueName) {
 	echo '<input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
 }
 
-function noLabelDateInput($valueName) {
+/*function noLabelDateInput($valueName) {
 	global $row;
 	
 	if ($row[$valueName]!=NULL){
@@ -70,7 +70,7 @@ function noLabelDateInput($valueName) {
 		}
 
 	echo '<input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
-}
+}*/
 
 function emailInput($valueName, $labelName) {
 	global $row;

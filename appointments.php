@@ -76,7 +76,18 @@ jQuery(function($){
 
 <form id="datePicker" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 
-<?php echo'<p>Date: <input type="text" name="datepicker" id="datepicker" value="'.$_POST[datepicker].'"></p>'; ?>
+<?php 
+
+if ($_POST[datepicker] != NULL)
+{
+	$datePickerDate = date("m/d/y", strtotime($_POST[datepicker]));
+} else {
+	$datePickerDate = NULL;
+}
+
+echo'<p>Date: <input type="text" name="datepicker" id="datepicker" value="'.$datePickerDate.'"></p>';
+
+?>
 
 </form>
 
@@ -91,7 +102,7 @@ echo '<h2>Upcoming Appointments:</h2>';
 
 $appointmentsSql = "SELECT DISTINCT AppointmentDate FROM Appointments ORDER BY AppointmentDate ASC";
 $appointmentsResult = $conn->query($appointmentsSql);
-
+//date("m/d/y", strtotime($_POST[datepicker])) //$_POST[datepicker]
 if ($appointmentsResult->num_rows > 0) {
     while($appointmentsRow = $appointmentsResult->fetch_assoc()) {	
     	if($appointmentsRow[AppointmentDate] >= date("Y-m-d")){
@@ -145,7 +156,12 @@ $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {	
 	//form to update and delete appointments
 	echo '<form action="UpdateAppointment.php" method="post">
-	<input type="hidden" name="AppointmentID" value="' .$row[AppointmentID]. '" />';
+	<input type="hidden" name="AppointmentID" value="' .$row[AppointmentID]. '" />
+	<input type="hidden" name="previousFormDate" value="' .$_POST[datepicker]. '" />
+	';
+	
+	$clientName = $row[FirstName] . " " . $row[LastName];
+	echo '<input type="hidden" name="clientName" value="' .$clientName. '" />';
 	
 	//display client name
 	echo '<tr><td>';
@@ -153,10 +169,25 @@ $result = $conn->query($sql);
 	echo ''.$row[LastName].', '.$row[FirstName].'';
 	echo '</td>';
 	
-	//display client appointment date	
+	//date picker for existing appointment dates
+	echo '<script>
+	  $(function() {
+    	$( "#AppointmentDate'.$row[AppointmentID].'" ).datepicker({dateFormat: "mm/dd/y"});
+  	});
+  	</script>';
+
+	//display appointment date
+	if ($row[AppointmentDate]!=NULL){
+	$appointmentDisplayDate = date("m/d/y", strtotime($row[AppointmentDate]));
+	}
+
+	echo '<td><input type="text" id="AppointmentDate'.$row[AppointmentID].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+	//end display existing appointment date
+	
+	/*//display client appointment date	
 	echo '<td>';
 	noLabelDateInput("AppointmentDate");
-	echo '</td>';
+	echo '</td>';*/
 	
 //display appointment status in drop down menu
 	echo '<td>';

@@ -9,21 +9,40 @@ exit;
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="db_styles.css">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Appointment Updated</title>
 </head>
 <body style="background-color:Beige;">
 
 <h1>Brightmoor Connection Database</h1>
 
+<nav>
+<?php require_once ('nav.html'); ?>
+</nav>
+
 <?php
 
 //connect to database using php script
 require_once ('mysql_connect.php');
 
+//sql to pull client name for 'return to client page' button
+$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
+	$clientButtonResult = $conn->query($clientButtonSql);
+	if ($clientButtonResult->num_rows > 0) {
+    // output data of each row 
+    while($clientButtonRow = $clientButtonResult->fetch_assoc()) {
+		   $clientName = $clientButtonRow[FirstName] ." ".$clientButtonRow[LastName];
+    }
+}
+
+//format dates for MySQL from input format
+date_default_timezone_set('America/Detroit');
+
+$previousDisplayDate = date("m/d/y", strtotime($_POST[previousFormDate]));
+
 //check if Update button or Delete button was clicked
 if (isset($_POST['Update'])) {
-    //format dates for MySQL from input format
-    date_default_timezone_set('America/Detroit');
 	if($_POST[AppointmentDate]!=NULL){
 	$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST[AppointmentDate]));
 	} else {
@@ -46,8 +65,27 @@ if (isset($_POST['Update'])) {
 	$stmt->bind_param('sssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4]);
 
 	if ($stmt->execute() == TRUE) {
-		echo 'Appointment updated successfully.<br><br>';
-		require_once ('nav.html');
+		echo 'Appointment updated successfully.<br><br>
+		<form action="appointments.php" method="post">
+			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
+  			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
+		</form>';
+		
+		if($previousDisplayDate != $_POST[AppointmentDate]){
+			echo'
+			<form action="appointments.php" method="post">
+				<input type="hidden" name="datepicker" value="' .$_POST[AppointmentDate]. '" />
+  				<input type="submit" value="Go to ' .$_POST[AppointmentDate]. ' appointments" />
+			</form>
+			';
+		}
+		
+		echo'
+		<form action="brightmoorPantry.php" method="post">
+    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="submit" value="View '.$_POST[clientName].'\'s Client Page" />
+   		</form>
+   		';
 	} else {
 		echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
 		echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
@@ -58,7 +96,21 @@ if (isset($_POST['Update'])) {
     $sql="DELETE FROM Appointments WHERE AppointmentID='$_POST[AppointmentID]'";
     if ($conn->query($sql) === TRUE) {
     echo "Appointment record deleted.<br><br>";
-		require_once ('nav.html');
+    
+    echo '
+		<form action="appointments.php" method="post">
+			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
+  			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
+		</form>';
+		
+		echo'
+		<form action="brightmoorPantry.php" method="post">
+    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="submit" value="View '.$clientName.'\'s Client Page" />
+   		</form>
+   		';
+
+
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

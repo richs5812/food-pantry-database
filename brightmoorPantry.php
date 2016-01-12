@@ -333,8 +333,7 @@ echo '
 
 //display referral type in drop down menu
 	echo '<td>';
-	echo '<select name="ReferralType">
-			<option></option>';
+	echo '<select name="ReferralType">';
 	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
 	$referralTypeResult = $conn->query($referralTypeSql);
 	if ($referralTypeResult->num_rows > 0) {
@@ -399,6 +398,7 @@ if ($appointmentsResult->num_rows > 0) {
 	}
 
 	echo '<td><input type="text" id="AppointmentDate'.$appointmentsRow[AppointmentID].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+	//end display existing appointment date
 
 	//display appointment status in drop down menu
 	echo '<td>';
