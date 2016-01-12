@@ -65,8 +65,11 @@ if (isset($_POST['Update'])) {
 	$stmt->bind_param('sssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4]);
 
 	if ($stmt->execute() == TRUE) {
-		echo 'Appointment updated successfully.<br><br>
-		<form action="appointments.php" method="post">
+		echo 'Appointment updated successfully.<br><br>';
+		
+		if ($_POST[previousFormDate] != NULL){
+		//coming from Appointments page
+		echo '<form action="appointments.php" method="post">
 			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
   			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
 		</form>';
@@ -83,9 +86,32 @@ if (isset($_POST['Update'])) {
 		echo'
 		<form action="brightmoorPantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
-    		<input type="submit" value="View '.$_POST[clientName].'\'s Client Page" />
+    		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
+   		}	else {
+   			//coming from brightmoorPantry page
+   			echo'
+			<form action="brightmoorPantry.php" method="post">
+    			<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    			<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
+   			</form>
+   			';
+   			
+   			echo'
+			<form action="appointments.php" method="post">
+				<input type="hidden" name="datepicker" value="' .$_POST[AppointmentDate]. '" />
+  				<input type="submit" value="Go to ' .$_POST[AppointmentDate]. ' appointments" />
+			</form>
+			';
+   		}   		
+		
+		/*echo'
+		<form action="brightmoorPantry.php" method="post">
+    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="submit" value="View '.$_POST[clientName].'\'s Client Page" />
+   		</form>
+   		';*/
 	} else {
 		echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
 		echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";

@@ -15,6 +15,17 @@ exit;
 <script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.maskedinput.js" type="text/javascript"></script>
 
+<!-- validate form script-->
+<script>
+function validateDate() {
+	var x = document.forms["InsertAppointment"]["NewAppointmentPicker"].value;
+    if (x == null || x == "") {
+        alert("Please choose an appointment date.");
+        return false;
+    }
+}
+</script>
+
 <!--script for pattern masks-->
 <script>
 jQuery(function($){
@@ -363,7 +374,7 @@ echo '
 
 <!--appointments form -->
 <?php
-$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]'";
+$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
 $appointmentsResult = $conn->query($appointmentsSql);
 echo '<fieldset>
 		<legend>Appointment Information</legend>';
@@ -423,15 +434,15 @@ if ($appointmentsResult->num_rows > 0) {
 
 echo '
 	<td><input type="text" id="AppointmentNotes" name="AppointmentNotes" value="' .$appointmentsRow[AppointmentNotes]. '"></td>
-	<td><input type="submit" name="Update" value="Update Record"/>
-	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this appointment record?\');"/></td>
+	<td><input type="submit" name="Update" value="Update Appointment"/>
+	<input type="submit" name="Delete" value="Delete Appointment" onClick="return confirm(\'Are you sure you want to delete this appointment record?\');"/></td>
 </tr>
 </form>
 ';
     }
     }
     
-   echo '<form action="InsertAppointment.php" method="post">
+   echo '<form action="InsertAppointment.php" method="post" name="InsertAppointment" onsubmit="return validateDate()">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
 <tr>
 	<td><input type="text" id="AppointmentDate" name="NewAppointmentPicker"/></td>';

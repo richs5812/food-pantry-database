@@ -13,10 +13,17 @@ exit;
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brightmoor Connection Database - Appointments</title>
 <script>
-function validateForm() {
+function validateClient() {
     var x = document.forms["InsertAppointment"]["ClientID"].value;
     if (x == null || x == "") {
         alert("Please select a client.");
+        return false;
+    }
+}
+function validateDate() {
+	var y = document.forms["InsertAppointment"]["NewAppointmentPicker"].value;
+    if (y == null || y == "") {
+        alert("Please choose an appointment date.");
         return false;
     }
 }
@@ -159,10 +166,10 @@ $result = $conn->query($sql);
 	<input type="hidden" name="AppointmentID" value="' .$row[AppointmentID]. '" />
 	<input type="hidden" name="previousFormDate" value="' .$_POST[datepicker]. '" />
 	';
-	
+	/*
 	$clientName = $row[FirstName] . " " . $row[LastName];
 	echo '<input type="hidden" name="clientName" value="' .$clientName. '" />';
-	
+	*/
 	//display client name
 	echo '<tr><td>';
 	echo '<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />';
@@ -226,7 +233,9 @@ $result = $conn->query($sql);
 		echo "<br />No appointments scheduled yet for $prettyDate - create an appointment below.<br /><br />";
 	}
     //insert new appointment
-    echo '<form name="InsertAppointment" action="InsertAppointment.php" onsubmit="return validateForm()" method="post">';
+    echo '<form name="InsertAppointment" action="InsertAppointment.php" onsubmit="return ((validateClient() & validateDate())==1)" method="post">
+    	<input type="hidden" name="fromAppointmentForm" value="1" />';
+    	//let insertAppointment know this is coming from apppointment form, not client page
 	echo '<tr><td>';
 	echo '<select name="ClientID">
 	<option value=""></option>';
@@ -247,7 +256,7 @@ $result = $conn->query($sql);
 	}
 	echo '</select></td>';
 	//end client drop down menu
-	echo'<td><input type="text" name="NewAppointmentPicker" id="NewAppointmentPicker"></td>';
+	echo'<td><input type="text" name="NewAppointmentPicker" id="NewAppointmentPicker" value="'.$_POST[datepicker].'"></td>';
 	//display appointment status in drop down menu
 	echo '<td>';
 	echo '<select name="AppointmentStatus">';
