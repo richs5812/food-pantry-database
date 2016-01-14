@@ -24,6 +24,13 @@ function validateDate() {
         return false;
     }
 }
+function validateReferral() {
+	var x = document.forms["InsertReferral"]["ReferralType"].value;
+    if (x == null || x == "") {
+        alert("Please choose a referral type.");
+        return false;
+    }
+}
 </script>
 
 <!--script for pattern masks-->
@@ -338,13 +345,14 @@ echo '
     }
     }
     
-   echo '<form action="InsertReferral.php" method="post">
+   echo '<form action="InsertReferral.php" name="InsertReferral" method="post" onsubmit="return validateReferral()">
 <input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
 <tr>';
 
 //display referral type in drop down menu
 	echo '<td>';
-	echo '<select name="ReferralType">';
+	echo '<select name="ReferralType">
+			<option value=""> </option>';
 	$referralTypeSql = "SELECT ReferralType FROM ReferralType;";
 	$referralTypeResult = $conn->query($referralTypeSql);
 	if ($referralTypeResult->num_rows > 0) {

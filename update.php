@@ -9,11 +9,20 @@ exit;
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="db_styles.css">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Record Updated</title>
 </head>
 <body style="background-color:Beige;">
 
-<h1>Brightmoor Connection Database</h1>
+<header>
+	<img src="images/brightmoor_logo.jpg" width=500px>
+	<h1>Brightmoor Connection Database</h1>
+</header>
+
+<nav>
+<?php require_once ('nav.html'); ?>
+</nav>
 
 <?php
 

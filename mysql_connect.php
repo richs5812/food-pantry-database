@@ -1,7 +1,8 @@
-<?
+<?php
 $servername = "localhost";
 
-/* //prod setup
+/*
+//prod setup
 $username = "user1";
 $password = "BrightmoorConnect2016!";
 $dbname = "BrightmoorConnect";
@@ -16,8 +17,9 @@ $dbname = "QABrightmoorConnectQA";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-//echo "Connected successfully <br><br>";
+if (!$conn)
+  {
+  die("Connection error: " . mysqli_connect_error());
+  }
+
 ?>

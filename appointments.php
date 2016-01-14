@@ -233,8 +233,8 @@ $result = $conn->query($sql);
 		echo "<br />No appointments scheduled yet for $prettyDate - create an appointment below.<br /><br />";
 	}
     //insert new appointment
-    echo '<form name="InsertAppointment" action="InsertAppointment.php" onsubmit="return ((validateClient() & validateDate())==1)" method="post">
-    	<input type="hidden" name="fromAppointmentForm" value="1" />';
+    echo '<form name="InsertAppointment" action="InsertAppointment.php" onsubmit="return validateClient()" method="post">
+    	<input type="hidden" name="fromAppointmentForm" value="1" />'; 	
     	//let insertAppointment know this is coming from apppointment form, not client page
 	echo '<tr><td>';
 	echo '<select name="ClientID">
@@ -256,7 +256,7 @@ $result = $conn->query($sql);
 	}
 	echo '</select></td>';
 	//end client drop down menu
-	echo'<td><input type="text" name="NewAppointmentPicker" id="NewAppointmentPicker" value="'.$_POST[datepicker].'"></td>';
+	echo'<td><input type="text" name="NewAppointmentPicker" id="NewAppointmentPicker" value="'.$datePickerDate.'"></td>';
 	//display appointment status in drop down menu
 	echo '<td>';
 	echo '<select name="AppointmentStatus">';

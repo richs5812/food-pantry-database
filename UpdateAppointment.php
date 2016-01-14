@@ -15,7 +15,10 @@ exit;
 </head>
 <body style="background-color:Beige;">
 
-<h1>Brightmoor Connection Database</h1>
+<header>
+	<img src="images/brightmoor_logo.jpg" width=500px>
+	<h1>Brightmoor Connection Database</h1>
+</header>
 
 <nav>
 <?php require_once ('nav.html'); ?>
@@ -123,19 +126,27 @@ if (isset($_POST['Update'])) {
     if ($conn->query($sql) === TRUE) {
     echo "Appointment record deleted.<br><br>";
     
+    if ($_POST[previousFormDate] != NULL){
     echo '
 		<form action="appointments.php" method="post">
 			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
   			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
 		</form>';
-		
+	
 		echo'
 		<form action="brightmoorPantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
-
+	} else {
+			echo'
+		<form action="brightmoorPantry.php" method="post">
+    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
+   		</form>
+   		';
+	}
 
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;

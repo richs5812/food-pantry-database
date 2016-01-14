@@ -10,10 +10,19 @@ exit;
 <html>
 <head>
 <title>Referral Updated</title>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="db_styles.css">
 </head>
 <body style="background-color:Beige;">
 
-<h1>Brightmoor Connection Database</h1>
+<header>
+	<img src="images/brightmoor_logo.jpg" width=500px>
+	<h1>Brightmoor Connection Database</h1>
+</header>
+
+<nav>
+<?php require_once ('nav.html'); ?>
+</nav>
 
 <?php
 
