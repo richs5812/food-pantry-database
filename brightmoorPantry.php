@@ -102,7 +102,7 @@ echo '
     
     <fieldset>
     <legend>Basic info:</legend>
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />';
+<input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />';
 
 textInput("FirstName", "First Name");
 
