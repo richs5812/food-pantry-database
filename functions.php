@@ -39,9 +39,11 @@ function dateInput($valueName, $labelName) {
 	if ($row[$valueName]!=NULL){
 	$displayDate = date("m-d-y", strtotime($row[$valueName]));
 	}
-		if ($row[ClientID] == ""){
+		if ($row["ClientID"] == ""){
 		$displayDate="  /  /  ";
-		}
+		} else {
+	$displayDate = "";
+	}
 
 	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
 }

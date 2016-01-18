@@ -87,8 +87,8 @@ require_once ('client_drop_down.php');
 
 //connect to database using php script
 require_once ('mysql_connect.php');
-
-$sql = "SELECT * FROM Clients WHERE ClientID='$_POST[ClientID]'";
+$client = mysqli_real_escape_string($conn, $_POST['ClientID']);
+$sql = "SELECT * FROM Clients WHERE ClientID='$client'";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 
@@ -116,7 +116,7 @@ numberInput("Age", "Age", "100");
 
 echo'
 <label for="Gender">Gender: </label><select name="Gender" id="Gender">
-  			<option value="'.$row[Gender].'">' .$row[Gender]. '</option>
+  			<option value="'.$row["Gender"].'">' .$row["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
 		</select>';
@@ -127,7 +127,7 @@ textInput("Address", "Address");
 
 textInput("Address2", "Address 2");
 
-echo '<label for="ZipCode">Zip Code: </label><input type="text" name="ZipCode" id="ZipCode" value="'.$row[ZipCode].'" maxlength="5" size="5"/>';
+echo '<label for="ZipCode">Zip Code: </label><input type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'" maxlength="5" size="5"/>';
 
 echo '<br>';
 
@@ -184,7 +184,7 @@ checkBox("LimitedHealthServicesReferral", "Limited Health Services Referral");
 
 textInput("AdditionalServices", "Additional Services");
 
-echo '<br><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" rows="4" cols="50">' .$row[OtherNotes]. '</textarea>     ';
+echo '<br><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" rows="4" cols="50">' .$row["OtherNotes"]. '</textarea>     ';
 
 dateInput("EnrollmentDate", "Enrollment Date");
 
@@ -202,7 +202,7 @@ checkBox("PreviousChristmasFoodNo", "No");
 dateInput("CoatOrderDate", "Coat Order Date");
 
 echo '</fieldset>';
- if ($row[ClientID]!=""){ 
+ if ($row["ClientID"]!=""){ 
 echo'<input type="submit" value="Update Client Information"/></fieldset></form>';
 } else{
 echo '<input type="submit" value="Enter new client"/></fieldset></form>
@@ -221,7 +221,7 @@ echo '
 	<legend>Family Information:</legend>
 ';
 
- if ($row[ClientID]!=""){ 
+ if ($row["ClientID"]!=""){ 
 	     echo '   
             <table border="1">
 		<tr>
@@ -236,14 +236,14 @@ if ($familyMembersResult->num_rows > 0) {
         //output existing family member info
         echo '
         <form action="UpdateFamilyMember.php" method="post">
-<input type="hidden" name="FamilyMemberID" value="'.$familyMembersRow[FamilyMemberID].'" />
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
+<input type="hidden" name="FamilyMemberID" value="'.$familyMembersRow["FamilyMemberID"].'" />
+<input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />
 <tr>
-	<td><label for="FamilyMemberName'.$familyMembersRow[FamilyMemberID].'"></label><input type="text" id="FamilyMemberName'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberName" value="' .$familyMembersRow[FamilyMemberName].'"/></td>
-	<td><label for="Relationship'.$familyMembersRow[FamilyMemberID].'"></label><input type="text" id="Relationship'.$familyMembersRow[FamilyMemberID].'" name="Relationship" value="'.$familyMembersRow[Relationship].'"/></td>
-	<td><label for="FamilyMemberAge'.$familyMembersRow[FamilyMemberID].'"></label><input type="number" id="FamilyMemberAge'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberAge" value="' .$familyMembersRow[Age]. '"></td>
-	<td><label for="FamilyMemberGender'.$familyMembersRow[FamilyMemberID].'"></label><select id="FamilyMemberGender'.$familyMembersRow[FamilyMemberID].'" name="FamilyMemberGender">
-  			<option value="' .$familyMembersRow[Gender]. '">' .$familyMembersRow[Gender]. '</option>
+	<td><label for="FamilyMemberName'.$familyMembersRow["FamilyMemberID"].'"></label><input type="text" id="FamilyMemberName'.$familyMembersRow["FamilyMemberID"].'" name="FamilyMemberName" value="' .$familyMembersRow["FamilyMemberName"].'"/></td>
+	<td><label for="Relationship'.$familyMembersRow["FamilyMemberID"].'"></label><input type="text" id="Relationship'.$familyMembersRow["FamilyMemberID"].'" name="Relationship" value="'.$familyMembersRow["Relationship"].'"/></td>
+	<td><label for="FamilyMemberAge'.$familyMembersRow["FamilyMemberID"].'"></label><input type="number" id="FamilyMemberAge'.$familyMembersRow["FamilyMemberID"].'" name="FamilyMemberAge" value="' .$familyMembersRow["Age"]. '"></td>
+	<td><label for="FamilyMemberGender'.$familyMembersRow["FamilyMemberID"].'"></label><select id="FamilyMemberGender'.$familyMembersRow["FamilyMemberID"].'" name="FamilyMemberGender">
+  			<option value="' .$familyMembersRow["Gender"]. '">' .$familyMembersRow["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
 		</select></td>
@@ -256,9 +256,9 @@ if ($familyMembersResult->num_rows > 0) {
     }
     
    echo '<form action="InsertFamilyMember.php" method="post">
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
+<input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>
-	<td><label for="FamilyMemberName"></label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST[autofocus].'/></td>
+	<td><label for="FamilyMemberName"></label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST["autofocus"].'/></td>
 	<td><label for="Relationship"></label><input type="text" id="Relationship" name="Relationship"/></td>
 	<td><label for="FamilyMemberAge"></label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge"></td>
 	<td><label for="FamilyMemberGender"></label><select id="FamilyMemberGender" name="FamilyMemberGender">
@@ -285,7 +285,7 @@ $referralsResult = $conn->query($referralsSql);
 echo '<fieldset>
 		<legend>Referral Information</legend>';
 		
-if ($row[ClientID]!=""){ 
+if ($row["ClientID"]!=""){ 
 	     echo '   
             <table border="1">
 		<tr>
@@ -298,8 +298,8 @@ if ($referralsResult->num_rows > 0) {
     while($referralsRow = $referralsResult->fetch_assoc()) {
         echo '
         <form action="UpdateReferral.php" method="post">
-<input type="hidden" name="ReferralID" value="'.$referralsRow[ReferralID].'" />
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
+<input type="hidden" name="ReferralID" value="'.$referralsRow["ReferralID"].'" />
+<input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />
 <tr>';
 //display referral type in drop down menu
 	echo '<td>';
@@ -309,7 +309,7 @@ if ($referralsResult->num_rows > 0) {
 	if ($referralTypeResult->num_rows > 0) {
     // output data of each row 
     while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
-    	if ($referralTypeRow[ReferralType]==$referralsRow[ReferralType]){
+    	if ($referralTypeRow["ReferralType"]==$referralsRow["ReferralType"]){
     		$selected = "selected";
     	}else{
     		$selected = "";
@@ -325,18 +325,18 @@ if ($referralsResult->num_rows > 0) {
 	//date picker for existing referral dates
 	echo '<script>
 	  $(function() {
-    	$( "#ReferralDate'.$referralsRow[ReferralID].'" ).datepicker({dateFormat: "mm/dd/y"});
+    	$( "#ReferralDate'.$referralsRow["ReferralID"].'" ).datepicker({dateFormat: "mm/dd/y"});
   	});
   	</script>';
 
 	//display formatted referral date
-	if ($referralsRow[ReferralDate]!=NULL){
-	$referralDisplayDate = date("m/d/y", strtotime($referralsRow[ReferralDate]));
+	if ($referralsRow["ReferralDate"]!=NULL){
+	$referralDisplayDate = date("m/d/y", strtotime($referralsRow["ReferralDate"]));
 	}
 
 echo '
-	<td><input type="text" id="ReferralDate'.$referralsRow[ReferralID].'" name="ReferralDate" value="'.$referralDisplayDate.'"/></td>
-	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow[ReferralNotes]. '"></td>
+	<td><input type="text" id="ReferralDate'.$referralsRow["ReferralID"].'" name="ReferralDate" value="'.$referralDisplayDate.'"/></td>
+	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow["ReferralNotes"]. '"></td>
 	<td><input type="submit" name="Update" value="Update Record"/>
 	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
 </tr>
@@ -346,7 +346,7 @@ echo '
     }
     
    echo '<form action="InsertReferral.php" name="InsertReferral" method="post" onsubmit="return validateReferral()">
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
+<input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>';
 
 //display referral type in drop down menu
@@ -387,7 +387,7 @@ $appointmentsResult = $conn->query($appointmentsSql);
 echo '<fieldset>
 		<legend>Appointment Information</legend>';
 		
-if ($row[ClientID]!=""){ 
+if ($row["ClientID"]!=""){ 
 	     echo '   
             <table border="1">
 		<tr>
@@ -407,16 +407,16 @@ if ($appointmentsResult->num_rows > 0) {
 	//date picker for existing appointment dates
 	echo '<script>
 	  $(function() {
-    	$( "#AppointmentDate'.$appointmentsRow[AppointmentID].'" ).datepicker({dateFormat: "mm/dd/y"});
+    	$( "#AppointmentDate'.$appointmentsRow["AppointmentID"].'" ).datepicker({dateFormat: "mm/dd/y"});
   	});
   	</script>';
 	
 	//display appointment date
-	if ($appointmentsRow[AppointmentDate]!=NULL){
-	$appointmentDisplayDate = date("m/d/y", strtotime($appointmentsRow[AppointmentDate]));
+	if ($appointmentsRow["AppointmentDate"]!=NULL){
+	$appointmentDisplayDate = date("m/d/y", strtotime($appointmentsRow["AppointmentDate"]));
 	}
 
-	echo '<td><input type="text" id="AppointmentDate'.$appointmentsRow[AppointmentID].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+	echo '<td><input type="text" id="AppointmentDate'.$appointmentsRow["AppointmentID"].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
 	//end display existing appointment date
 
 	//display appointment status in drop down menu
@@ -451,7 +451,7 @@ echo '
     }
     
    echo '<form action="InsertAppointment.php" method="post" name="InsertAppointment" onsubmit="return validateDate()">
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />   
+<input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>
 	<td><input type="text" id="AppointmentDate" name="NewAppointmentPicker"/></td>';
 	
