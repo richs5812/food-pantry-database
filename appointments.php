@@ -176,8 +176,9 @@ $result = $conn->query($sql);
 	*/
 	//display client name
 	echo '<tr><td>';
+	//<a target="_blank" href="source.php?id='.$row[pic_id].'">
 	echo '<input type="hidden" name="ClientID" value="' .$row['ClientID']. '" />';
-	echo ''.$row['LastName'].', '.$row['FirstName'].'';
+	echo '<a class="noLinkStyle" href="brightmoorPantry.php?id=' .$row['ClientID'].'">'.$row['LastName'].', '.$row['FirstName'].'</a>';
 	echo '</td>';
 	
 	//date picker for existing appointment dates

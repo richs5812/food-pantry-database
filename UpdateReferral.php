@@ -59,7 +59,7 @@ if (isset($_POST['Update'])) {
 	   echo 'Referral record updated successfully.<br><br>
  		<form action="brightmoorPantry.php" method="post">
     	<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
-    	<input type="hidden" name="autofocus" value="autofocus" />
+    	
     	<input type="submit" value="Return to Client Page" autofocus/>
    		</form>
     	';

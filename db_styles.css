@@ -15,6 +15,27 @@ body {
 	font-family: sans-serif;
 }
 
+a.noLinkStyle:link {
+    text-decoration: none;
+    color: black;
+}
+
+/* visited link */
+a.noLinkStyle:visited {
+    text-decoration: none;
+    color: black;
+}
+
+/* mouse over link */
+a.noLinkStyle:hover {
+    text-decoration: none;
+}
+
+/* selected link */
+a.noLinkStyle:active {
+    text-decoration: none;
+}
+
 section {
 
 }
