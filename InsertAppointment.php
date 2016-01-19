@@ -27,24 +27,29 @@ exit;
 require_once ('mysql_connect.php');
 
 //sql to pull client name for 'return to client page' button
-$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
-	$clientButtonResult = $conn->query($clientButtonSql);
+$clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");
+$clientButtonStmt->bind_param('s', $_POST['ClientID']);
+$clientButtonStmt->execute();
+$clientButtonResult = $clientButtonStmt->get_result();
+
+/*$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
+	$clientButtonResult = $conn->query($clientButtonSql);*/
 	if ($clientButtonResult->num_rows > 0) {
     // output data of each row 
     while($clientButtonRow = $clientButtonResult->fetch_assoc()) {
-		   $clientName = $clientButtonRow[FirstName] ." ".$clientButtonRow[LastName];
+		   $clientName = $clientButtonRow['FirstName'] ." ".$clientButtonRow['LastName'];
     }
 }
 
 //format dates for MySQL from input format
     date_default_timezone_set('America/Detroit');
-	if($_POST[NewAppointmentPicker]!=NULL){
-	$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST[NewAppointmentPicker]));
+	if($_POST['NewAppointmentPicker']!=NULL){
+	$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST['NewAppointmentPicker']));
 	} else {
 	$sqlFormattedAppointmentDate = NULL;
 	}
 
-$posts = array($_POST[ClientID],$sqlFormattedAppointmentDate,$_POST[AppointmentStatus],$_POST[AppointmentNotes]);
+$posts = array($_POST['ClientID'],$sqlFormattedAppointmentDate,$_POST['AppointmentStatus'],$_POST['AppointmentNotes']);
 
 $fieldArray = array();
 //assign null values if blank
@@ -58,32 +63,36 @@ $stmt->bind_param('ssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $field
 
 if ($stmt->execute() == TRUE) {
 	echo 'New Appointment record created succesfully.<br><br>';
-	
-	if ($_POST[fromAppointmentForm] != NULL){
+	if (!isset($_POST['fromAppointmentForm']))
+	{
+	//If not isset -> set with dummy value
+	$_POST['fromAppointmentForm'] = NULL;
+	}
+	if ($_POST['fromAppointmentForm'] != NULL){
 	//coming from appointments page
 	echo'
 		<form action="appointments.php" method="post">
-			<input type="hidden" name="datepicker" value="' .$_POST[NewAppointmentPicker]. '" />
-  			<input type="submit" value="Go to ' .$_POST[NewAppointmentPicker]. ' appointments" />
+			<input type="hidden" name="datepicker" value="' .$_POST['NewAppointmentPicker']. '" />
+  			<input type="submit" value="Go to ' .$_POST['NewAppointmentPicker']. ' appointments" />
 		</form>
 		';
 		echo'
 		<form action="brightmoorPantry.php" method="post">
-    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
    		} else {
    		echo'
 		<form action="brightmoorPantry.php" method="post">
-    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
    		</form>
    		';
    			echo'
 		<form action="appointments.php" method="post">
-			<input type="hidden" name="datepicker" value="' .$_POST[NewAppointmentPicker]. '" />
-  			<input type="submit" value="Go to ' .$_POST[NewAppointmentPicker]. ' appointments" />
+			<input type="hidden" name="datepicker" value="' .$_POST['NewAppointmentPicker']. '" />
+  			<input type="submit" value="Go to ' .$_POST['NewAppointmentPicker']. ' appointments" />
 		</form>
 		';
    		}

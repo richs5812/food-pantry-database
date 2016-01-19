@@ -34,14 +34,14 @@ if (isset($_POST['Update'])) {
 
 	//format dates for MySQL from input format
     date_default_timezone_set('America/Detroit');
-	if($_POST[ReferralDate]!=NULL){
-	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST[ReferralDate]));
+	if($_POST['ReferralDate']!=NULL){
+	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST['ReferralDate']));
 	} else {
 	$sqlFormattedReferralDate = NULL;
 	}
 
     //code to update record
-    $posts = array($_POST[ReferralType],$sqlFormattedReferralDate,$_POST[ReferralNotes],$_POST[ReferralID]);
+    $posts = array($_POST['ReferralType'],$sqlFormattedReferralDate,$_POST['ReferralNotes'],$_POST['ReferralID']);
 
 	$fieldArray = array();
 
@@ -58,7 +58,7 @@ if (isset($_POST['Update'])) {
 	if ($stmt->execute() == TRUE) {
 	   echo 'Referral record updated successfully.<br><br>
  		<form action="brightmoorPantry.php" method="post">
-    	<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    	<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     	<input type="hidden" name="autofocus" value="autofocus" />
     	<input type="submit" value="Return to Client Page" autofocus/>
    		</form>
@@ -70,16 +70,21 @@ if (isset($_POST['Update'])) {
 
 } else if (isset($_POST['Delete'])) {
     //delete action if Delete button was clicked
-    $sql="DELETE FROM Referrals WHERE ReferralID='$_POST[ReferralID]'";
-    if ($conn->query($sql) === TRUE) {
+    $posts = array($_POST['ReferralID']);
+    $stmt = $conn->prepare("DELETE FROM Referrals WHERE ReferralID=?");
+    $stmt->bind_param('s', $posts[0]);
+    
+    //$sql="DELETE FROM Referrals WHERE ReferralID='$_POST[ReferralID]'";
+    //if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute() == TRUE) {
     echo "Referral record deleted.<br><br>";
     echo '<form action="brightmoorPantry.php" method="post">
-    <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     <input type="submit" autofocus value="Return to Client Page" />
    </form>
     ';
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $stmt->error;
 }
 }
 

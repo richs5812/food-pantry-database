@@ -31,13 +31,13 @@ require_once ('mysql_connect.php');
 
 //format dates for MySQL from input format
     date_default_timezone_set('America/Detroit');
-	if($_POST[ReferralDate]!=NULL){
-	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST[ReferralDate]));
+	if($_POST['ReferralDate']!=NULL){
+	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST['ReferralDate']));
 	} else {
 	$sqlFormattedReferralDate = NULL;
 	}
 
-$posts = array($_POST[ClientID],$_POST[ReferralType],$sqlFormattedReferralDate,$_POST[ReferralNotes]);
+$posts = array($_POST['ClientID'],$_POST['ReferralType'],$sqlFormattedReferralDate,$_POST['ReferralNotes']);
 
 $fieldArray = array();
 
@@ -52,7 +52,7 @@ $stmt->bind_param('ssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $field
 if ($stmt->execute() == TRUE) {
   echo 'New referral record created succesfully.<br><br>
 	<form action="brightmoorPantry.php" method="post">
-    <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     <input type="hidden" name="autofocus" value="autofocus" />
     <input type="submit" value="Return to Client Page" autofocus/>
    </form>

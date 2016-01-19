@@ -30,30 +30,39 @@ exit;
 require_once ('mysql_connect.php');
 
 //sql to pull client name for 'return to client page' button
-$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
-	$clientButtonResult = $conn->query($clientButtonSql);
+$clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");
+$clientButtonStmt->bind_param('s', $_POST['ClientID']);
+$clientButtonStmt->execute();
+$clientButtonResult = $clientButtonStmt->get_result();
+
+/*$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
+	$clientButtonResult = $conn->query($clientButtonSql);*/
 	if ($clientButtonResult->num_rows > 0) {
     // output data of each row 
     while($clientButtonRow = $clientButtonResult->fetch_assoc()) {
-		   $clientName = $clientButtonRow[FirstName] ." ".$clientButtonRow[LastName];
+		   $clientName = $clientButtonRow['FirstName'] ." ".$clientButtonRow['LastName'];
     }
 }
 
 //format dates for MySQL from input format
 date_default_timezone_set('America/Detroit');
-
-$previousDisplayDate = date("m/d/y", strtotime($_POST[previousFormDate]));
+if (!isset($_POST['previousFormDate']))
+{
+//If not isset -> set with dummy value
+$_POST['previousFormDate'] = NULL;
+}
+$previousDisplayDate = date("m/d/y", strtotime($_POST['previousFormDate']));
 
 //check if Update button or Delete button was clicked
 if (isset($_POST['Update'])) {
-	if($_POST[AppointmentDate]!=NULL){
-	$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST[AppointmentDate]));
+	if($_POST['AppointmentDate']!=NULL){
+	$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST['AppointmentDate']));
 	} else {
 	$sqlFormattedAppointmentDate = NULL;
 	}
     
     //code to update record
-    $posts = array($_POST[ClientID],$sqlFormattedAppointmentDate,$_POST[AppointmentStatus],$_POST[AppointmentNotes],$_POST[AppointmentID]);
+    $posts = array($_POST['ClientID'],$sqlFormattedAppointmentDate,$_POST['AppointmentStatus'],$_POST['AppointmentNotes'],$_POST['AppointmentID']);
 
 	$fieldArray = array();
 
@@ -69,26 +78,30 @@ if (isset($_POST['Update'])) {
 
 	if ($stmt->execute() == TRUE) {
 		echo 'Appointment updated successfully.<br><br>';
-		
-		if ($_POST[previousFormDate] != NULL){
+		/*if (!isset($_POST['previousFormDate']))
+		{
+		//If not isset -> set with dummy value
+		$_POST['previousFormDate'] = "undefined";
+		}	*/
+		if ($_POST['previousFormDate'] != NULL){
 		//coming from Appointments page
 		echo '<form action="appointments.php" method="post">
-			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
+			<input type="hidden" name="datepicker" value="' .$_POST['previousFormDate']. '" />
   			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
 		</form>';
 		
-		if($previousDisplayDate != $_POST[AppointmentDate]){
+		if($previousDisplayDate != $_POST['AppointmentDate']){
 			echo'
 			<form action="appointments.php" method="post">
-				<input type="hidden" name="datepicker" value="' .$_POST[AppointmentDate]. '" />
-  				<input type="submit" value="Go to ' .$_POST[AppointmentDate]. ' appointments" />
+				<input type="hidden" name="datepicker" value="' .$_POST['AppointmentDate']. '" />
+  				<input type="submit" value="Go to ' .$_POST['AppointmentDate']. ' appointments" />
 			</form>
 			';
 		}
 		
 		echo'
 		<form action="brightmoorPantry.php" method="post">
-    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
@@ -96,15 +109,15 @@ if (isset($_POST['Update'])) {
    			//coming from brightmoorPantry page
    			echo'
 			<form action="brightmoorPantry.php" method="post">
-    			<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    			<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     			<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
    			</form>
    			';
    			
    			echo'
 			<form action="appointments.php" method="post">
-				<input type="hidden" name="datepicker" value="' .$_POST[AppointmentDate]. '" />
-  				<input type="submit" value="Go to ' .$_POST[AppointmentDate]. ' appointments" />
+				<input type="hidden" name="datepicker" value="' .$_POST['AppointmentDate']. '" />
+  				<input type="submit" value="Go to ' .$_POST['AppointmentDate']. ' appointments" />
 			</form>
 			';
    		}   		
@@ -122,35 +135,48 @@ if (isset($_POST['Update'])) {
 
 } else if (isset($_POST['Delete'])) {
     //delete action if Delete button was clicked
-    $sql="DELETE FROM Appointments WHERE AppointmentID='$_POST[AppointmentID]'";
-    if ($conn->query($sql) === TRUE) {
+    $posts = array($_POST['AppointmentID']);
+    $stmt = $conn->prepare("DELETE FROM Appointments WHERE AppointmentID=?");
+    $stmt->bind_param('s', $posts[0]);
+  
+    if ($stmt->execute() == TRUE) {
     echo "Appointment record deleted.<br><br>";
-    
-    if ($_POST[previousFormDate] != NULL){
+    if ($_POST['previousFormDate'] != NULL){
     echo '
 		<form action="appointments.php" method="post">
-			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
+			<input type="hidden" name="datepicker" value="' .$_POST['previousFormDate']. '" />
   			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
 		</form>';
 	
 		echo'
 		<form action="brightmoorPantry.php" method="post">
-    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
 	} else {
 			echo'
 		<form action="brightmoorPantry.php" method="post">
-    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
    		</form>
    		';
 	}
+    
+} else {
+    echo "Error: " . $stmt->error;
+}
+    
+  /*  
+    $sql="DELETE FROM Appointments WHERE AppointmentID='$_POST[AppointmentID]'";
+    if ($conn->query($sql) === TRUE) {
+    echo "Appointment record deleted.<br><br>";
+    
+    
 
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
-}
+}*/
 }
 
 $conn->close();

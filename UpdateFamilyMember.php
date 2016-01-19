@@ -32,7 +32,7 @@ require_once ('mysql_connect.php');
 //check if family member Update button or Delete button was clicked
 if (isset($_POST['Update'])) {
     //code to update record
-    $posts = array($_POST[FamilyMemberName],$_POST[FamilyMemberAge],$_POST[FamilyMemberGender],$_POST[Relationship],$_POST[FamilyMemberID]);
+    $posts = array($_POST['FamilyMemberName'],$_POST['FamilyMemberAge'],$_POST['FamilyMemberGender'],$_POST['Relationship'],$_POST['FamilyMemberID']);
 
 	$fieldArray = array();
 
@@ -49,7 +49,7 @@ if (isset($_POST['Update'])) {
 	if ($stmt->execute() == TRUE) {
 	   echo 'Family member record updated successfully.<br><br>
  		<form action="brightmoorPantry.php" method="post">
-    	<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    	<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     	<input type="hidden" name="autofocus" value="autofocus" />
     	<input type="submit" value="Return to Client Page" autofocus/>
    		</form>
@@ -61,6 +61,22 @@ if (isset($_POST['Update'])) {
 
 } else if (isset($_POST['Delete'])) {
     //delete action if Delete button was clicked
+
+    $posts = array($_POST['FamilyMemberID']);
+    $stmt = $conn->prepare("DELETE FROM FamilyMembers WHERE FamilyMemberID=?");
+    $stmt->bind_param('s', $posts[0]);
+  
+    if ($stmt->execute() == TRUE) {
+    echo "Family member record deleted.<br><br>";
+    echo '<form action="brightmoorPantry.php" method="post">
+    <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
+    <input type="submit" autofocus value="Return to Client Page" />
+   </form>
+    ';
+} else {
+    echo "Error: " . $stmt->error;
+}
+}/*
     $sql="DELETE FROM FamilyMembers WHERE FamilyMemberID='$_POST[FamilyMemberID]'";
     if ($conn->query($sql) === TRUE) {
     echo "Family Member record deleted.<br><br>";
@@ -72,7 +88,7 @@ if (isset($_POST['Update'])) {
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
-}
+}*/
 
 $conn->close();
 

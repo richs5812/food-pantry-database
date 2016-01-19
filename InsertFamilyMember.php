@@ -29,7 +29,7 @@ exit;
 //connect to database using php script
 require_once ('mysql_connect.php');
 
-$posts = array($_POST[ClientID],$_POST[FamilyMemberName],$_POST[FamilyMemberAge],$_POST[FamilyMemberGender],$_POST[Relationship]);
+$posts = array($_POST['ClientID'],$_POST['FamilyMemberName'],$_POST['FamilyMemberAge'],$_POST['FamilyMemberGender'],$_POST['Relationship']);
 
 $fieldArray = array();
 
@@ -44,7 +44,7 @@ $stmt->bind_param('sssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fiel
 if ($stmt->execute() == TRUE) {
   echo 'New family member record created succesfully.<br><br>
 	<form action="brightmoorPantry.php" method="post">
-    <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
+    <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     <input type="hidden" name="autofocus" value="autofocus" />
     <input type="submit" value="Return to Client Page" autofocus/>
    </form>

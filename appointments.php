@@ -84,10 +84,14 @@ jQuery(function($){
 <form id="datePicker" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 
 <?php 
-
-if ($_POST[datepicker] != NULL)
+if (!isset($_POST['datepicker']))
 {
-	$datePickerDate = date("m/d/y", strtotime($_POST[datepicker]));
+//If not isset -> set with dummy value
+$_POST['datepicker'] = NULL;
+}
+if ($_POST['datepicker'] != NULL)
+{
+	$datePickerDate = date("m/d/y", strtotime($_POST['datepicker']));
 } else {
 	$datePickerDate = NULL;
 }
@@ -103,31 +107,31 @@ require_once ('mysql_connect.php');
 date_default_timezone_set('America/Detroit');
 //$todaysDate = date("Y-m-d");
 //echo strtotime($todaysDate);
-if ($_POST[datepicker] == NULL){
+if ($_POST['datepicker'] == NULL){
 
 echo '<h2>Upcoming Appointments:</h2>';
 
 $appointmentsSql = "SELECT DISTINCT AppointmentDate FROM Appointments ORDER BY AppointmentDate ASC";
 $appointmentsResult = $conn->query($appointmentsSql);
-//date("m/d/y", strtotime($_POST[datepicker])) //$_POST[datepicker]
+//date("m/d/y", strtotime($_POST['datepicker'])) //$_POST['datepicker']
 if ($appointmentsResult->num_rows > 0) {
     while($appointmentsRow = $appointmentsResult->fetch_assoc()) {	
-    	if($appointmentsRow[AppointmentDate] >= date("Y-m-d")){
-    		echo '<h3>'.date("l, F j, Y", strtotime($appointmentsRow[AppointmentDate])).'</h3>';
+    	if($appointmentsRow['AppointmentDate'] >= date("Y-m-d")){
+    		echo '<h3>'.date("l, F j, Y", strtotime($appointmentsRow['AppointmentDate'])).'</h3>';
     		//echo "<br />";
     		$countSql = "SELECT COUNT(AppointmentDate) AS total FROM Appointments WHERE AppointmentDate='$appointmentsRow[AppointmentDate]'";
     		$countResult = $conn->query($countSql);
     		if ($countResult->num_rows > 0) {
   				while($countRow = $countResult->fetch_assoc()) {
-    				echo $countRow[total];
-    				if($countRow[total]==1){
+    				echo $countRow['total'];
+    				if($countRow['total']==1){
     				echo " appointment scheduled.";
     				} else {
     					echo " appointments scheduled.";
     				}
     				echo '<form id="datePicker" action="'.$_SERVER["PHP_SELF"].'" method="post" style="display: inline;">';
     					echo'
-    					<input type="hidden" name="datepicker" value="' .$appointmentsRow[AppointmentDate]. '" />
+    					<input type="hidden" name="datepicker" value="' .$appointmentsRow['AppointmentDate']. '" />
     					<input type="submit" name="View" value=">> View Appointments"/>';
     				echo '</form><br />';
     			}
@@ -139,9 +143,9 @@ if ($appointmentsResult->num_rows > 0) {
 	//if date has been selected
 
 //format dates for MySQL from input format and assign NULL if no input
-//if($_POST[datepicker]!=NULL){
-$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST[datepicker]));
-$prettyDate = date("F j, Y", strtotime($_POST[datepicker]));
+//if($_POST['datepicker']!=NULL){
+$sqlFormattedAppointmentDate = date("Y-m-d", strtotime($_POST['datepicker']));
+$prettyDate = date("F j, Y", strtotime($_POST['datepicker']));
  /*else {
 	$sqlFormattedAppointmentDate = NULL;
 	}*/
@@ -150,7 +154,7 @@ $prettyDate = date("F j, Y", strtotime($_POST[datepicker]));
 $sql = "SELECT Appointments.*, Clients.FirstName, Clients.LastName FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE AppointmentDate='$sqlFormattedAppointmentDate' ORDER BY Clients.LastName ASC, Clients.FirstName ASC";
 $result = $conn->query($sql);
 
-//if ($_POST[datepicker] != "") {
+//if ($_POST['datepicker'] != "") {
 	echo '<table border="1">
 	<tr>
     	<th>Client</th>
@@ -163,8 +167,8 @@ $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {	
 	//form to update and delete appointments
 	echo '<form action="UpdateAppointment.php" method="post">
-	<input type="hidden" name="AppointmentID" value="' .$row[AppointmentID]. '" />
-	<input type="hidden" name="previousFormDate" value="' .$_POST[datepicker]. '" />
+	<input type="hidden" name="AppointmentID" value="' .$row['AppointmentID']. '" />
+	<input type="hidden" name="previousFormDate" value="' .$_POST['datepicker']. '" />
 	';
 	/*
 	$clientName = $row[FirstName] . " " . $row[LastName];
@@ -172,23 +176,23 @@ $result = $conn->query($sql);
 	*/
 	//display client name
 	echo '<tr><td>';
-	echo '<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />';
-	echo ''.$row[LastName].', '.$row[FirstName].'';
+	echo '<input type="hidden" name="ClientID" value="' .$row['ClientID']. '" />';
+	echo ''.$row['LastName'].', '.$row['FirstName'].'';
 	echo '</td>';
 	
 	//date picker for existing appointment dates
 	echo '<script>
 	  $(function() {
-    	$( "#AppointmentDate'.$row[AppointmentID].'" ).datepicker({dateFormat: "mm/dd/y"});
+    	$( "#AppointmentDate'.$row['AppointmentID'].'" ).datepicker({dateFormat: "mm/dd/y"});
   	});
   	</script>';
 
 	//display appointment date
-	if ($row[AppointmentDate]!=NULL){
-	$appointmentDisplayDate = date("m/d/y", strtotime($row[AppointmentDate]));
+	if ($row['AppointmentDate']!=NULL){
+	$appointmentDisplayDate = date("m/d/y", strtotime($row['AppointmentDate']));
 	}
 
-	echo '<td><input type="text" id="AppointmentDate'.$row[AppointmentID].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+	echo '<td><input type="text" id="AppointmentDate'.$row['AppointmentID'].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
 	//end display existing appointment date
 	
 	/*//display client appointment date	
@@ -204,7 +208,7 @@ $result = $conn->query($sql);
 	if ($apptStatusResult->num_rows > 0) {
     // output data of each row 
     while($apptStatusRow = $apptStatusResult->fetch_assoc()) {
-    	if ($apptStatusRow[AppointmentStatus]==$row[AppointmentStatus]){
+    	if ($apptStatusRow['AppointmentStatus']==$row['AppointmentStatus']){
     		$selected = "selected";
     	}else{
     		$selected = "";

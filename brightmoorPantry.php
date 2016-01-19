@@ -87,10 +87,23 @@ require_once ('client_drop_down.php');
 
 //connect to database using php script
 require_once ('mysql_connect.php');
+if (!isset($_POST['ClientID']))
+{
+//If not isset -> set with dummy value
+$_POST['ClientID'] = "undefined";
+}
 $client = mysqli_real_escape_string($conn, $_POST['ClientID']);
+//$posts = array($_POST['ClientID']);
+$stmt = $conn->prepare("SELECT * FROM Clients WHERE ClientID=?");
+$stmt->bind_param('s', $client);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+/*
 $sql = "SELECT * FROM Clients WHERE ClientID='$client'";
 $result = $conn->query($sql);
-$row = $result->fetch_assoc();
+$row = $result->fetch_assoc();*/
 
 echo '
 
@@ -213,8 +226,10 @@ echo '<input type="submit" value="Enter new client"/></fieldset></form>
 
 <!--family member form -->
 <?php
+
+/*
 $familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$row[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
-$familyMembersResult = $conn->query($familyMembersSql);
+$familyMembersResult = $conn->query($familyMembersSql);*/
 
 echo '
 <fieldset>
@@ -222,6 +237,12 @@ echo '
 ';
 
  if ($row["ClientID"]!=""){ 
+ 
+$familyMembersStmt = $conn->prepare("SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID=? ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC");
+$familyMembersStmt->bind_param('s', $row['ClientID']);
+$familyMembersStmt->execute();
+$familyMembersResult = $familyMembersStmt->get_result();
+
 	     echo '   
             <table border="1">
 		<tr>
@@ -255,6 +276,12 @@ if ($familyMembersResult->num_rows > 0) {
     }
     }
     
+    if (!isset($_POST['autofocus']))
+{
+//If not isset -> set with dummy value
+$_POST['autofocus'] = "undefined";
+}
+    
    echo '<form action="InsertFamilyMember.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>
@@ -280,12 +307,20 @@ if ($familyMembersResult->num_rows > 0) {
 
 <!--referrals form -->
 <?php
+
+/*
 $referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$row[ClientID]'";
-$referralsResult = $conn->query($referralsSql);
+$referralsResult = $conn->query($referralsSql);*/
 echo '<fieldset>
 		<legend>Referral Information</legend>';
 		
 if ($row["ClientID"]!=""){ 
+
+$referralsStmt = $conn->prepare("SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID=?");
+$referralsStmt->bind_param('s', $row['ClientID']);
+$referralsStmt->execute();
+$referralsResult = $referralsStmt->get_result();
+
 	     echo '   
             <table border="1">
 		<tr>
@@ -382,12 +417,20 @@ echo '
 
 <!--appointments form -->
 <?php
-$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
-$appointmentsResult = $conn->query($appointmentsSql);
+
+/*$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
+$appointmentsResult = $conn->query($appointmentsSql);*/
+
 echo '<fieldset>
 		<legend>Appointment Information</legend>';
 		
 if ($row["ClientID"]!=""){ 
+
+$appointmentsStmt = $conn->prepare("SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID=? ORDER BY Appointments.AppointmentDate ASC");
+$appointmentsStmt->bind_param('s', $row['ClientID']);
+$appointmentsStmt->execute();
+$appointmentsResult = $appointmentsStmt->get_result();
+
 	     echo '   
             <table border="1">
 		<tr>
@@ -400,8 +443,8 @@ if ($appointmentsResult->num_rows > 0) {
     while($appointmentsRow = $appointmentsResult->fetch_assoc()) {
         echo '
         <form action="UpdateAppointment.php" method="post">
-<input type="hidden" name="AppointmentID" value="'.$appointmentsRow[AppointmentID].'" />
-<input type="hidden" name="ClientID" value="' .$row[ClientID]. '" />
+<input type="hidden" name="AppointmentID" value="'.$appointmentsRow['AppointmentID'].'" />
+<input type="hidden" name="ClientID" value="' .$row['ClientID']. '" />
 <tr>';
 
 	//date picker for existing appointment dates
@@ -427,7 +470,7 @@ if ($appointmentsResult->num_rows > 0) {
 	if ($apptStatusResult->num_rows > 0) {
     // output data of each row 
     while($apptStatusRow = $apptStatusResult->fetch_assoc()) {
-    	if ($apptStatusRow[AppointmentStatus]==$appointmentsRow[AppointmentStatus]){
+    	if ($apptStatusRow['AppointmentStatus']==$appointmentsRow['AppointmentStatus']){
     		$selected = "selected";
     	}else{
     		$selected = "";
@@ -441,7 +484,7 @@ if ($appointmentsResult->num_rows > 0) {
 	//end appointment status drop down menu
 
 echo '
-	<td><input type="text" id="AppointmentNotes" name="AppointmentNotes" value="' .$appointmentsRow[AppointmentNotes]. '"></td>
+	<td><input type="text" id="AppointmentNotes" name="AppointmentNotes" value="' .$appointmentsRow['AppointmentNotes']. '"></td>
 	<td><input type="submit" name="Update" value="Update Appointment"/>
 	<input type="submit" name="Delete" value="Delete Appointment" onClick="return confirm(\'Are you sure you want to delete this appointment record?\');"/></td>
 </tr>
