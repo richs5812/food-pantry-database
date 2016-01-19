@@ -50,7 +50,7 @@ if ($stmt->execute() == TRUE) {
    </form>
     ';
 } else {
-	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
+	echo "Error: <br>". $stmt->error;
 	echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
 }
 

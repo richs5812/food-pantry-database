@@ -1,30 +1,22 @@
 <?php
-//code for session variable to make sure user is logged in
-session_start();
-if(empty($_SESSION["username"])) {
-header('Location: login.php');
-exit;
-}
-?>
-<?php
 
 //set timezone for strtotime php function to convert date to MySQL format from input format
 date_default_timezone_set('America/Detroit');
 
 //format dates for MySQL from input format and assign NULL if no input
-if($_POST[EnrollmentDate]!=NULL){
-$sqlFormattedEnrollmentDate = date("Y-m-d", strtotime($_POST[EnrollmentDate]));
+if($_POST['EnrollmentDate']!=NULL){
+$sqlFormattedEnrollmentDate = date("Y-m-d", strtotime($_POST['EnrollmentDate']));
 } else {
 	$sqlFormattedEnrollmentDate = NULL;
 	}
-if($_POST[CoatOrderDate]!=NULL){
-$sqlFormattedCoatOrderDate = date("Y-m-d", strtotime($_POST[CoatOrderDate]));
+if($_POST['CoatOrderDate']!=NULL){
+$sqlFormattedCoatOrderDate = date("Y-m-d", strtotime($_POST['CoatOrderDate']));
 } else {
 	$sqlFormattedCoatOrderDate = NULL;
 	}
 
 //create array of form values
-$posts = array($_POST[FirstName],$_POST[LastName],$_POST[Address],$_POST[Address2],$_POST[HomePhoneNumber],$_POST[ZipCode],$_POST[Age],$_POST[Gender],$_POST[Pregnant],$sqlFormattedEnrollmentDate,$_POST[AddressVerified],$_POST[EmailAddress],$_POST[CellPhoneNumber],$_POST[FamilySize],$_POST[AdultsNumber],$_POST[AgeRange05],$_POST[AgeRange617],$_POST[AgeRange1829],$_POST[AgeRange3039],$_POST[AgeRange4049],$_POST[AgeRange5064],$_POST[AgeRange65],$_POST[StoveYes],$_POST[StoveNo],$_POST[StateEmergencyRelease],$_POST[FoodStampAssistance],$_POST[LimitedHealthServicesReferral],$_POST[AdditionalServices],$_POST[OtherNotes],$_POST[CoatOrder],$_POST[PreviousChristmasFoodYes],$_POST[PreviousChristmasFoodNo],$sqlFormattedCoatOrderDate,$_POST[ChildrenNumber]);
+$posts = array($_POST['FirstName'],$_POST['LastName'],$_POST['Address'],$_POST['Address2'],$_POST['HomePhoneNumber'],$_POST['ZipCode'],$_POST['Age'],$_POST['Gender'],$_POST['Pregnant'],$sqlFormattedEnrollmentDate,$_POST['AddressVerified'],$_POST['EmailAddress'],$_POST['CellPhoneNumber'],$_POST['FamilySize'],$_POST['AdultsNumber'],$_POST['AgeRange05'],$_POST['AgeRange617'],$_POST['AgeRange1829'],$_POST['AgeRange3039'],$_POST['AgeRange4049'],$_POST['AgeRange5064'],$_POST['AgeRange65'],$_POST['StoveYes'],$_POST['StoveNo'],$_POST['StateEmergencyRelease'],$_POST['FoodStampAssistance'],$_POST['LimitedHealthServicesReferral'],$_POST['AdditionalServices'],$_POST['OtherNotes'],$_POST['CoatOrder'],$_POST['PreviousChristmasFoodYes'],$_POST['PreviousChristmasFoodNo'],$sqlFormattedCoatOrderDate,$_POST['ChildrenNumber']);
 
 //create array to place post or NULL values
 $fieldArray = array();
@@ -40,17 +32,28 @@ $stmt->bind_param('ssssssssssssssssssssssssssssssssss', $fieldArray[0], $fieldAr
 
 if ($stmt->execute() == TRUE) {
 	//select clientID that was just created
-  $sql = "SELECT ClientID FROM Clients WHERE FirstName='$_POST[FirstName]' AND LastName='$_POST[LastName]' AND Address='$_POST[Address]'";
+  /*$sql = "SELECT ClientID FROM Clients WHERE FirstName='$_POST[FirstName]' AND LastName='$_POST[LastName]' AND Address='$_POST[Address]'";
   $Result = $conn->query($sql);
-  $ResultsRow = $Result->fetch_assoc();
+  $ResultsRow = $Result->fetch_assoc();*/
+  
+	$returnButtonStmt = $conn->prepare("SELECT ClientID FROM Clients WHERE FirstName=? AND LastName=? AND Address=?");
+	$returnButtonStmt->bind_param('sss', $_POST['FirstName'],$_POST['LastName'],$_POST['Address']);
+	$returnButtonStmt->execute();
+	$returnButtonResult = $returnButtonStmt->get_result();
+	//$ResultsRow = $returnButtonResult->fetch_assoc();
 
+	if ($returnButtonResult->num_rows > 0) {
+    while($ResultsRow = $returnButtonResult->fetch_assoc()){
 	echo 'New client record created successfully.<br><br>
 	<form action="brightmoorPantry.php" method="post">
-    <input type="hidden" name="ClientID" value="' .$ResultsRow[ClientID]. '" />
+    <input type="hidden" name="ClientID" value="' .$ResultsRow['ClientID']. '" />
     <input type="submit" value="Return to Client Page" autofocus/>
    </form>
     ';
-  echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
+    }
+    } else {
+  echo "New client record created successfully.<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
+ }
 } else {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
 	echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";

@@ -7,10 +7,13 @@ function checkBox($valueName, $labelName) {
 	//reference global variable $row
 	global $row;
     if ($row[$valueName]!='1'){
-echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="hidden" name="'.$valueName.'" value="0" />
+echo '<label for="'.$valueName.'">'.$labelName.': </label>
+			<input type="hidden" name="'.$valueName.'" value="0" />
 			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" />';
 } else {
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/>';
+	echo '<label for="'.$valueName.'">'.$labelName.': </label>
+	<input type="hidden" name="'.$valueName.'" value="0" />
+	<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/>';
 }	
 }
 
@@ -26,10 +29,10 @@ function noLabelTextInput($valueName) {
 	echo '<input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
 }
 
-function numberInput($valueName, $labelName, $maxNum = "99999") {
+function numberInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="'.$maxNum.'"/>';	
+	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/>';	
 }
 
 function dateInput($valueName, $labelName) {
@@ -38,12 +41,14 @@ function dateInput($valueName, $labelName) {
 	//$originalDate = $row[$valueName];
 	if ($row[$valueName]!=NULL){
 	$displayDate = date("m-d-y", strtotime($row[$valueName]));
+	} else {
+		$displayDate = "  /  /  ";
 	}
-		if ($row["ClientID"] == ""){
+	/*	if ($row["ClientID"] == ""){
 		$displayDate="  /  /  ";
 		} else {
-	$displayDate = "";
-	}
+	$displayDate = "test";
+	}*/
 
 	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'"/>';
 }
@@ -54,7 +59,7 @@ function referralDateInput($valueName) {
 	if ($referralsRow[$valueName]!=NULL){
 	$displayDate = date("m/d/y", strtotime($referralsRow[$valueName]));
 	}
-		if ($referralsRow[ClientID] == ""){
+		if ($referralsRow['ClientID'] == ""){
 		$displayDate="  /  /  ";
 		}
 
