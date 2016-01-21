@@ -82,7 +82,6 @@ jQuery(function($){
 <!--client information form-->
 <?php 
 
-echo '<br />';
 require_once ('client_drop_down.php');
 
 //connect to database using php script
@@ -207,7 +206,7 @@ checkBox("LimitedHealthServicesReferral", "Limited Health Services Referral");
 
 textInput("AdditionalServices", "Additional Services");
 
-echo '<br><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" rows="4" cols="50">' .$row["OtherNotes"]. '</textarea>     ';
+echo '<br><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" >' .$row["OtherNotes"]. '</textarea>     ';
 
 dateInput("EnrollmentDate", "Enrollment Date");
 
@@ -241,7 +240,7 @@ echo '<input type="submit" value="Enter new client"/></fieldset></form>
 $familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$row[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
 $familyMembersResult = $conn->query($familyMembersSql);*/
 
-echo '
+echo '<div style="overflow-x:auto;">
 <fieldset>
 	<legend>Family Information:</legend>
 ';
@@ -253,7 +252,7 @@ $familyMembersStmt->bind_param('s', $row['ClientID']);
 $familyMembersStmt->execute();
 $familyMembersResult = $familyMembersStmt->get_result();
 
-	     echo '   
+	     echo '  
             <table border="1">
 		<tr>
     		<th>Name</th>
@@ -305,9 +304,12 @@ $_POST['autofocus'] = "undefined";
 		</select></td>
 	<td><input type="submit" value="Enter new family member"/></td>
 </tr>
-</table>
 </fieldset>
 </form>
+</table>
+</div>
+
+
 ';
    } else {
 	echo 'Save new client before entering family information.</fieldset>';
@@ -321,7 +323,8 @@ $_POST['autofocus'] = "undefined";
 /*
 $referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$row[ClientID]'";
 $referralsResult = $conn->query($referralsSql);*/
-echo '<fieldset>
+echo '<div style="overflow-x:auto;">
+	<fieldset>
 		<legend>Referral Information</legend>';
 		
 if ($row["ClientID"]!=""){ 
@@ -331,8 +334,8 @@ $referralsStmt->bind_param('s', $row['ClientID']);
 $referralsStmt->execute();
 $referralsResult = $referralsStmt->get_result();
 
-	     echo '   
-            <table border="1">
+	     echo '
+	    <table border="1">
 		<tr>
     		<th>Referral Type</th>
     		<th>Referral Date</th> 
@@ -419,6 +422,7 @@ echo '
 </table>
 </fieldset>
 </form>
+</div>
 ';
    } else {
 	echo 'Save new client before entering referral information.</fieldset>';
@@ -431,7 +435,8 @@ echo '
 /*$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
 $appointmentsResult = $conn->query($appointmentsSql);*/
 
-echo '<fieldset>
+echo '<div style="overflow-x:auto;">
+	<fieldset>
 		<legend>Appointment Information</legend>';
 		
 if ($row["ClientID"]!=""){ 
@@ -441,8 +446,8 @@ $appointmentsStmt->bind_param('s', $row['ClientID']);
 $appointmentsStmt->execute();
 $appointmentsResult = $appointmentsStmt->get_result();
 
-	     echo '   
-            <table border="1">
+	     echo '
+        <table border="1">
 		<tr>
     		<th>Appointment Date</th>
     		<th>Appointment Status</th> 
@@ -534,6 +539,7 @@ echo'
 </table>
 </fieldset>
 </form>
+</div>
 ';
    } else {
 	echo 'Save new client before entering referral information.</fieldset>';

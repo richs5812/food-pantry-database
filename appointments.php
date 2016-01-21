@@ -155,7 +155,8 @@ $sql = "SELECT Appointments.*, Clients.FirstName, Clients.LastName FROM Appointm
 $result = $conn->query($sql);
 
 //if ($_POST['datepicker'] != "") {
-	echo '<table border="1">
+	echo '<div style="overflow-x:auto;">
+	<table border="1">
 	<tr>
     	<th>Client</th>
     	<th>Appointment Date</th> 
@@ -286,7 +287,7 @@ $result = $conn->query($sql);
 	noLabelTextInput("AppointmentNotes");
 	echo '</td>';
 	echo'<td><input type="submit" name="Insert" value="Create Appointment"/></td>';
-    echo '</tr></form></table>';
+    echo '</tr></form></table></div>';
 }
 $conn->close();
 

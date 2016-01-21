@@ -20,7 +20,7 @@ echo '<label for="'.$valueName.'">'.$labelName.': </label>
 function textInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
+	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" class="textInput" value="' .$row[$valueName].'"/>';	
 }
 
 function noLabelTextInput($valueName) {
