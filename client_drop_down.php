@@ -1,6 +1,6 @@
 <!--start drop down menu-->
 <form id="dropDownMenu" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-<select name="ClientID" onchange="change()">
+<select class="clientDropDown" name="ClientID" onchange="change()">
 <option value="">New Record</option>
 
 <?php 

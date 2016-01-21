@@ -5,6 +5,7 @@
 body {
 	/*background-color: Beige;*/
 	font-family: sans-serif;
+	
 }
 
 header img {
@@ -31,19 +32,50 @@ textarea {
 	border-radius: 4px;
 }
 
-input[type=text].textInput {
-	width: 100%;
+input[type=text], input[type=email] {
 	font-size: 1em;
 	padding: 4px;
-    margin: 8px 0;
+    margin: .5em 0;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-input[type=number] {
-   width:50px;
+input[type=text].textInput, input[type=email] {
+	width: 100%;
+	
 }
 
+input[type=number] {
+	width:50px;
+	font-size: 1em;
+	padding: 4px;
+    margin: .5em 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+	font-size: 1em;
+}
+
+select.clientDropDown {
+	margin: 0 0 .5em 0;
+}
+
+input[type=submit]{
+	/*font-size: 1em;
+	margin: .5em 0;*/
+}
+
+
+div.displayBlock{
+	display: block;
+	margin: .5em 0;
+}
+
+label {
+	font-size: 1em;
+}
 
 input[type=text], input[type=number], input[type=email], select {
 	/*width:100%;
