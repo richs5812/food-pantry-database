@@ -271,14 +271,14 @@ if ($familyMembersResult->num_rows > 0) {
 <tr>
 	<td><label for="FamilyMemberName'.$familyMembersRow["FamilyMemberID"].'"></label><input type="text" id="FamilyMemberName'.$familyMembersRow["FamilyMemberID"].'" name="FamilyMemberName" value="' .$familyMembersRow["FamilyMemberName"].'"/></td>
 	<td><label for="Relationship'.$familyMembersRow["FamilyMemberID"].'"></label><input type="text" id="Relationship'.$familyMembersRow["FamilyMemberID"].'" name="Relationship" value="'.$familyMembersRow["Relationship"].'"/></td>
-	<td><label for="FamilyMemberAge'.$familyMembersRow["FamilyMemberID"].'"></label><input type="number" id="FamilyMemberAge'.$familyMembersRow["FamilyMemberID"].'" name="FamilyMemberAge" value="' .$familyMembersRow["Age"]. '" min="0" max="120"></td>
+	<td><label for="FamilyMemberAge'.$familyMembersRow["FamilyMemberID"].'"></label><input type="number" id="FamilyMemberAge'.$familyMembersRow["FamilyMemberID"].'" class="rightLeftMargin" name="FamilyMemberAge" value="' .$familyMembersRow["Age"]. '" min="0" max="120"></td>
 	<td><label for="FamilyMemberGender'.$familyMembersRow["FamilyMemberID"].'"></label><select id="FamilyMemberGender'.$familyMembersRow["FamilyMemberID"].'" name="FamilyMemberGender">
   			<option value="' .$familyMembersRow["Gender"]. '">' .$familyMembersRow["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
 		</select></td>
-	<td><input type="submit" name="Update" value="Update Record"/>
-	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this family member record?\');"/></td>
+	<td class="whiteSpaceNoWrap"><div class="displayInlineBlock"><input type="submit" name="Update" value="Update Record" /></div>
+	<div class="displayInlineBlock"><input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this family member record?\');" /></div></td>
 </tr>
 </form>
 ';
@@ -296,7 +296,7 @@ $_POST['autofocus'] = "undefined";
 <tr>
 	<td><label for="FamilyMemberName"></label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST["autofocus"].'/></td>
 	<td><label for="Relationship"></label><input type="text" id="Relationship" name="Relationship"/></td>
-	<td><label for="FamilyMemberAge"></label><input type="number" id="FamilyMemberAge" name="FamilyMemberAge" min="0" max="120"></td>
+	<td><label for="FamilyMemberAge"></label><input type="number" class="rightLeftMargin" id="FamilyMemberAge" name="FamilyMemberAge" min="0" max="120"></td>
 	<td><label for="FamilyMemberGender"></label><select id="FamilyMemberGender" name="FamilyMemberGender">
   			<option value=""></option>
  			 <option value="F">F</option>
@@ -385,8 +385,8 @@ if ($referralsResult->num_rows > 0) {
 echo '
 	<td><input type="text" id="ReferralDate'.$referralsRow["ReferralID"].'" name="ReferralDate" value="'.$referralDisplayDate.'"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow["ReferralNotes"]. '"></td>
-	<td><input type="submit" name="Update" value="Update Record"/>
-	<input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></td>
+	<td class="whiteSpaceNoWrap"><div class="displayInlineBlock"><input type="submit" name="Update" value="Update Record"/></div>
+	<div class="displayInlineBlock"><input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></div></td>
 </tr>
 </form>
 ';
@@ -502,8 +502,8 @@ if ($appointmentsResult->num_rows > 0) {
 
 echo '
 	<td><input type="text" id="AppointmentNotes" name="AppointmentNotes" value="' .$appointmentsRow['AppointmentNotes']. '"></td>
-	<td><input type="submit" name="Update" value="Update Appointment"/>
-	<input type="submit" name="Delete" value="Delete Appointment" onClick="return confirm(\'Are you sure you want to delete this appointment record?\');"/></td>
+	<td class="whiteSpaceNoWrap"><div class="displayInlineBlock"><input type="submit" name="Update" value="Update Appointment"/></div>
+	<div class="displayInlineBlock"><input type="submit" name="Delete" value="Delete Appointment" onClick="return confirm(\'Are you sure you want to delete this appointment record?\');"/></div></td>
 </tr>
 </form>
 ';

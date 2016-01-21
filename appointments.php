@@ -80,7 +80,7 @@ jQuery(function($){
 <nav>
 <?php require_once ('nav.html'); ?>
 </nav>
-
+<section>
 <form id="datePicker" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 
 <?php 
@@ -96,7 +96,7 @@ if ($_POST['datepicker'] != NULL)
 	$datePickerDate = NULL;
 }
 
-echo'<p>Date: <input type="text" name="datepicker" id="datepicker" value="'.$datePickerDate.'"></p>';
+echo'<label for="datepicker">Date: </label><input type="text" name="datepicker" id="datepicker" value="'.$datePickerDate.'" size="10">';
 
 ?>
 
@@ -302,6 +302,6 @@ function displayDate() {
     document.getElementById("demo").innerHTML = Date();
 }
 </script>-->
-
+</section>
 </body>
 </html>
