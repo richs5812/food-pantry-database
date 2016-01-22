@@ -50,7 +50,7 @@ function dateInput($valueName, $labelName) {
 	$displayDate = "test";
 	}*/
 
-	echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'" size="10"/></div>';
+	echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'" class="dateTextLength"/></div>';
 }
 
 function referralDateInput($valueName) {

@@ -383,7 +383,7 @@ if ($referralsResult->num_rows > 0) {
 	}
 
 echo '
-	<td><input type="text" id="ReferralDate'.$referralsRow["ReferralID"].'" name="ReferralDate" value="'.$referralDisplayDate.'"/></td>
+	<td class="center"><input type="text" id="ReferralDate'.$referralsRow["ReferralID"].'" name="ReferralDate" class="dateTextLength" value="'.$referralDisplayDate.'"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes" value="' .$referralsRow["ReferralNotes"]. '"></td>
 	<td class="whiteSpaceNoWrap"><div class="displayInlineBlock"><input type="submit" name="Update" value="Update Record"/></div>
 	<div class="displayInlineBlock"><input type="submit" name="Delete" value="Delete Record" onClick="return confirm(\'Are you sure you want to delete this referral record?\');"/></div></td>
@@ -415,7 +415,7 @@ echo '
 	//end referral type drop down menu
 
 echo '
-	<td><input type="text" id="ReferralDate" name="ReferralDate"/></td>
+	<td class="center"><input type="text" id="ReferralDate" name="ReferralDate" class="dateTextLength"/></td>
 	<td><input type="text" id="ReferralNotes" name="ReferralNotes"/></td>
 	<td><input type="submit" value="Enter new referral"/></td>
 </tr>
@@ -476,7 +476,7 @@ if ($appointmentsResult->num_rows > 0) {
 		$appointmentDisplayDate = NULL;
 	}
 
-	echo '<td><input type="text" id="AppointmentDate'.$appointmentsRow["AppointmentID"].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+	echo '<td class="center"><input type="text" id="AppointmentDate'.$appointmentsRow["AppointmentID"].'" name="AppointmentDate" class="dateTextLength" value="'.$appointmentDisplayDate.'"/></td>';
 	//end display existing appointment date
 
 	//display appointment status in drop down menu
@@ -513,7 +513,7 @@ echo '
    echo '<form action="InsertAppointment.php" method="post" name="InsertAppointment" onsubmit="return validateDate()">
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>
-	<td><input type="text" id="AppointmentDate" name="NewAppointmentPicker"/></td>';
+	<td class="center"><input type="text" class="dateTextLength" id="AppointmentDate" name="NewAppointmentPicker"/></td>';
 	
 	//display appointment status in drop down menu
 	echo '<td>';

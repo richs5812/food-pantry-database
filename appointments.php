@@ -176,7 +176,7 @@ $result = $conn->query($sql);
 	echo '<input type="hidden" name="clientName" value="' .$clientName. '" />';
 	*/
 	//display client name
-	echo '<tr><td>';
+	echo '<tr><td class="center">';
 	//<a target="_blank" href="source.php?id='.$row[pic_id].'">
 	echo '<input type="hidden" name="ClientID" value="' .$row['ClientID']. '" />';
 	echo '<a class="noLinkStyle" href="brightmoorPantry.php?id=' .$row['ClientID'].'">'.$row['LastName'].', '.$row['FirstName'].'</a>';
@@ -194,7 +194,7 @@ $result = $conn->query($sql);
 	$appointmentDisplayDate = date("m/d/y", strtotime($row['AppointmentDate']));
 	}
 
-	echo '<td><input type="text" id="AppointmentDate'.$row['AppointmentID'].'" name="AppointmentDate" value="'.$appointmentDisplayDate.'"/></td>';
+	echo '<td class="center"><input type="text" id="AppointmentDate'.$row['AppointmentID'].'" name="AppointmentDate" class="dateTextLength" value="'.$appointmentDisplayDate.'" /></td>';
 	//end display existing appointment date
 	
 	/*//display client appointment date	
@@ -228,8 +228,8 @@ $result = $conn->query($sql);
 	echo '</td>';
 	
 	echo '
-	<td><input type="submit" name="Update" value="Update Appointment"/>
-	<input type="submit" name="Delete" value="Delete Appointment" onClick="return confirm(\'Are you sure you want to delete the appointment?\');"/></td>
+	<td class="whiteSpaceNoWrap"><div class="displayInlineBlock"><input type="submit" name="Update" value="Update Appointment"/></div>
+	<div class="displayInlineBlock"><input type="submit" name="Delete" value="Delete Appointment" onClick="return confirm(\'Are you sure you want to delete the appointment?\');"/></div></td>
 	</tr>
 	</form>
 	';
@@ -262,7 +262,7 @@ $result = $conn->query($sql);
 	}
 	echo '</select></td>';
 	//end client drop down menu
-	echo'<td><input type="text" name="NewAppointmentPicker" id="NewAppointmentPicker" value="'.$datePickerDate.'"></td>';
+	echo'<td class="center"><input type="text" name="NewAppointmentPicker" class="dateTextLength" id="NewAppointmentPicker" value="'.$datePickerDate.'"></td>';
 	//display appointment status in drop down menu
 	echo '<td>';
 	echo '<select name="AppointmentStatus">';
