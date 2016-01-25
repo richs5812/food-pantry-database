@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="db_styles.css">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brightmoor Connection Database - login</title>
+</head>
+<body>
+
+<header>
+<img src="images/brightmoor_logo.jpg" width=500px>
+<h1>Brightmoor Connection Database</h1>
+</header>
+
 <?php
 require_once ('mysql_connect.php');
 //create array from form input
@@ -36,7 +50,7 @@ if (password_verify($_POST['password'], $hash)) {
         header('Location: brightmoorPantry.php');
 		exit;
 } else {
-    echo 'Invalid password.';
+    echo 'Invalid password.<br><br> <a href="login.php">Return to login form</a>';
 }
 /*
 if ($result->num_rows > 0) {
@@ -73,3 +87,7 @@ else {
 $conn->close();
 
 ?>
+
+</section>
+</body>
+</html>

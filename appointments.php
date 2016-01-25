@@ -81,6 +81,8 @@ jQuery(function($){
 <?php require_once ('nav.html'); ?>
 </nav>
 <section>
+
+<div class="formStyle">
 <form id="datePicker" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
 
 <?php 
@@ -302,6 +304,7 @@ function displayDate() {
     document.getElementById("demo").innerHTML = Date();
 }
 </script>-->
+</div>
 </section>
 </body>
 </html>

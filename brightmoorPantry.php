@@ -79,11 +79,17 @@ jQuery(function($){
 </nav>
 
 <section>
-<!--client information form-->
+
 <?php 
 
 require_once ('client_drop_down.php');
 
+?>
+
+<!--client information form-->
+<div class="formStyle">
+
+<?php
 //connect to database using php script
 require_once ('mysql_connect.php');
 if (!isset($_POST['ClientID']))
@@ -113,17 +119,13 @@ $row = $result->fetch_assoc();
 $sql = "SELECT * FROM Clients WHERE ClientID='$client'";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();*/
-
 echo '
-
 <form action="update.php" method="post">';
 
 echo '
-<fieldset>
-    <legend>Client Information:</legend>
+    <h2>Client Information:</h2>
     
-    <fieldset>
-    <legend>Basic info:</legend>
+    <h3>Basic info:</h3>
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />';
 
 textInput("FirstName", "First Name");
@@ -160,19 +162,15 @@ textInput("CellPhoneNumber", "Cell Phone Number");
 emailInput("EmailAddress", "Email Address");
 
 
-echo '</fieldset>
-	<fieldset>
-    <legend>Family Information:</legend>';
+echo '<h3>Family Information:</h3>';
 
 numberInput("FamilySize", "FamilySize");
 
 numberInput("AdultsNumber", "Adults Number");
 
 numberInput("ChildrenNumber", "Children Number");
-
-echo '
-	<fieldset>
-    <legend>Age Range:</legend>';
+   
+echo '<h4>Age Range:</h4>';
 
 numberInput("AgeRange05", "0-5");
 
@@ -188,9 +186,7 @@ numberInput("AgeRange5064", "50-64");
 
 numberInput("AgeRange65", "65+");
 
-echo '</fieldset></fieldset>
-	<fieldset>
-    <legend>Household Information. This information is to help determine future services!</legend>Do you have access to facilities to prepare food (stove/oven): ';
+echo '<h3>Household Information. This information is to help determine future services!</h3>Do you have access to facilities to prepare food (stove/oven): ';
 
 checkBox("StoveYes", "Yes");
 
@@ -210,9 +206,7 @@ echo '<br><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes"
 
 dateInput("EnrollmentDate", "Enrollment Date");
 
-echo '</fieldset>
-	<fieldset>
-    <legend>Christmas Coat Orders:</legend>';
+echo '<h3>Christmas Coat Orders:</h3>';
 
 checkBox("CoatOrder", "Coat Ordered");
 
@@ -223,30 +217,28 @@ checkBox("PreviousChristmasFoodNo", "No");
 
 dateInput("CoatOrderDate", "Coat Order Date");
 
-echo '</fieldset>';
  if ($row["ClientID"]!=""){ 
-echo'<input type="submit" value="Update Client Information"/></fieldset></form>';
+echo'<input type="submit" value="Update Client Information"/></form>';
 } else{
-echo '<input type="submit" value="Enter new client"/></fieldset></form>
+echo '<input type="submit" value="Enter new client"/></form>
    		';
 }
 
 ?>
+</div><!--end form style -->
 
 <!--family member form -->
+<div class="formStyle">
 <?php
 
 /*
 $familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$row[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
 $familyMembersResult = $conn->query($familyMembersSql);*/
 
-echo '<div style="overflow-x:auto;">
-<fieldset>
-	<legend>Family Information:</legend>
-';
+echo '<h3>Family Information</h3>';
 
- if ($row["ClientID"]!=""){ 
- 
+if ($row["ClientID"]!=""){
+echo '<div class="overflow-x">';
 $familyMembersStmt = $conn->prepare("SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID=? ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC");
 $familyMembersStmt->bind_param('s', $row['ClientID']);
 $familyMembersStmt->execute();
@@ -304,30 +296,28 @@ $_POST['autofocus'] = "undefined";
 		</select></td>
 	<td><input type="submit" value="Enter new family member"/></td>
 </tr>
-</fieldset>
 </form>
 </table>
 </div>
-
-
 ';
    } else {
-	echo 'Save new client before entering family information.</fieldset>';
+	echo 'Save new client before entering family information.';
 	}
 	
 ?>
+</div><!--end form style -->
 
 <!--referrals form -->
+<div class="formStyle">
 <?php
 
 /*
 $referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$row[ClientID]'";
 $referralsResult = $conn->query($referralsSql);*/
-echo '<div style="overflow-x:auto;">
-	<fieldset>
-		<legend>Referral Information</legend>';
+echo '<h3>Referral Information</h3>';
 		
 if ($row["ClientID"]!=""){ 
+echo '<div class="overflow-x">';
 
 $referralsStmt = $conn->prepare("SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID=?");
 $referralsStmt->bind_param('s', $row['ClientID']);
@@ -420,26 +410,26 @@ echo '
 	<td><input type="submit" value="Enter new referral"/></td>
 </tr>
 </table>
-</fieldset>
 </form>
 </div>
 ';
    } else {
-	echo 'Save new client before entering referral information.</fieldset>';
+	echo 'Save new client before entering referral information.';
 	}
 ?>
+</div><!--end form style -->
 
 <!--appointments form -->
+<div class="formStyle">
 <?php
 
 /*$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
 $appointmentsResult = $conn->query($appointmentsSql);*/
 
-echo '<div style="overflow-x:auto;">
-	<fieldset>
-		<legend>Appointment Information</legend>';
+echo '<h3>Appointment Information</h3>';
 		
 if ($row["ClientID"]!=""){ 
+echo '<div class="overflow-x">';
 
 $appointmentsStmt = $conn->prepare("SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID=? ORDER BY Appointments.AppointmentDate ASC");
 $appointmentsStmt->bind_param('s', $row['ClientID']);
@@ -537,14 +527,14 @@ echo'
 	<td><input type="submit" value="Enter new appointment"/></td>
 </tr>
 </table>
-</fieldset>
 </form>
 </div>
 ';
    } else {
-	echo 'Save new client before entering referral information.</fieldset>';
+	echo 'Save new client before entering appointment information.';
 	}
 ?>
+</div><!--end form style -->
 
 <?php
 

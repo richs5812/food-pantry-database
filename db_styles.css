@@ -26,14 +26,22 @@ section {
     padding: 1em 0;
 }
 
-fieldset {
+div.formStyle {
+	margin: 1em 0;
+	padding: 0.25em 1em 1.25em;
 	border-radius: .5em;
 	background-color: #f2f2f2;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	/*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+	border: 2px solid dimgray;
+
 }
 
-legend {
-	padding: 1em;
+div.overflow-x {
+	overflow-x:auto;
+}
+
+div.formStyleNoRightBorder {
+    border-right-style: none;
 }
 
 textarea {
@@ -57,7 +65,7 @@ td.center {
 	text-align: center;
 }
 
-input[type=text], input[type=email] {
+input[type=text], input[type=email], input[type=password] {
 	font-size: 1em;
 	padding: 4px;
     margin: .5em;
@@ -65,10 +73,21 @@ input[type=text], input[type=email] {
     border-radius: 4px;
 }
 
-input[type=text].textInput, input[type=email] {
+input[type=text].textInput, input[type=email], input[type=password] {
 	width: 100%;
 	margin: .5em 0;
 	
+}
+
+@media only screen and (min-width: 768px) {
+
+input[type=text].textInput, input[type=email], input[type=password] {
+	
+	width: 60%
+	
+}
+
+
 }
 
 input[type=text].dateTextLength {
