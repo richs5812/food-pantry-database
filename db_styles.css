@@ -81,9 +81,38 @@ input[type=text].textInput, input[type=email], input[type=password] {
 
 @media only screen and (min-width: 768px) {
 
+div.fieldWrapper {
+	float: left;
+	width: 40%;
+	padding: 0 1em 0 0;
+}
+
+div.displayBlock{
+	float: left;
+	width: 30%;
+	padding: 0 1em 0 0;
+}
+
+/*
+label {
+	float: left;
+}
+
 input[type=text].textInput, input[type=email], input[type=password] {
-	
-	width: 60%
+	float:left;
+	width:30%;
+}
+
+
+div.formStyle {
+	margin: auto;
+	width: 90%;
+}
+
+div.formStyle.side {
+	float: left;
+	width: 40%;
+}*/
 	
 }
 
@@ -192,7 +221,11 @@ ul.nav {
     margin: .5em 0 0 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    /*background-color: #333;*/
+    border-radius: .5em;
+	background-color: dimgray;
+	/*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+	border: 2px solid black;
 }
 
 li.nav {

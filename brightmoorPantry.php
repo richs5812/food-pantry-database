@@ -87,7 +87,7 @@ require_once ('client_drop_down.php');
 ?>
 
 <!--client information form-->
-<div class="formStyle">
+<div class="formStyle main">
 
 <?php
 //connect to database using php script
@@ -139,11 +139,11 @@ checkBox("AddressVerified", "Address Verified");
 numberInput("Age", "Age", "100");
 
 echo'
-<label for="Gender">Gender: </label><select name="Gender" id="Gender">
+<div class="fieldWrapper"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
   			<option value="'.$row["Gender"].'">' .$row["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
-		</select>';
+		</select></div>';
 
 echo '<br>';
 
@@ -151,7 +151,7 @@ textInput("Address", "Address");
 
 textInput("Address2", "Address 2");
 
-echo '<label for="ZipCode">Zip Code: </label><input type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'" maxlength="5" size="5"/>';
+echo '<div class="fieldWrapper"><label for="ZipCode">Zip Code: </label><input type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'" maxlength="5" size="5"/></div>';
 
 echo '<br>';
 
@@ -228,7 +228,7 @@ echo '<input type="submit" value="Enter new client"/></form>
 </div><!--end form style -->
 
 <!--family member form -->
-<div class="formStyle">
+<div class="formStyle side">
 <?php
 
 /*
@@ -308,7 +308,7 @@ $_POST['autofocus'] = "undefined";
 </div><!--end form style -->
 
 <!--referrals form -->
-<div class="formStyle">
+<div class="formStyle side">
 <?php
 
 /*
@@ -420,7 +420,7 @@ echo '
 </div><!--end form style -->
 
 <!--appointments form -->
-<div class="formStyle">
+<div class="formStyle side">
 <?php
 
 /*$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";

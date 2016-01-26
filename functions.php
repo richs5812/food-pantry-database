@@ -20,7 +20,7 @@ echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </la
 function textInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" class="textInput" value="' .$row[$valueName].'"/>';	
+	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" class="textInput" value="' .$row[$valueName].'"/></div>';	
 }
 
 function noLabelTextInput($valueName) {
@@ -82,7 +82,7 @@ function referralDateInput($valueName) {
 function emailInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="email" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName] .'"/>';	
+	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="email" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName] .'"/></div>';	
 }
 
 ?>
