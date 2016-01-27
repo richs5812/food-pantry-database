@@ -13,14 +13,17 @@ exit;
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>New Appointment record created</title>
 </head>
-<body style="background-color:Beige;">
+<body>
 
-<h1>Brightmoor Connection Database</h1>
+<header>
+	<img src="images/brightmoor_logo.jpg" width=500px>
+	<h1>Brightmoor Connection Database</h1>
+</header>
 
 <nav>
 <?php require_once ('nav.html'); ?>
 </nav>
-
+<section>
 <?php
 
 //connect to database using php script
@@ -131,6 +134,6 @@ if ($stmt->execute() == TRUE) {
 $conn->close();
 
 ?>
-
+</section>
 </body>
 </html>

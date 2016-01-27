@@ -13,7 +13,7 @@ exit;
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Appointment Updated</title>
 </head>
-<body style="background-color:Beige;">
+<body>
 
 <header>
 	<img src="images/brightmoor_logo.jpg" width=500px>
@@ -24,6 +24,7 @@ exit;
 <?php require_once ('nav.html'); ?>
 </nav>
 
+<section>
 <?php
 
 //connect to database using php script
@@ -183,5 +184,6 @@ $conn->close();
 
 ?>
 
+</section>
 </body>
 </html>

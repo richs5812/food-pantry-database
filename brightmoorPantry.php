@@ -139,21 +139,18 @@ checkBox("AddressVerified", "Address Verified");
 numberInput("Age", "Age", "100");
 
 echo'
-<div class="fieldWrapper"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
+<div class="displayBlock"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
   			<option value="'.$row["Gender"].'">' .$row["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
 		</select></div>';
 
-echo '<br>';
 
 textInput("Address", "Address");
 
 textInput("Address2", "Address 2");
 
-echo '<div class="fieldWrapper"><label for="ZipCode">Zip Code: </label><input type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'" maxlength="5" size="5"/></div>';
-
-echo '<br>';
+echo '<div class="fieldWrapper"><label class="zipCode" for="ZipCode">Zip Code: </label><input class="zipCode" type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'"  maxlength="5" size="5"/></div>';
 
 textInput("HomePhoneNumber", "Home Phone Number");
 
@@ -186,13 +183,13 @@ numberInput("AgeRange5064", "50-64");
 
 numberInput("AgeRange65", "65+");
 
-echo '<h3>Household Information. This information is to help determine future services!</h3>Do you have access to facilities to prepare food (stove/oven): ';
+echo '<h3>Household Information. This information is to help determine future services!</h3><p>Do you have access to facilities to prepare food (stove/oven): </p>';
 
 checkBox("StoveYes", "Yes");
 
 checkBox("StoveNo", "No");
 
-echo '<br>Do you need DHS provider services? ';
+echo 'Do you need DHS provider services? ';
 
 checkBox("StateEmergencyRelease", "State Emergency Release");
 
@@ -202,7 +199,7 @@ checkBox("LimitedHealthServicesReferral", "Limited Health Services Referral");
 
 textInput("AdditionalServices", "Additional Services");
 
-echo '<br><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" >' .$row["OtherNotes"]. '</textarea>     ';
+echo '<label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" >' .$row["OtherNotes"]. '</textarea>     ';
 
 dateInput("EnrollmentDate", "Enrollment Date");
 
@@ -210,7 +207,7 @@ echo '<h3>Christmas Coat Orders:</h3>';
 
 checkBox("CoatOrder", "Coat Ordered");
 
-echo '<br>Have you participated in previous Christmas food distributions in Brightmoor? ';
+echo 'Have you participated in previous Christmas food distributions in Brightmoor? ';
 checkBox("PreviousChristmasFoodYes", "Yes");
 
 checkBox("PreviousChristmasFoodNo", "No");

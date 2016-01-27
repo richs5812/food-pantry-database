@@ -13,7 +13,7 @@ exit;
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="db_styles.css">
 </head>
-<body style="background-color:Beige;">
+<body>
 
 <header>
 	<img src="images/brightmoor_logo.jpg" width=500px>
@@ -23,7 +23,7 @@ exit;
 <nav>
 <?php require_once ('nav.html'); ?>
 </nav>
-
+<section>
 <?php
 
 //connect to database using php script
@@ -93,6 +93,6 @@ if (isset($_POST['Update'])) {
 $conn->close();
 
 ?>
-
+</section>
 </body>
 </html>

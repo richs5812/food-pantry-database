@@ -83,40 +83,30 @@ input[type=text].textInput, input[type=email], input[type=password] {
 
 div.fieldWrapper {
 	float: left;
-	width: 40%;
+	width: 33.333333333%;
 	padding: 0 1em 0 0;
 }
 
-div.displayBlock{
+div.displayBlock {
 	float: left;
-	width: 30%;
+	width: 33.333333333%;
 	padding: 0 1em 0 0;
 }
 
-/*
-label {
-	float: left;
+label.zipCode {
+	display: block;
 }
 
-input[type=text].textInput, input[type=email], input[type=password] {
-	float:left;
-	width:30%;
+input[type=text].zipCode {
+	margin: .5em 0;
+
 }
 
-
-div.formStyle {
-	margin: auto;
-	width: 90%;
+h3, h4, p {
+	clear: left;
 }
 
-div.formStyle.side {
-	float: left;
-	width: 40%;
-}*/
 	
-}
-
-
 }
 
 input[type=text].dateTextLength {
@@ -160,7 +150,6 @@ div.displayInlineBlock {
 }
 
 div.displayBlock{
-	display: block;
 	margin: .5em 0;
 }
 
