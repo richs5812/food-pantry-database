@@ -87,7 +87,7 @@ require_once ('client_drop_down.php');
 ?>
 
 <!--client information form-->
-<div class="formStyle main">
+<div class="formStyle">
 
 <?php
 //connect to database using php script
@@ -139,7 +139,7 @@ checkBox("AddressVerified", "Address Verified");
 numberInput("Age", "Age", "100");
 
 echo'
-<div class="displayBlock"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
+<div class="fieldWrapper"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
   			<option value="'.$row["Gender"].'">' .$row["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>

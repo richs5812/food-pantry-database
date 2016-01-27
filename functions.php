@@ -7,20 +7,20 @@ function checkBox($valueName, $labelName) {
 	//reference global variable $row
 	global $row;
     if ($row[$valueName]!='1'){
-echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </label>
+echo '<div class="fieldWrapper checkBox"><label for="'.$valueName.'">'.$labelName.': </label>
 			<input type="hidden" name="'.$valueName.'" value="0" />
 			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" /></div>';
 } else {
-	echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </label>
+	echo '<div class="fieldWrapper checkBox"><label for="'.$valueName.'">'.$labelName.': </label>
 	<input type="hidden" name="'.$valueName.'" value="0" />
 	<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/></div>';
-}	
+	}	
 }
 
 function textInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" class="textInput" value="' .$row[$valueName].'"/></div>';	
+	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/></div>';	
 }
 
 function noLabelTextInput($valueName) {
@@ -32,7 +32,7 @@ function noLabelTextInput($valueName) {
 function numberInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/></div>';	
+	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/></div>';	
 }
 
 function dateInput($valueName, $labelName) {
@@ -50,7 +50,7 @@ function dateInput($valueName, $labelName) {
 	$displayDate = "test";
 	}*/
 
-	echo '<div class="displayBlock"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'" class="dateTextLength"/></div>';
+	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'" class="dateTextLength"/></div>';
 }
 
 function referralDateInput($valueName) {
