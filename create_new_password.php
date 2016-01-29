@@ -12,6 +12,8 @@ $stmt->bind_param('s', $hashed_password);
 if ($stmt->execute() == TRUE) {
 
 echo 'new password created';
+} else {
+	echo 'error';
 }
 
 $conn->close();

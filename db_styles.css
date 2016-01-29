@@ -75,6 +75,14 @@ input[type=text].zipCode {
 	width: 5em;
 }
 
+input[type=text]#HomePhoneNumber {
+	width: 9em;
+}
+
+input[type=text]#CellPhoneNumber {
+	width: 9em;
+}
+
 input[type=text].dateTextLength {
 	width: 6em;
 }
@@ -102,20 +110,65 @@ input[type=submit]{
 	margin: .25em;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 800px) {
 
 div.fieldWrapper {
 	display: inline-block;
-	width: 35%;
+	width: 30%;
 	padding: 0 1em 0 0;
 }
 
 div.fieldWrapper.checkBox {
-	width: 35%;
+	width: 20%;
 }
 
+div.fieldWrapper#firstName {
+	width: 19%;
+}
+
+div.fieldWrapper#lastName {
+	width: 20%;
+}
+
+div.fieldWrapper.checkBox#pregnant {
+	width: 15%;
+}
+
+div.fieldWrapper.checkBox#addressVerified {
+	width: 20%;
+	padding: 0;
+}
+
+div.fieldWrapper#age {
+	width: 8%;
+}
+
+div.fieldWrapper#gender {
+	width: 17%;
+}
+
+div.fieldWrapper#address {
+	width: 25%;
+}
+
+div.fieldWrapper#address2 {
+	width: 15%;
+}
+
+div.fieldWrapper#zipCode {
+	width: 60%;
+}
+
+div.fieldWrapper#homePhoneNumber {
+	width: 20%;
+}
+
+div.fieldWrapper#cellPhoneNumber {
+	width: 20%;
+}
 	
 }
+/*end media query*/
 
 th {
 	padding: .25em .5em;

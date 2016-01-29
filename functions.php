@@ -7,20 +7,20 @@ function checkBox($valueName, $labelName) {
 	//reference global variable $row
 	global $row;
     if ($row[$valueName]!='1'){
-echo '<div class="fieldWrapper checkBox"><label for="'.$valueName.'">'.$labelName.': </label>
+echo '<label for="'.$valueName.'">'.$labelName.': </label>
 			<input type="hidden" name="'.$valueName.'" value="0" />
-			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" /></div>';
+			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" />';
 } else {
-	echo '<div class="fieldWrapper checkBox"><label for="'.$valueName.'">'.$labelName.': </label>
+	echo '<label for="'.$valueName.'">'.$labelName.': </label>
 	<input type="hidden" name="'.$valueName.'" value="0" />
-	<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/></div>';
+	<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/>';
 	}	
 }
 
 function textInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/></div>';	
+	echo '<label for="'.$valueName.'">'.$labelName.':<br /> </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
 }
 
 function noLabelTextInput($valueName) {
@@ -32,7 +32,7 @@ function noLabelTextInput($valueName) {
 function numberInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/></div>';	
+	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/>';	
 }
 
 function dateInput($valueName, $labelName) {
@@ -82,7 +82,7 @@ function referralDateInput($valueName) {
 function emailInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="email" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName] .'"/></div>';	
+	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="email" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName] .'"/>';	
 }
 
 ?>

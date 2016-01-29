@@ -128,36 +128,54 @@ echo '
     <h3>Basic info:</h3>
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />';
 
+echo '<div class="fieldWrapper" id="firstName">';
 textInput("FirstName", "First Name");
+echo '</div>';
 
+echo '<div class="fieldWrapper" id="lastName">';
 textInput("LastName", "Last Name");
+echo '</div>';
 
-checkBox("Pregnant", "Pregnant");
-
-checkBox("AddressVerified", "Address Verified");
-
+echo '<div class="fieldWrapper" id="age">';
 numberInput("Age", "Age", "100");
+echo '</div>';
 
 echo'
-<div class="fieldWrapper"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
+<div class="fieldWrapper" id="gender"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
   			<option value="'.$row["Gender"].'">' .$row["Gender"]. '</option>
  			 <option value="F">F</option>
  			 <option value="M">M</option>
 		</select></div>';
 
+echo '<div class="fieldWrapper checkBox" id="pregnant">';
+checkBox("Pregnant", "Pregnant");
+echo '</div>';
 
+echo '<div class="fieldWrapper checkBox" id="addressVerified">';
+checkBox("AddressVerified", "Address Verified");
+echo '</div>';
+
+echo '<div class="fieldWrapper" id="address">';
 textInput("Address", "Address");
+echo '</div>';
 
+echo '<div class="fieldWrapper" id="address2">';
 textInput("Address2", "Address 2");
+echo '</div>';
 
-echo '<div class="fieldWrapper"><label class="zipCode" for="ZipCode">Zip Code: </label><input class="zipCode" type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'"  maxlength="5" size="5"/></div>';
+echo '<div class="fieldWrapper" id="zipCode"><label class="zipCode" for="ZipCode">Zip Code: </label><input class="zipCode" type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'"  maxlength="5" size="5"/></div>';
 
+echo '<div class="fieldWrapper" id="homePhoneNumber">';
 textInput("HomePhoneNumber", "Home Phone Number");
+echo '</div>';
 
+echo '<div class="fieldWrapper" id="cellPhoneNumber">';
 textInput("CellPhoneNumber", "Cell Phone Number");
+echo '</div>';
 
+echo '<div class="fieldWrapper">';
 emailInput("EmailAddress", "Email Address");
-
+echo '</div>';
 
 echo '<h3>Family Information:</h3>';
 
@@ -225,7 +243,7 @@ echo '<input type="submit" value="Enter new client"/></form>
 </div><!--end form style -->
 
 <!--family member form -->
-<div class="formStyle side">
+<div class="formStyle">
 <?php
 
 /*
@@ -305,7 +323,7 @@ $_POST['autofocus'] = "undefined";
 </div><!--end form style -->
 
 <!--referrals form -->
-<div class="formStyle side">
+<div class="formStyle">
 <?php
 
 /*
@@ -417,7 +435,7 @@ echo '
 </div><!--end form style -->
 
 <!--appointments form -->
-<div class="formStyle side">
+<div class="formStyle">
 <?php
 
 /*$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
