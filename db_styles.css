@@ -3,7 +3,6 @@
 } 
 
 body {
-	/*background-color: Beige;*/
 	font-family: sans-serif;
 }
 
@@ -117,29 +116,29 @@ div.fieldWrapper {
 	width: 30%;
 	padding: 0 1em 0 0;
 }
-
+/*
 div.fieldWrapper.checkBox {
 	width: 20%;
-}
+}*/
 
-div.fieldWrapper#firstName {
+div.fieldWrapper#divFirstName {
 	width: 19%;
 }
 
-div.fieldWrapper#lastName {
+div.fieldWrapper#divLastName {
 	width: 20%;
 }
 
-div.fieldWrapper.checkBox#pregnant {
+div#divPregnant {
 	width: 15%;
 }
 
-div.fieldWrapper.checkBox#addressVerified {
+div#divAddressVerified {
 	width: 20%;
 	padding: 0;
 }
 
-div.fieldWrapper#age {
+div.fieldWrapper#divAge {
 	width: 8%;
 }
 
@@ -147,11 +146,11 @@ div.fieldWrapper#gender {
 	width: 17%;
 }
 
-div.fieldWrapper#address {
+div.fieldWrapper#divAddress {
 	width: 25%;
 }
 
-div.fieldWrapper#address2 {
+div.fieldWrapper#divAddress2 {
 	width: 15%;
 }
 
@@ -159,12 +158,20 @@ div.fieldWrapper#zipCode {
 	width: 60%;
 }
 
-div.fieldWrapper#homePhoneNumber {
+div.fieldWrapper#divHomePhoneNumber {
 	width: 20%;
 }
 
-div.fieldWrapper#cellPhoneNumber {
+div.fieldWrapper#divCellPhoneNumber {
 	width: 20%;
+}
+
+div#divFamilySize, div#divChildrenNumber, div#divAdultsNumber  {
+	width: 20%;
+}
+
+div#divAgeRange05, div#divAgeRange617, div#divAgeRange1829, div#divAgeRange3039, div#divAgeRange4049, div#divAgeRange5064, div#divAgeRange65 {
+	width: 14.2857142857143%;
 }
 	
 }

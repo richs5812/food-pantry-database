@@ -18,7 +18,7 @@
 <h2>Login</h2>
 <input type='hidden' name='submitted' id='submitted' value='1'/>
  
-<label for='username' >UserName*:</label>
+<label for='username' >User Name*:</label>
 <input type='text' name='username' id='username' class="textInput" maxlength="30" required/>
  
 <label for='password' >Password*:</label>

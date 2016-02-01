@@ -7,20 +7,20 @@ function checkBox($valueName, $labelName) {
 	//reference global variable $row
 	global $row;
     if ($row[$valueName]!='1'){
-echo '<label for="'.$valueName.'">'.$labelName.': </label>
+echo '<div class="fieldWrapper checkBox" id="div'.$valueName.'"><label for="'.$valueName.'">'.$labelName.': </label>
 			<input type="hidden" name="'.$valueName.'" value="0" />
-			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" />';
+			<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" /></div>';
 } else {
-	echo '<label for="'.$valueName.'">'.$labelName.': </label>
+	echo '<div class="fieldWrapper checkBox" id="div'.$valueName.'"><label for="'.$valueName.'">'.$labelName.': </label>
 	<input type="hidden" name="'.$valueName.'" value="0" />
-	<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/>';
+	<input type="checkbox" name="'.$valueName.'" id="'.$valueName.'" value="1" checked/></div>';
 	}	
 }
 
 function textInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<label for="'.$valueName.'">'.$labelName.':<br /> </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/>';	
+	echo '<div class="fieldWrapper" id="div'.$valueName.'"><label for="'.$valueName.'">'.$labelName.':<br /> </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/></div>';	
 }
 
 function noLabelTextInput($valueName) {
@@ -32,7 +32,7 @@ function noLabelTextInput($valueName) {
 function numberInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/>';	
+	echo '<div class="fieldWrapper" id="div'.$valueName.'"><label for="'.$valueName.'">'.$labelName.': </label><input type="number" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'" min="0" max="120"/></div>';	
 }
 
 function dateInput($valueName, $labelName) {

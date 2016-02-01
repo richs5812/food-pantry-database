@@ -15,6 +15,9 @@
 <?php
 require_once ('mysql_connect.php');
 //create array from form input
+if(!isset($_POST['username'])){
+	$_POST['username'] = NULL;
+}
 $posts = array($_POST['username']);
 
 //create array to place either post value or NULL
@@ -41,12 +44,14 @@ while ($row = $result->fetch_array(MYSQLI_ASSOC)){
 }
 
 //echo $hash;
-
+if(!isset($_POST['password'])){
+	$_POST['password'] = NULL;
+}
 if (password_verify($_POST['password'], $hash)) {
     //echo 'Password is valid!';
     session_start();
         //take user to database if username/password combo found
-        $_SESSION["username"] = $_POST[username];
+        $_SESSION['username'] = $_POST['username'];
         header('Location: brightmoorPantry.php');
 		exit;
 } else {

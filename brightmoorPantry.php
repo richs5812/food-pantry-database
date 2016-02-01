@@ -1,7 +1,7 @@
 <?php
 //code for session variable to make sure user is logged in
 session_start();
-if(empty($_SESSION["username"])) {
+if(empty($_SESSION['username'])) {
 header('Location: login.php');
 exit;
 }
@@ -38,8 +38,8 @@ function validateReferral() {
 jQuery(function($){
    $("#EnrollmentDate").mask("99/99/99",{placeholder:"mm/dd/yy"});
    $("#CoatOrderDate").mask("99/99/99",{placeholder:"mm/dd/yy"});
-   $("#HomePhoneNumber").mask("(999)999-9999");
-   $("#CellPhoneNumber").mask("(999)999-9999");
+   $("input[type=text]#HomePhoneNumber").mask("(999)999-9999");
+   $("input[type=text]#CellPhoneNumber").mask("(999)999-9999");
 });
 </script>
 
@@ -128,17 +128,11 @@ echo '
     <h3>Basic info:</h3>
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />';
 
-echo '<div class="fieldWrapper" id="firstName">';
 textInput("FirstName", "First Name");
-echo '</div>';
 
-echo '<div class="fieldWrapper" id="lastName">';
 textInput("LastName", "Last Name");
-echo '</div>';
 
-echo '<div class="fieldWrapper" id="age">';
 numberInput("Age", "Age", "100");
-echo '</div>';
 
 echo'
 <div class="fieldWrapper" id="gender"><label for="Gender">Gender: </label><select name="Gender" id="Gender">
@@ -147,31 +141,20 @@ echo'
  			 <option value="M">M</option>
 		</select></div>';
 
-echo '<div class="fieldWrapper checkBox" id="pregnant">';
+
 checkBox("Pregnant", "Pregnant");
-echo '</div>';
 
-echo '<div class="fieldWrapper checkBox" id="addressVerified">';
 checkBox("AddressVerified", "Address Verified");
-echo '</div>';
 
-echo '<div class="fieldWrapper" id="address">';
 textInput("Address", "Address");
-echo '</div>';
 
-echo '<div class="fieldWrapper" id="address2">';
 textInput("Address2", "Address 2");
-echo '</div>';
 
 echo '<div class="fieldWrapper" id="zipCode"><label class="zipCode" for="ZipCode">Zip Code: </label><input class="zipCode" type="text" name="ZipCode" id="ZipCode" value="'.$row["ZipCode"].'"  maxlength="5" size="5"/></div>';
 
-echo '<div class="fieldWrapper" id="homePhoneNumber">';
 textInput("HomePhoneNumber", "Home Phone Number");
-echo '</div>';
 
-echo '<div class="fieldWrapper" id="cellPhoneNumber">';
 textInput("CellPhoneNumber", "Cell Phone Number");
-echo '</div>';
 
 echo '<div class="fieldWrapper">';
 emailInput("EmailAddress", "Email Address");
@@ -179,11 +162,11 @@ echo '</div>';
 
 echo '<h3>Family Information:</h3>';
 
-numberInput("FamilySize", "FamilySize");
+numberInput("FamilySize", "Family Size");
 
-numberInput("AdultsNumber", "Adults Number");
+numberInput("AdultsNumber", "Number of Adults");
 
-numberInput("ChildrenNumber", "Children Number");
+numberInput("ChildrenNumber", "Number of Children");
    
 echo '<h4>Age Range:</h4>';
 
@@ -201,12 +184,28 @@ numberInput("AgeRange5064", "50-64");
 
 numberInput("AgeRange65", "65+");
 
-echo '<h3>Household Information. This information is to help determine future services!</h3><p>Do you have access to facilities to prepare food (stove/oven): </p>';
+echo '<h3>Household Information. This information is to help determine future services!</h3>
+<p style="display:inline;">Do you have access to facilities to prepare food (stove/oven): </p>';
 
+$hasStoveChecked = NULL;
+$noStoveChecked = NULL;
+
+ if ($row["HasStove"]=='Yes'){
+ 	$hasStoveChecked = 'checked';
+ }
+ if ($row["HasStove"]=='No'){
+ 	$noStoveChecked = 'checked';
+ }
+
+echo '
+
+<label for="stoveYes">Yes</label><input type="radio" name="HasStove" id="stoveYes" value="Yes" '.$hasStoveChecked.'>
+ <label for="stoveNo">No</label><input type="radio" name="HasStove" id="stoveNo" value="No" '.$noStoveChecked.'><br /><br />';
+/*
 checkBox("StoveYes", "Yes");
 
 checkBox("StoveNo", "No");
-
+*/
 echo 'Do you need DHS provider services? ';
 
 checkBox("StateEmergencyRelease", "State Emergency Release");

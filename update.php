@@ -57,9 +57,13 @@ $sqlFormattedCoatOrderDate = date("Y-m-d", strtotime($_POST['CoatOrderDate']));
 } else {
 	$sqlFormattedCoatOrderDate = NULL;
 	}
+	
+if(!isset($_POST['HasStove'])){
+	$_POST['HasStove'] = NULL;
+}
 
 //create array from form input
-$posts = array($_POST['FirstName'],$_POST['LastName'],$_POST['Address'],$_POST['Address2'],$_POST['HomePhoneNumber'],$_POST['ZipCode'],$_POST['Age'],$_POST['Gender'],$_POST['Pregnant'],$sqlFormattedEnrollmentDate,$_POST['AddressVerified'],$_POST['EmailAddress'],$_POST['CellPhoneNumber'],$_POST['FamilySize'],$_POST['AdultsNumber'],$_POST['AgeRange05'],$_POST['AgeRange617'],$_POST['AgeRange1829'],$_POST['AgeRange3039'],$_POST['AgeRange4049'],$_POST['AgeRange5064'],$_POST['AgeRange65'],$_POST['StoveYes'],$_POST['StoveNo'],$_POST['StateEmergencyRelease'],$_POST['FoodStampAssistance'],$_POST['LimitedHealthServicesReferral'],$_POST['AdditionalServices'],$_POST['OtherNotes'],$_POST['CoatOrder'],$_POST['PreviousChristmasFoodYes'],$_POST['PreviousChristmasFoodNo'],$sqlFormattedCoatOrderDate,$_POST['ChildrenNumber'],$_POST['ClientID']);
+$posts = array($_POST['FirstName'],$_POST['LastName'],$_POST['Address'],$_POST['Address2'],$_POST['HomePhoneNumber'],$_POST['ZipCode'],$_POST['Age'],$_POST['Gender'],$_POST['Pregnant'],$sqlFormattedEnrollmentDate,$_POST['AddressVerified'],$_POST['EmailAddress'],$_POST['CellPhoneNumber'],$_POST['FamilySize'],$_POST['AdultsNumber'],$_POST['AgeRange05'],$_POST['AgeRange617'],$_POST['AgeRange1829'],$_POST['AgeRange3039'],$_POST['AgeRange4049'],$_POST['AgeRange5064'],$_POST['AgeRange65'],$_POST['HasStove'],$_POST['StateEmergencyRelease'],$_POST['FoodStampAssistance'],$_POST['LimitedHealthServicesReferral'],$_POST['AdditionalServices'],$_POST['OtherNotes'],$_POST['CoatOrder'],$_POST['PreviousChristmasFoodYes'],$_POST['PreviousChristmasFoodNo'],$sqlFormattedCoatOrderDate,$_POST['ChildrenNumber'],$_POST['ClientID']);
 
 //create array to place either post value or NULL
 $fieldArray = array();
@@ -70,9 +74,9 @@ for($x = 0; $x < $arrlength; $x++) {
     $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
 }
 
-$stmt = $conn->prepare("UPDATE Clients SET FirstName=?, LastName=?, Address=?, Address2=?, HomePhoneNumber=?, ZipCode=?, Age=?, Gender=?, Pregnant=?, EnrollmentDate=?, AddressVerified=?, EmailAddress=?, CellPhoneNumber=?, FamilySize=?, AdultsNumber=?, AgeRange05=?, AgeRange617=?, AgeRange1829=?, AgeRange3039=?, AgeRange4049=?, AgeRange5064=?, AgeRange65=?, StoveYes=?, StoveNo=?, StateEmergencyRelease=?, FoodStampAssistance=?, LimitedHealthServicesReferral=?, AdditionalServices=?, OtherNotes=?, CoatOrder=?, PreviousChristmasFoodYes=?, PreviousChristmasFoodNo=?, CoatOrderDate=?, ChildrenNumber=? WHERE ClientID=?");
+$stmt = $conn->prepare("UPDATE Clients SET FirstName=?, LastName=?, Address=?, Address2=?, HomePhoneNumber=?, ZipCode=?, Age=?, Gender=?, Pregnant=?, EnrollmentDate=?, AddressVerified=?, EmailAddress=?, CellPhoneNumber=?, FamilySize=?, AdultsNumber=?, AgeRange05=?, AgeRange617=?, AgeRange1829=?, AgeRange3039=?, AgeRange4049=?, AgeRange5064=?, AgeRange65=?, HasStove=?, StateEmergencyRelease=?, FoodStampAssistance=?, LimitedHealthServicesReferral=?, AdditionalServices=?, OtherNotes=?, CoatOrder=?, PreviousChristmasFoodYes=?, PreviousChristmasFoodNo=?, CoatOrderDate=?, ChildrenNumber=? WHERE ClientID=?");
 
-$stmt->bind_param('sssssssssssssssssssssssssssssssssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4], $fieldArray[5], $fieldArray[6], $fieldArray[7], $fieldArray[8], $fieldArray[9], $fieldArray[10], $fieldArray[11], $fieldArray[12], $fieldArray[13], $fieldArray[14], $fieldArray[15], $fieldArray[16], $fieldArray[17], $fieldArray[18], $fieldArray[19], $fieldArray[20], $fieldArray[21], $fieldArray[22], $fieldArray[23], $fieldArray[24], $fieldArray[25], $fieldArray[26], $fieldArray[27], $fieldArray[28], $fieldArray[29], $fieldArray[30], $fieldArray[31], $fieldArray[32], $fieldArray[33], $fieldArray[34]);
+$stmt->bind_param('ssssssssssssssssssssssssssssssssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4], $fieldArray[5], $fieldArray[6], $fieldArray[7], $fieldArray[8], $fieldArray[9], $fieldArray[10], $fieldArray[11], $fieldArray[12], $fieldArray[13], $fieldArray[14], $fieldArray[15], $fieldArray[16], $fieldArray[17], $fieldArray[18], $fieldArray[19], $fieldArray[20], $fieldArray[21], $fieldArray[22], $fieldArray[23], $fieldArray[24], $fieldArray[25], $fieldArray[26], $fieldArray[27], $fieldArray[28], $fieldArray[29], $fieldArray[30], $fieldArray[31], $fieldArray[32], $fieldArray[33]);
 
 if ($stmt->execute() == TRUE) {
   echo 'Client record updated successfully.<br><br>
