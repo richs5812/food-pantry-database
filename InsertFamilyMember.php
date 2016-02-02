@@ -1,10 +1,6 @@
 <?php
 //code for session variable to make sure user is logged in
-session_start();
-if(empty($_SESSION["username"])) {
-header('Location: login.php');
-exit;
-}
+require_once('session_check.php');
 ?>
 <!DOCTYPE html>
 <html>

@@ -1,10 +1,6 @@
 <?php
 //code for session variable to make sure user is logged in
-session_start();
-if(empty($_SESSION["username"])) {
-header('Location: login.php');
-exit;
-}
+require_once('session_check.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -98,7 +94,7 @@ if ($_POST['datepicker'] != NULL)
 	$datePickerDate = NULL;
 }
 
-echo'<label for="datepicker">Date: </label><input type="text" name="datepicker" id="datepicker" value="'.$datePickerDate.'" size="10">';
+echo'<div class="fieldwrapper" id="divdatepicker"><label for="datepicker">Date: </label><input type="text" name="datepicker" id="datepicker" class="dateTextLength" value="'.$datePickerDate.'" size="10"></div>';
 
 ?>
 

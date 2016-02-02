@@ -12,7 +12,7 @@
 <h1>Brightmoor Connection Database</h1>
 </header>
 
-<section>
+<section style="max-width: 600px;">
 <form id='login' action='login_process.php' method='post'>
 <div class="formStyle">
 <h2>Login</h2>

@@ -1,4 +1,8 @@
 <?php
+
+//code for session variable to make sure user is logged in
+require_once('session_check.php');
+
 //set timezone for strtotime php function to convert date to MySQL format from input format
 date_default_timezone_set('America/Detroit');
 
@@ -20,7 +24,7 @@ echo '<div class="fieldWrapper checkBox" id="div'.$valueName.'"><label for="'.$v
 function textInput($valueName, $labelName) {
 	global $row;
 	
-	echo '<div class="fieldWrapper" id="div'.$valueName.'"><label for="'.$valueName.'">'.$labelName.':<br /> </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/></div>';	
+	echo '<div class="fieldWrapper" id="div'.$valueName.'"><label class="textLabel" for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$row[$valueName].'"/></div>';	
 }
 
 function noLabelTextInput($valueName) {
@@ -50,7 +54,7 @@ function dateInput($valueName, $labelName) {
 	$displayDate = "test";
 	}*/
 
-	echo '<div class="fieldWrapper"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'" class="dateTextLength"/></div>';
+	echo '<div class="fieldWrapper" id="div'.$valueName.'"><label for="'.$valueName.'">'.$labelName.': </label><input type="text" name="'.$valueName.'" id="'.$valueName.'" value="' .$displayDate.'" class="dateTextLength"/></div>';
 }
 
 function referralDateInput($valueName) {

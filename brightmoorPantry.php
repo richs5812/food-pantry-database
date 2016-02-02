@@ -1,10 +1,6 @@
 <?php
 //code for session variable to make sure user is logged in
-session_start();
-if(empty($_SESSION['username'])) {
-header('Location: login.php');
-exit;
-}
+require_once('session_check.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -127,7 +123,7 @@ echo '
     
     <h3>Basic info:</h3>
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />';
-
+echo '<div>';
 textInput("FirstName", "First Name");
 
 textInput("LastName", "Last Name");
@@ -145,6 +141,7 @@ echo'
 checkBox("Pregnant", "Pregnant");
 
 checkBox("AddressVerified", "Address Verified");
+echo '</div>';
 
 textInput("Address", "Address");
 
@@ -206,17 +203,45 @@ checkBox("StoveYes", "Yes");
 
 checkBox("StoveNo", "No");
 */
-echo 'Do you need DHS provider services? ';
-
+echo '<p>Do you need DHS provider services? </p>';
+echo '<div>';
 checkBox("StateEmergencyRelease", "State Emergency Release");
 
 checkBox("FoodStampAssistance", "Food Stamp Assistance");
 
 checkBox("LimitedHealthServicesReferral", "Limited Health Services Referral");
 
-textInput("AdditionalServices", "Additional Services");
+checkBox("ChildcareServices", "Childcare Services");
 
-echo '<label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" >' .$row["OtherNotes"]. '</textarea>     ';
+echo '</div>';
+
+echo '<p>Are you at threat of utility shutoffs? </p>';
+echo '<div>';
+checkBox("HeatShutoff", "Heat");
+
+checkBox("LightShutoff", "Light");
+
+checkBox("WaterShutoff", "Water");
+
+textInput("OtherShutoff", "Other");
+
+echo '</div>';
+
+echo '<p>Are you at threat of housing displacement?</p>';
+echo '<div>';
+checkBox("TaxesDifficulty", "Difficulty Paying Taxes");
+
+checkBox("ForeclosureNotice", "Foreclosure Notice");
+
+checkBox("LandlordEviction", "Landlord Eviction");
+
+textInput("OtherHousingIssue", "Other");
+
+echo '</div>';
+
+textInput("AdditionalServices", "Are there any additional services you need?");
+
+echo '<div class="fieldWrapper" id="divOtherNotes"><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" rows="3" cols="50">' .$row["OtherNotes"]. '</textarea></div>';
 
 dateInput("EnrollmentDate", "Enrollment Date");
 
@@ -234,8 +259,7 @@ dateInput("CoatOrderDate", "Coat Order Date");
  if ($row["ClientID"]!=""){ 
 echo'<input type="submit" value="Update Client Information"/></form>';
 } else{
-echo '<input type="submit" value="Enter new client"/></form>
-   		';
+echo '<input type="submit" value="Enter new client"/></form>';
 }
 
 ?>

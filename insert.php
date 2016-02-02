@@ -1,5 +1,11 @@
 <?php
 
+//code for session variable to make sure user is logged in
+if(empty($_SESSION['username'])) {
+header('Location: login.php');
+exit;
+}
+
 //set timezone for strtotime php function to convert date to MySQL format from input format
 date_default_timezone_set('America/Detroit');
 
@@ -20,7 +26,7 @@ if(!isset($_POST['HasStove'])){
 }
 
 //create array of form values
-$posts = array($_POST['FirstName'],$_POST['LastName'],$_POST['Address'],$_POST['Address2'],$_POST['HomePhoneNumber'],$_POST['ZipCode'],$_POST['Age'],$_POST['Gender'],$_POST['Pregnant'],$sqlFormattedEnrollmentDate,$_POST['AddressVerified'],$_POST['EmailAddress'],$_POST['CellPhoneNumber'],$_POST['FamilySize'],$_POST['AdultsNumber'],$_POST['AgeRange05'],$_POST['AgeRange617'],$_POST['AgeRange1829'],$_POST['AgeRange3039'],$_POST['AgeRange4049'],$_POST['AgeRange5064'],$_POST['AgeRange65'],$_POST['StateEmergencyRelease'],$_POST['FoodStampAssistance'],$_POST['LimitedHealthServicesReferral'],$_POST['AdditionalServices'],$_POST['OtherNotes'],$_POST['CoatOrder'],$_POST['PreviousChristmasFoodYes'],$_POST['PreviousChristmasFoodNo'],$sqlFormattedCoatOrderDate,$_POST['ChildrenNumber'],$_POST['HasStove']);
+$posts = array($_POST['FirstName'],$_POST['LastName'],$_POST['Address'],$_POST['Address2'],$_POST['HomePhoneNumber'],$_POST['ZipCode'],$_POST['Age'],$_POST['Gender'],$_POST['Pregnant'],$sqlFormattedEnrollmentDate,$_POST['AddressVerified'],$_POST['EmailAddress'],$_POST['CellPhoneNumber'],$_POST['FamilySize'],$_POST['AdultsNumber'],$_POST['AgeRange05'],$_POST['AgeRange617'],$_POST['AgeRange1829'],$_POST['AgeRange3039'],$_POST['AgeRange4049'],$_POST['AgeRange5064'],$_POST['AgeRange65'],$_POST['StateEmergencyRelease'],$_POST['FoodStampAssistance'],$_POST['LimitedHealthServicesReferral'],$_POST['AdditionalServices'],$_POST['OtherNotes'],$_POST['CoatOrder'],$_POST['PreviousChristmasFoodYes'],$_POST['PreviousChristmasFoodNo'],$sqlFormattedCoatOrderDate,$_POST['ChildrenNumber'],$_POST['HasStove'],$_POST['ChildcareServices'],$_POST['HeatShutoff'],$_POST['LightShutoff'],$_POST['WaterShutoff'],$_POST['OtherShutoff'],$_POST['TaxesDifficulty'],$_POST['ForeclosureNotice'],$_POST['LandlordEviction'],$_POST['OtherHousingIssue']);
 
 //create array to place post or NULL values
 $fieldArray = array();
@@ -31,8 +37,8 @@ for($x = 0; $x < $arrlength; $x++) {
     $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
 }
 
-$stmt = $conn->prepare("INSERT INTO Clients (FirstName, LastName, Address, Address2, HomePhoneNumber, ZipCode, Age, Gender, Pregnant, EnrollmentDate, AddressVerified, EmailAddress, CellPhoneNumber, FamilySize, AdultsNumber, AgeRange05, AgeRange617, AgeRange1829, AgeRange3039, AgeRange4049, AgeRange5064, AgeRange65, StateEmergencyRelease, FoodStampAssistance, LimitedHealthServicesReferral, AdditionalServices, OtherNotes, CoatOrder, PreviousChristmasFoodYes, PreviousChristmasFoodNo, CoatOrderDate, ChildrenNumber, HasStove) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param('sssssssssssssssssssssssssssssssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4], $fieldArray[5], $fieldArray[6], $fieldArray[7], $fieldArray[8], $fieldArray[9], $fieldArray[10], $fieldArray[11], $fieldArray[12], $fieldArray[13], $fieldArray[14], $fieldArray[15], $fieldArray[16], $fieldArray[17], $fieldArray[18], $fieldArray[19], $fieldArray[20], $fieldArray[21], $fieldArray[22], $fieldArray[23], $fieldArray[24], $fieldArray[25], $fieldArray[26], $fieldArray[27], $fieldArray[28], $fieldArray[29], $fieldArray[30], $fieldArray[31], $fieldArray[32]);
+$stmt = $conn->prepare("INSERT INTO Clients (FirstName, LastName, Address, Address2, HomePhoneNumber, ZipCode, Age, Gender, Pregnant, EnrollmentDate, AddressVerified, EmailAddress, CellPhoneNumber, FamilySize, AdultsNumber, AgeRange05, AgeRange617, AgeRange1829, AgeRange3039, AgeRange4049, AgeRange5064, AgeRange65, StateEmergencyRelease, FoodStampAssistance, LimitedHealthServicesReferral, AdditionalServices, OtherNotes, CoatOrder, PreviousChristmasFoodYes, PreviousChristmasFoodNo, CoatOrderDate, ChildrenNumber, HasStove, ChildcareServices, HeatShutoff, LightShutoff, WaterShutoff, OtherShutoff, TaxesDifficulty, ForeclosureNotice, LandlordEviction, OtherHousingIssue) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param('ssssssssssssssssssssssssssssssssssssssssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4], $fieldArray[5], $fieldArray[6], $fieldArray[7], $fieldArray[8], $fieldArray[9], $fieldArray[10], $fieldArray[11], $fieldArray[12], $fieldArray[13], $fieldArray[14], $fieldArray[15], $fieldArray[16], $fieldArray[17], $fieldArray[18], $fieldArray[19], $fieldArray[20], $fieldArray[21], $fieldArray[22], $fieldArray[23], $fieldArray[24], $fieldArray[25], $fieldArray[26], $fieldArray[27], $fieldArray[28], $fieldArray[29], $fieldArray[30], $fieldArray[31], $fieldArray[32], $fieldArray[33], $fieldArray[34], $fieldArray[35], $fieldArray[36], $fieldArray[37], $fieldArray[38], $fieldArray[39], $fieldArray[40], $fieldArray[41]);
 
 if ($stmt->execute() == TRUE) {
 	//select clientID that was just created
