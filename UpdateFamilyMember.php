@@ -23,7 +23,8 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 
 //check if family member Update button or Delete button was clicked
 if (isset($_POST['Update'])) {

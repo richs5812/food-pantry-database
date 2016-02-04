@@ -25,7 +25,8 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 
 //sql to pull client name for 'return to client page' button
 $clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");

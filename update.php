@@ -24,7 +24,8 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 date_default_timezone_set('America/Detroit');
 
 //figure out if new client and send to insert.php if true. else update existing client

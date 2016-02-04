@@ -13,7 +13,9 @@
 </header>
 
 <?php
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
+
 //create array from form input
 if(!isset($_POST['username'])){
 	$_POST['username'] = NULL;

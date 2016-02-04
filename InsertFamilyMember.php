@@ -23,7 +23,8 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 
 $posts = array($_POST['ClientID'],$_POST['FamilyMemberName'],$_POST['FamilyMemberAge'],$_POST['FamilyMemberGender'],$_POST['Relationship']);
 

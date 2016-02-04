@@ -23,7 +23,8 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 
 //format dates for MySQL from input format
     date_default_timezone_set('America/Detroit');

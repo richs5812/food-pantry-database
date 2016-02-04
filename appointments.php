@@ -101,7 +101,8 @@ echo'<div class="fieldwrapper" id="divdatepicker"><label for="datepicker">Date: 
 </form>
 
 <?php
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 date_default_timezone_set('America/Detroit');
 //$todaysDate = date("Y-m-d");
 //echo strtotime($todaysDate);

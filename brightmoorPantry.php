@@ -87,7 +87,8 @@ require_once ('client_drop_down.php');
 
 <?php
 //connect to database using php script
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 if (!isset($_POST['ClientID']))
 {
 //If not isset -> set with dummy value

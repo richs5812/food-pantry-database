@@ -8,7 +8,8 @@ require_once('session_check.php');
 <option value="">New Record</option>
 
 <?php 
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 
 $sql = "SELECT ClientID, FirstName, LastName FROM Clients ORDER BY LastName ASC, FirstName ASC;";
 $result = $conn->query($sql);

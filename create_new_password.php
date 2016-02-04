@@ -2,7 +2,8 @@
 //code for session variable to make sure user is logged in
 require_once('session_check.php');
 
-require_once ('mysql_connect.php');
+require_once ('mysql_path.php');
+require_once ($mysql_path);
 //create array from form input
 
 $hashed_password = password_hash("", PASSWORD_DEFAULT);
