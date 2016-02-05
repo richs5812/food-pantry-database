@@ -20,31 +20,67 @@ require_once ($mysql_path);
 if(!isset($_POST['username'])){
 	$_POST['username'] = NULL;
 }
-$posts = array($_POST['username']);
+//$posts = array($_POST['username']);
 
 //create array to place either post value or NULL
-$fieldArray = array();
+//$fieldArray = array();
 
 //loop through each post value and assign NULL value if no input
-$arrlength = count($posts);
+/*$arrlength = count($posts);
 for($x = 0; $x < $arrlength; $x++) {
     $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
 }
+*/
+$username = mysqli_real_escape_string($conn, $_POST['username']);
+$passwordQuery = "SELECT username, password FROM users WHERE username = '$username'";
 
+$hash = "";
+
+$result = $conn->query($passwordQuery);
+
+if ( $result->num_rows > 0) {
+	//echo 'result';
+    /* fetch associative array */
+    while ($passwordRow = $result->fetch_assoc()) {
+        	//php 5.6 - check hash value
+        	$hash = $passwordRow['password'];
+        }
+		//echo $hash;
+		if(!isset($_POST['password'])){
+			$_POST['password'] = NULL;
+		}
+		//echo 'hash: '.$hash.' <br>';
+		//echo $_POST['password'];
+		//echo '<br>';
+		//php 5.6 - verify hash
+		if (password_verify($_POST['password'], $hash)) {
+		//php 5.4 - check vs raw password value
+        //if ($hash == $_POST['password']){
+    		//echo 'Password is valid!';
+    		session_start();
+        	//take user to database if username/password combo found
+        	$_SESSION['username'] = $_POST['username'];
+        	header('Location: brightmoorPantry.php');
+			exit;
+	} else {
+  	  echo 'Invalid password.<br><br> <a href="login.php">Return to login form</a>';
+	}
+			
+	$result->free();
+}
+/*
 $stmt = $conn->prepare("SELECT username, password FROM users WHERE username = ?");
 
 $stmt->bind_param('s', $fieldArray[0]);
 
 if ($stmt->execute() == TRUE) {
 
-$result = $stmt->get_result();
+$result = $stmt->get_result();*/
 
-$hash = "";
-
-while ($row = $result->fetch_array(MYSQLI_ASSOC)){
+/*while ($row = $result->fetch_array(MYSQLI_ASSOC)){
 	$hash = $row['password'];
-}
-
+}*/
+/*
 //echo $hash;
 if(!isset($_POST['password'])){
 	$_POST['password'] = NULL;
@@ -58,7 +94,7 @@ if (password_verify($_POST['password'], $hash)) {
 		exit;
 } else {
     echo 'Invalid password.<br><br> <a href="login.php">Return to login form</a>';
-}
+}*/
 /*
 if ($result->num_rows > 0) {
 
@@ -85,9 +121,9 @@ if ($result->num_rows > 0) {
 
   //echo '<a href="login.php">Return to login form</a><br /><a href="brightmoorPantry.php">Go to database</a>';
 */
-}
+
 else {
-	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
+	echo "User Name not found.";
 	echo "<br><br> <a href=\"login.php\">Return to login form</a>";
 }
 
