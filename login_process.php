@@ -20,38 +20,42 @@ require_once ($mysql_path);
 if(!isset($_POST['username'])){
 	$_POST['username'] = NULL;
 }
-//$posts = array($_POST['username']);
 
-//create array to place either post value or NULL
-//$fieldArray = array();
+/* create a prepared statement */
+if ($stmt = $conn->prepare("SELECT password FROM users WHERE username=?")) {
 
-//loop through each post value and assign NULL value if no input
-/*$arrlength = count($posts);
-for($x = 0; $x < $arrlength; $x++) {
-    $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+    /* bind parameters for markers */
+    $stmt->bind_param("s", $_POST['username']);
+
+    /* execute query */
+    $stmt->execute();
+    
+    /* store result */
+    $stmt->store_result();
+    
+    //get number of results
+    $num_rows = $stmt->num_rows;
+    
+    /* bind result variables */
+    $stmt->bind_result($password);
+
+    /* fetch value */
+    $stmt->fetch();
+
+    /* close statement */
+    $stmt->close();
 }
-*/
-$username = mysqli_real_escape_string($conn, $_POST['username']);
-$passwordQuery = "SELECT username, password FROM users WHERE username = '$username'";
 
-$hash = "";
+$hash = $password;
 
 $result = $conn->query($passwordQuery);
 
-if ( $result->num_rows > 0) {
-	//echo 'result';
-    /* fetch associative array */
-    while ($passwordRow = $result->fetch_assoc()) {
-        	//php 5.6 - check hash value
-        	$hash = $passwordRow['password'];
-        }
-		//echo $hash;
+if ( $num_rows > 0) {
+
 		if(!isset($_POST['password'])){
 			$_POST['password'] = NULL;
 		}
-		//echo 'hash: '.$hash.' <br>';
-		//echo $_POST['password'];
-		//echo '<br>';
+		
 		//php 5.6 - verify hash
 		if (password_verify($_POST['password'], $hash)) {
 		//php 5.4 - check vs raw password value
@@ -126,7 +130,7 @@ else {
 	echo "User Name not found.";
 	echo "<br><br> <a href=\"login.php\">Return to login form</a>";
 }
-
+    
 $conn->close();
 
 ?>

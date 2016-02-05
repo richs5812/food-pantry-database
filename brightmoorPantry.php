@@ -109,19 +109,19 @@ if (!isset($client)){
 	$client = NULL;
 }
 
-/*
+
 //$posts = array($_POST['ClientID']);
 $stmt = $conn->prepare("SELECT * FROM Clients WHERE ClientID=?");
 $stmt->bind_param('s', $client);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-*/
 
+/*
 $sql = "SELECT * FROM Clients WHERE ClientID='$client'";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-
+*/
 echo '
 <form action="update.php" method="post">';
 
@@ -280,14 +280,14 @@ echo '<h3>Family Information</h3>';
 
 if ($row["ClientID"]!=""){
 echo '<div class="overflow-x">';
-$familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$row[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
-$familyMembersResult = $conn->query($familyMembersSql);
-/*
+/*$familyMembersSql = "SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID='$row[ClientID]' ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC";
+$familyMembersResult = $conn->query($familyMembersSql);*/
+
 $familyMembersStmt = $conn->prepare("SELECT FamilyMembers.*, Clients.ClientID FROM FamilyMembers INNER JOIN Clients ON FamilyMembers.ClientID=Clients.ClientID WHERE FamilyMembers.ClientID=? ORDER BY FamilyMembers.Age DESC, FamilyMembers.FamilyMemberName ASC");
 $familyMembersStmt->bind_param('s', $row['ClientID']);
 $familyMembersStmt->execute();
 $familyMembersResult = $familyMembersStmt->get_result();
-*/
+
 	     echo '  
             <table border="1">
 		<tr>
@@ -359,15 +359,15 @@ echo '<h3>Referral Information</h3>';
 		
 if ($row["ClientID"]!=""){ 
 echo '<div class="overflow-x">';
-
-$referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$row[ClientID]' ORDER BY Referrals.ReferralDate ASC";
-$referralsResult = $conn->query($referralsSql);
 /*
-$referralsStmt = $conn->prepare("SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID=?");
+$referralsSql = "SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID='$row[ClientID]' ORDER BY Referrals.ReferralDate ASC";
+$referralsResult = $conn->query($referralsSql);*/
+
+$referralsStmt = $conn->prepare("SELECT Referrals.*, Clients.ClientID FROM Referrals INNER JOIN Clients ON Referrals.ClientID=Clients.ClientID WHERE Referrals.ClientID=? ORDER BY Referrals.ReferralDate ASC");
 $referralsStmt->bind_param('s', $row['ClientID']);
 $referralsStmt->execute();
 $referralsResult = $referralsStmt->get_result();
-*/
+
 	     echo '
 	    <table border="1">
 		<tr>
@@ -440,7 +440,7 @@ echo '
 	if ($referralTypeResult->num_rows > 0) {
     // output data of each row 
     while($referralTypeRow = $referralTypeResult->fetch_assoc()) {
-    	echo '<option value="'. $referralTypeRow['ReferralType'] .'" '.$selected.'>'. $referralTypeRow['ReferralType'] .'</option>';
+    	echo '<option value="'. $referralTypeRow['ReferralType'] .'">'. $referralTypeRow['ReferralType'] .'</option>';
     }
 	} else {
 		echo "0 results";
@@ -474,13 +474,13 @@ echo '<h3>Appointment Information</h3>';
 if ($row["ClientID"]!=""){ 
 echo '<div class="overflow-x">';
 
-$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
-$appointmentsResult = $conn->query($appointmentsSql);
-/*
+/*$appointmentsSql = "SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID='$row[ClientID]' ORDER BY Appointments.AppointmentDate ASC";
+$appointmentsResult = $conn->query($appointmentsSql);*/
+
 $appointmentsStmt = $conn->prepare("SELECT Appointments.*, Clients.ClientID FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE Appointments.ClientID=? ORDER BY Appointments.AppointmentDate ASC");
 $appointmentsStmt->bind_param('s', $row['ClientID']);
 $appointmentsStmt->execute();
-$appointmentsResult = $appointmentsStmt->get_result();*/
+$appointmentsResult = $appointmentsStmt->get_result();
 
 	     echo '
         <table border="1">
