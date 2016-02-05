@@ -27,13 +27,13 @@ require_once ('mysql_path.php');
 require_once ($mysql_path);
 
 //sql to pull client name for 'return to client page' button
-$clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");
+/*$clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");
 $clientButtonStmt->bind_param('s', $_POST['ClientID']);
 $clientButtonStmt->execute();
-$clientButtonResult = $clientButtonStmt->get_result();
+$clientButtonResult = $clientButtonStmt->get_result();*/
 
-/*$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
-	$clientButtonResult = $conn->query($clientButtonSql);*/
+$clientButtonSql = "SELECT FirstName, LastName FROM Clients WHERE ClientID='$_POST[ClientID]'";
+	$clientButtonResult = $conn->query($clientButtonSql);
 	if ($clientButtonResult->num_rows > 0) {
     // output data of each row 
     while($clientButtonRow = $clientButtonResult->fetch_assoc()) {
