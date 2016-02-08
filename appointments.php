@@ -79,7 +79,7 @@ jQuery(function($){
 <section>
 
 <div class="formStyle">
-<form id="datePicker" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+<form id="datePicker" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 
 <?php 
 if (!isset($_POST['datepicker']))
@@ -128,7 +128,7 @@ if ($appointmentsResult->num_rows > 0) {
     				} else {
     					echo " appointments scheduled.";
     				}
-    				echo '<form id="datePicker" action="'.$_SERVER["PHP_SELF"].'" method="post" style="display: inline;">';
+    				echo '<form id="datePicker" action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post" style="display: inline;">';
     					echo'
     					<input type="hidden" name="datepicker" value="' .$appointmentsRow['AppointmentDate']. '" />
     					<input type="submit" name="View" value=">> View Appointments"/>';
@@ -150,8 +150,13 @@ $prettyDate = date("F j, Y", strtotime($_POST['datepicker']));
 	}*/
 	
 //$sql = "SELECT * FROM Appointments WHERE AppointmentDate='$sqlFormattedAppointmentDate'";
-$sql = "SELECT Appointments.*, Clients.FirstName, Clients.LastName FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE AppointmentDate='$sqlFormattedAppointmentDate' ORDER BY Clients.LastName ASC, Clients.FirstName ASC";
-$result = $conn->query($sql);
+/*$sql = "SELECT Appointments.*, Clients.FirstName, Clients.LastName FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE AppointmentDate='$sqlFormattedAppointmentDate' ORDER BY Clients.LastName ASC, Clients.FirstName ASC";
+$result = $conn->query($sql);*/
+
+$appointmentsStmt = $conn->prepare("SELECT Appointments.*, Clients.FirstName, Clients.LastName FROM Appointments INNER JOIN Clients ON Appointments.ClientID=Clients.ClientID WHERE AppointmentDate=? ORDER BY Clients.LastName ASC, Clients.FirstName ASC");
+$appointmentsStmt->bind_param('s', $sqlFormattedAppointmentDate);
+$appointmentsStmt->execute();
+$appointmentsResult = $appointmentsStmt->get_result();
 
 //if ($_POST['datepicker'] != "") {
 	echo '<div style="overflow-x:auto;">
@@ -163,8 +168,8 @@ $result = $conn->query($sql);
     	<th>Notes</th>
     	<th></th>
 	</tr>';
-	if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {	
+	if ($appointmentsResult->num_rows > 0) {
+    while($row = $appointmentsResult->fetch_assoc()) {	
 	//form to update and delete appointments
 	echo '<form action="UpdateAppointment.php" method="post">
 	<input type="hidden" name="AppointmentID" value="' .$row['AppointmentID']. '" />

@@ -3,7 +3,7 @@
 require_once('session_check.php');
 ?>
 <!--start drop down menu-->
-<form id="dropDownMenu" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+<form id="dropDownMenu" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <select class="clientDropDown" name="ClientID" onchange="change()">
 <option value="">New Record</option>
 
