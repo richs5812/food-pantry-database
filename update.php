@@ -69,7 +69,17 @@ $fieldArray = array();
 //loop through each post value and assign NULL value if no input
 $arrlength = count($posts);
 for($x = 0; $x < $arrlength; $x++) {
-    $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+   /* $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+    }*/
+     if (empty($posts[$x])) {
+     	$fieldArray[$x] = NULL;
+     } else {
+     	//test input
+		$posts[$x] = trim($posts[$x]);
+		$posts[$x] = stripslashes($posts[$x]);
+		$posts[$x] = htmlspecialchars($posts[$x]);
+		$fieldArray[$x] = $posts[$x];
+     }
 }
 
 $stmt = $conn->prepare("UPDATE Clients SET FirstName=?, LastName=?, Address=?, Address2=?, HomePhoneNumber=?, ZipCode=?, Age=?, Gender=?, Pregnant=?, EnrollmentDate=?, AddressVerified=?, EmailAddress=?, CellPhoneNumber=?, FamilySize=?, AdultsNumber=?, AgeRange05=?, AgeRange617=?, AgeRange1829=?, AgeRange3039=?, AgeRange4049=?, AgeRange5064=?, AgeRange65=?, HasStove=?, StateEmergencyRelease=?, FoodStampAssistance=?, LimitedHealthServicesReferral=?, AdditionalServices=?, OtherNotes=?, CoatOrder=?, PreviousChristmasFoodYes=?, PreviousChristmasFoodNo=?, CoatOrderDate=?, ChildrenNumber=?, ChildcareServices=?, HeatShutoff=?, LightShutoff=?, WaterShutoff=?, OtherShutoff=?, TaxesDifficulty=?, ForeclosureNotice=?, LandlordEviction=?, OtherHousingIssue=? WHERE ClientID=?");

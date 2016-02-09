@@ -34,10 +34,19 @@ if (isset($_POST['Update'])) {
 	$fieldArray = array();
 
 	$arrlength = count($posts);
-	//echo $arrlength;
-	for($x = 0; $x < $arrlength; $x++) {
-	    $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
-	}
+for($x = 0; $x < $arrlength; $x++) {
+   /* $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+    }*/
+     if (empty($posts[$x])) {
+     	$fieldArray[$x] = NULL;
+     } else {
+     	//test input
+		$posts[$x] = trim($posts[$x]);
+		$posts[$x] = stripslashes($posts[$x]);
+		$posts[$x] = htmlspecialchars($posts[$x]);
+		$fieldArray[$x] = $posts[$x];
+     }
+}
 
 	$stmt = $conn->prepare("UPDATE FamilyMembers SET FamilyMemberName=?, Age=?, Gender=?, Relationship=? WHERE FamilyMemberID=?");
 

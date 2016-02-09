@@ -55,7 +55,17 @@ $fieldArray = array();
 //assign null values if blank
 $arrlength = count($posts);
 for($x = 0; $x < $arrlength; $x++) {
-    $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+   /* $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+    }*/
+     if (empty($posts[$x])) {
+     	$fieldArray[$x] = NULL;
+     } else {
+     	//test input
+		$posts[$x] = trim($posts[$x]);
+		$posts[$x] = stripslashes($posts[$x]);
+		$posts[$x] = htmlspecialchars($posts[$x]);
+		$fieldArray[$x] = $posts[$x];
+     }
 }
 
 $stmt = $conn->prepare("INSERT INTO Appointments (ClientID, AppointmentDate, AppointmentStatus, AppointmentNotes) VALUES (?, ?, ?, ?)");

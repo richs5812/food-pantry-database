@@ -25,6 +25,24 @@ if(!isset($_POST['HasStove'])){
 	$_POST['HasStove'] = NULL;
 }
 
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+/*
+ if (empty($_POST["FirstName"])) {
+    $firstName = NULL;
+  } else {
+	 	$firstName = test_input($_POST["FirstName"]);
+   	 	// check if name only contains letters and whitespace
+   	 	if (!preg_match("/^[a-zA-Z ]*$/",$firstName)) {
+   			echo "Only letters and white space allowed. You entered ".$firstName." Your entry for this field was discarded.<br>";
+			$firstName = NULL;
+    }
+}*/
+
 //create array of form values
 $posts = array($_POST['FirstName'],$_POST['LastName'],$_POST['Address'],$_POST['Address2'],$_POST['HomePhoneNumber'],$_POST['ZipCode'],$_POST['Age'],$_POST['Gender'],$_POST['Pregnant'],$sqlFormattedEnrollmentDate,$_POST['AddressVerified'],$_POST['EmailAddress'],$_POST['CellPhoneNumber'],$_POST['FamilySize'],$_POST['AdultsNumber'],$_POST['AgeRange05'],$_POST['AgeRange617'],$_POST['AgeRange1829'],$_POST['AgeRange3039'],$_POST['AgeRange4049'],$_POST['AgeRange5064'],$_POST['AgeRange65'],$_POST['StateEmergencyRelease'],$_POST['FoodStampAssistance'],$_POST['LimitedHealthServicesReferral'],$_POST['AdditionalServices'],$_POST['OtherNotes'],$_POST['CoatOrder'],$_POST['PreviousChristmasFoodYes'],$_POST['PreviousChristmasFoodNo'],$sqlFormattedCoatOrderDate,$_POST['ChildrenNumber'],$_POST['HasStove'],$_POST['ChildcareServices'],$_POST['HeatShutoff'],$_POST['LightShutoff'],$_POST['WaterShutoff'],$_POST['OtherShutoff'],$_POST['TaxesDifficulty'],$_POST['ForeclosureNotice'],$_POST['LandlordEviction'],$_POST['OtherHousingIssue']);
 
@@ -34,7 +52,8 @@ $fieldArray = array();
 //loop through each post value and assign NULL if blank
 $arrlength = count($posts);
 for($x = 0; $x < $arrlength; $x++) {
-    //$fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+   /* $fieldArray[$x] = ($posts[$x] != '') ? $posts[$x] : NULL;
+    }*/
      if (empty($posts[$x])) {
      	$fieldArray[$x] = NULL;
      } else {
@@ -42,7 +61,6 @@ for($x = 0; $x < $arrlength; $x++) {
 		$posts[$x] = trim($posts[$x]);
 		$posts[$x] = stripslashes($posts[$x]);
 		$posts[$x] = htmlspecialchars($posts[$x]);
-		//echo $posts[$x];
 		$fieldArray[$x] = $posts[$x];
      }
 }
