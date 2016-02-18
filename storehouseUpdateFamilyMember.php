@@ -22,8 +22,7 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 
 //check if family member Update button or Delete button was clicked
 if (isset($_POST['Update'])) {
@@ -53,7 +52,7 @@ for($x = 0; $x < $arrlength; $x++) {
 
 	if ($stmt->execute() == TRUE) {
 	   echo 'Family member record updated successfully.<br><br>
- 		<form action="brightmoorPantry.php" method="post">
+ 		<form action="storehousePantry.php" method="post">
     	<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     	<input type="hidden" name="autofocus" value="autofocus" />
     	<input type="submit" value="Return to Client Page" autofocus/>
@@ -61,7 +60,7 @@ for($x = 0; $x < $arrlength; $x++) {
     	';
 	} else {
 		echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
-		echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
+		echo "<br><br> <a href=\"storehousePantry.php\">Return to database</a>";
 	}
 
 } else if (isset($_POST['Delete'])) {
@@ -73,7 +72,7 @@ for($x = 0; $x < $arrlength; $x++) {
   
     if ($stmt->execute() == TRUE) {
     echo "Family member record deleted.<br><br>";
-    echo '<form action="brightmoorPantry.php" method="post">
+    echo '<form action="storehousePantry.php" method="post">
     <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     <input type="submit" autofocus value="Return to Client Page" />
    </form>
@@ -81,19 +80,7 @@ for($x = 0; $x < $arrlength; $x++) {
 } else {
     echo "Error: " . $stmt->error;
 }
-}/*
-    $sql="DELETE FROM FamilyMembers WHERE FamilyMemberID='$_POST[FamilyMemberID]'";
-    if ($conn->query($sql) === TRUE) {
-    echo "Family Member record deleted.<br><br>";
-    echo '<form action="brightmoorPantry.php" method="post">
-    <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
-    <input type="submit" autofocus value="Return to Client Page" />
-   </form>
-    ';
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
 }
-}*/
 
 $conn->close();
 

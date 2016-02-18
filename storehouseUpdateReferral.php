@@ -5,7 +5,7 @@ require_once('session_check.php');
 <!DOCTYPE html>
 <html>
 <head>
-<title>Family Member Updated</title>
+<title>Referral Updated</title>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="db_styles.css">
 </head>
@@ -22,13 +22,21 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 
 //check if family member Update button or Delete button was clicked
 if (isset($_POST['Update'])) {
+
+	//format dates for MySQL from input format
+    date_default_timezone_set('America/Detroit');
+	if($_POST['ReferralDate']!=NULL){
+	$sqlFormattedReferralDate = date("Y-m-d", strtotime($_POST['ReferralDate']));
+	} else {
+	$sqlFormattedReferralDate = NULL;
+	}
+
     //code to update record
-    $posts = array($_POST['FamilyMemberName'],$_POST['FamilyMemberAge'],$_POST['FamilyMemberGender'],$_POST['Relationship'],$_POST['FamilyMemberID']);
+    $posts = array($_POST['ReferralType'],$sqlFormattedReferralDate,$_POST['ReferralNotes'],$_POST['ReferralID']);
 
 	$fieldArray = array();
 
@@ -47,33 +55,34 @@ for($x = 0; $x < $arrlength; $x++) {
      }
 }
 
-	$stmt = $conn->prepare("UPDATE FamilyMembers SET FamilyMemberName=?, Age=?, Gender=?, Relationship=? WHERE FamilyMemberID=?");
+	$stmt = $conn->prepare("UPDATE Referrals SET ReferralType=?, ReferralDate=?, ReferralNotes=? WHERE ReferralID=?");
 
-	$stmt->bind_param('sssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3], $fieldArray[4]);
+	$stmt->bind_param('ssss', $fieldArray[0], $fieldArray[1], $fieldArray[2], $fieldArray[3]);
 
 	if ($stmt->execute() == TRUE) {
-	   echo 'Family member record updated successfully.<br><br>
- 		<form action="brightmoorPantry.php" method="post">
+	   echo 'Referral record updated successfully.<br><br>
+ 		<form action="storehousePantry.php" method="post">
     	<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
-    	<input type="hidden" name="autofocus" value="autofocus" />
+    	
     	<input type="submit" value="Return to Client Page" autofocus/>
    		</form>
     	';
 	} else {
 		echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
-		echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
+		echo "<br><br> <a href=\"storehousePantry.php\">Return to database</a>";
 	}
 
 } else if (isset($_POST['Delete'])) {
     //delete action if Delete button was clicked
-
-    $posts = array($_POST['FamilyMemberID']);
-    $stmt = $conn->prepare("DELETE FROM FamilyMembers WHERE FamilyMemberID=?");
+    $posts = array($_POST['ReferralID']);
+    $stmt = $conn->prepare("DELETE FROM Referrals WHERE ReferralID=?");
     $stmt->bind_param('s', $posts[0]);
-  
+    
+    //$sql="DELETE FROM Referrals WHERE ReferralID='$_POST[ReferralID]'";
+    //if ($conn->query($sql) === TRUE) {
     if ($stmt->execute() == TRUE) {
-    echo "Family member record deleted.<br><br>";
-    echo '<form action="brightmoorPantry.php" method="post">
+    echo "Referral record deleted.<br><br>";
+    echo '<form action="storehousePantry.php" method="post">
     <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     <input type="submit" autofocus value="Return to Client Page" />
    </form>
@@ -81,19 +90,7 @@ for($x = 0; $x < $arrlength; $x++) {
 } else {
     echo "Error: " . $stmt->error;
 }
-}/*
-    $sql="DELETE FROM FamilyMembers WHERE FamilyMemberID='$_POST[FamilyMemberID]'";
-    if ($conn->query($sql) === TRUE) {
-    echo "Family Member record deleted.<br><br>";
-    echo '<form action="brightmoorPantry.php" method="post">
-    <input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
-    <input type="submit" autofocus value="Return to Client Page" />
-   </form>
-    ';
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
 }
-}*/
 
 $conn->close();
 

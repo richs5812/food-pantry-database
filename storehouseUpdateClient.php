@@ -23,13 +23,12 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 date_default_timezone_set('America/Detroit');
 
 //figure out if new client and send to insert.php if true. else update existing client
 if ($_POST['ClientID']==""){
-	require_once ('insert.php');
+	require_once ('storehouseInsertClient.php');
 	} else {
 	
 /*$stmt = $conn->prepare("SELECT * FROM Clients WHERE ClientID=?");
@@ -87,14 +86,14 @@ $stmt->bind_param('sssssssssssssssssssssssssssssssssssssssssss', $fieldArray[0],
 
 if ($stmt->execute() == TRUE) {
   echo 'Client record updated successfully.<br><br>
-	<form action="brightmoorPantry.php" method="post">
+	<form action="storehousePantry.php" method="post">
     <input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     <input type="submit" value="Return to Client Page" autofocus/>
    </form>
     ';
 } else {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
-	echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
+	echo "<br><br> <a href=\"storehousePantry.php\">Return to database</a>";
 }
 
 $conn->close();

@@ -22,8 +22,7 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 
 //sql to pull client name for 'return to client page' button
 $clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");
@@ -80,20 +79,20 @@ if ($stmt->execute() == TRUE) {
 	if ($_POST['fromAppointmentForm'] != NULL){
 	//coming from appointments page
 	echo'
-		<form action="appointments.php" method="post">
+		<form action="storehouseAppointments.php" method="post">
 			<input type="hidden" name="datepicker" value="' .$_POST['NewAppointmentPicker']. '" />
   			<input type="submit" value="Go to ' .$_POST['NewAppointmentPicker']. ' appointments" />
 		</form>
 		';
 		echo'
-		<form action="brightmoorPantry.php" method="post">
+		<form action="storehousePantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
    		} else {
    		echo'
-		<form action="brightmoorPantry.php" method="post">
+		<form action="storehousePantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
    		</form>
@@ -107,35 +106,9 @@ if ($stmt->execute() == TRUE) {
    		}
 } else {
 	echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
-	echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
+	echo "<br><br> <a href=\"storehousePantry.php\">Return to database</a>";
 }
 
-/*if ($stmt->execute() == TRUE) {
-		echo 'Appointment updated successfully.<br><br>
-		<form action="appointments.php" method="post">
-			<input type="hidden" name="datepicker" value="' .$_POST[previousFormDate]. '" />
-  			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
-		</form>';
-		
-		if($previousDisplayDate != $_POST[AppointmentDate]){
-			echo'
-			<form action="appointments.php" method="post">
-				<input type="hidden" name="datepicker" value="' .$_POST[AppointmentDate]. '" />
-  				<input type="submit" value="Go to ' .$_POST[AppointmentDate]. ' appointments" />
-			</form>
-			';
-		}
-		
-		echo'
-		<form action="brightmoorPantry.php" method="post">
-    		<input type="hidden" name="ClientID" value="' .$_POST[ClientID]. '" />
-    		<input type="submit" value="View '.$_POST[clientName].'\'s Client Page" />
-   		</form>
-   		';
-	} else {
-		echo "Error: ' . $sql . ' <br> '. $stmt->error.'";
-		echo "<br><br> <a href=\"brightmoorPantry.php\">Return to database</a>";
-	}*/
 
 $conn->close();
 

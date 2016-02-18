@@ -57,14 +57,14 @@ jQuery(function($){
   <!-- end date picker-->
 <title>Brightmoor Connection Database</title>
 </head>
-<body id="brightmoor">
+<body id="storehouse">
 
 <!-- include functions to create form items-->
 <?php require_once ('functions.php');?>
 
 <header>
-	<img src="images/brightmoor_logo.jpg" width=500px>
-	<h1>Brightmoor Connection Database</h1>
+<img src="images/Storehouse_of_Hope_Logo.jpg" style="max-width:120px;"/>
+<h1 style="vertical-align:bottom;">Storehouse of Hope Database</h1>
 </header>
 
 <nav>
@@ -74,7 +74,7 @@ jQuery(function($){
 <section>
 <?php 
 
-require_once ('client_drop_down.php');
+require_once ('storehouseClientDropDown.php');
 
 ?>
 
@@ -83,8 +83,7 @@ require_once ('client_drop_down.php');
 
 <?php
 //connect to database using php script
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 if (!isset($_POST['ClientID']))
 {
 //If not isset -> set with dummy value
@@ -119,9 +118,10 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 */
 echo '
-<form action="update.php" method="post">';
+<form action="storehouseUpdateClient.php" method="post">';
 
-echo '<h2>Client Information:</h2>
+echo '
+    <h2>Client Information:</h2>
     
     <h3>Basic info:</h3>
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />';
@@ -246,7 +246,7 @@ textInput("AdditionalServices", "Are there any additional services you need?");
 echo '<div class="fieldWrapper" id="divOtherNotes"><label for="OtherNotes">Other/Notes: </label><textarea id="OtherNotes" name="OtherNotes" rows="3" cols="50">' .$row["OtherNotes"]. '</textarea></div>';
 
 dateInput("EnrollmentDate", "Enrollment Date");
-
+echo '<div style="display:none;">';
 echo '<h3>Christmas Coat Orders:</h3>';
 
 checkBox("CoatOrder", "Coat Ordered");
@@ -257,7 +257,7 @@ checkBox("PreviousChristmasFoodYes", "Yes");
 checkBox("PreviousChristmasFoodNo", "No");
 
 dateInput("CoatOrderDate", "Coat Order Date");
-
+echo '</div><br />';
  if ($row["ClientID"]!=""){ 
 echo'<input type="submit" value="Update Client Information"/></form>';
 } else{
@@ -296,7 +296,7 @@ if ($familyMembersResult->num_rows > 0) {
     while($familyMembersRow = $familyMembersResult->fetch_assoc()) {
         //output existing family member info
         echo '
-        <form action="UpdateFamilyMember.php" method="post">
+        <form action="storehouseUpdateFamilyMember.php" method="post">
 <input type="hidden" name="FamilyMemberID" value="'.$familyMembersRow["FamilyMemberID"].'" />
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />
 <tr>
@@ -322,7 +322,7 @@ if ($familyMembersResult->num_rows > 0) {
 $_POST['autofocus'] = "undefined";
 }
     
-   echo '<form action="InsertFamilyMember.php" method="post">
+   echo '<form action="storehouseInsertFamilyMember.php" method="post">
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>
 	<td><label for="FamilyMemberName"></label><input type="text" id="FamilyMemberName" name="FamilyMemberName" '.$_POST["autofocus"].'/></td>
@@ -374,7 +374,7 @@ $referralsResult = $referralsStmt->get_result();
 if ($referralsResult->num_rows > 0) {
     while($referralsRow = $referralsResult->fetch_assoc()) {
         echo '
-        <form action="UpdateReferral.php" method="post">
+        <form action="storehouseUpdateReferral.php" method="post">
 <input type="hidden" name="ReferralID" value="'.$referralsRow["ReferralID"].'" />
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />
 <tr>';
@@ -422,7 +422,7 @@ echo '
     }
     }
     
-   echo '<form action="InsertReferral.php" name="InsertReferral" method="post" onsubmit="return validateReferral()">
+   echo '<form action="storehouseInsertReferral.php" name="InsertReferral" method="post" onsubmit="return validateReferral()">
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>';
 
@@ -488,7 +488,7 @@ $appointmentsResult = $appointmentsStmt->get_result();
 if ($appointmentsResult->num_rows > 0) {
     while($appointmentsRow = $appointmentsResult->fetch_assoc()) {
         echo '
-        <form action="UpdateAppointment.php" method="post">
+        <form action="storehouseUpdateAppointment.php" method="post">
 <input type="hidden" name="AppointmentID" value="'.$appointmentsRow['AppointmentID'].'" />
 <input type="hidden" name="ClientID" value="' .$row['ClientID']. '" />
 <tr>';
@@ -541,7 +541,7 @@ echo '
     }
     }
     
-   echo '<form action="InsertAppointment.php" method="post" name="InsertAppointment" onsubmit="return validateDate()">
+   echo '<form action="storehouseInsertAppointment.php" method="post" name="InsertAppointment" onsubmit="return validateDate()">
 <input type="hidden" name="ClientID" value="' .$row["ClientID"]. '" />   
 <tr>
 	<td class="center"><input type="text" class="dateTextLength" id="AppointmentDate" name="NewAppointmentPicker"/></td>';

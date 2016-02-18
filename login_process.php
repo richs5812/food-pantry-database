@@ -48,7 +48,7 @@ if ($stmt = $conn->prepare("SELECT password FROM users WHERE username=?")) {
 
 $hash = $password;
 
-$result = $conn->query($passwordQuery);
+//$result = $conn->query($passwordQuery);
 
 if ( $num_rows > 0) {
 
@@ -60,9 +60,9 @@ if ( $num_rows > 0) {
 		if (password_verify($_POST['password'], $hash)) {
 		//php 5.4 - check vs raw password value
         //if ($hash == $_POST['password']){
-    		//echo 'Password is valid!';
+        	//be sure to set session id name and timeout time in php.ini, httponly=true
     		session_start();
-        	//take user to database if username/password combo found
+    		//take user to database if username/password combo found
         	$_SESSION['username'] = $_POST['username'];
         	header('Location: brightmoorPantry.php');
 			exit;
@@ -70,7 +70,7 @@ if ( $num_rows > 0) {
   	  echo 'Invalid password.<br><br> <a href="login.php">Return to login form</a>';
 	}
 			
-	$result->free();
+	//$result->free();
 }
 /*
 $stmt = $conn->prepare("SELECT username, password FROM users WHERE username = ?");

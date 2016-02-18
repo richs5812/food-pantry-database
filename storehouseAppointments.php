@@ -7,7 +7,7 @@ require_once('session_check.php');
 <head>
 <link rel="stylesheet" href="db_styles.css">
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brightmoor Connection Database - Appointments</title>
+<title>Storehouse Pantry - Appointments</title>
 <script>
 function validateClient() {
     var x = document.forms["InsertAppointment"]["ClientID"].value;
@@ -100,8 +100,7 @@ echo'<div class="fieldwrapper" id="divdatepicker"><label for="datepicker">Date: 
 </form>
 
 <?php
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 date_default_timezone_set('America/Detroit');
 //$todaysDate = date("Y-m-d");
 //echo strtotime($todaysDate);
@@ -170,7 +169,7 @@ $appointmentsResult = $appointmentsStmt->get_result();
 	if ($appointmentsResult->num_rows > 0) {
     while($row = $appointmentsResult->fetch_assoc()) {	
 	//form to update and delete appointments
-	echo '<form action="UpdateAppointment.php" method="post">
+	echo '<form action="storehouseUpdateAppointment.php" method="post">
 	<input type="hidden" name="AppointmentID" value="' .$row['AppointmentID']. '" />
 	<input type="hidden" name="previousFormDate" value="' .$_POST['datepicker']. '" />
 	';

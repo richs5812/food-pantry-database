@@ -24,8 +24,7 @@ require_once('session_check.php');
 <?php
 
 //connect to database using php script
-require_once ('mysql_path.php');
-require_once ($mysql_path);
+require_once ('storehouse_connect.php');
 
 //sql to pull client name for 'return to client page' button
 $clientButtonStmt = $conn->prepare("SELECT FirstName, LastName FROM Clients WHERE ClientID=?");
@@ -92,14 +91,14 @@ for($x = 0; $x < $arrlength; $x++) {
 		}	*/
 		if ($_POST['previousFormDate'] != NULL){
 		//coming from Appointments page
-		echo '<form action="appointments.php" method="post">
+		echo '<form action="storehouseAppointments.php" method="post">
 			<input type="hidden" name="datepicker" value="' .$_POST['previousFormDate']. '" />
   			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
 		</form>';
 		
 		if($previousDisplayDate != $_POST['AppointmentDate']){
 			echo'
-			<form action="appointments.php" method="post">
+			<form action="storehouseAppointments.php" method="post">
 				<input type="hidden" name="datepicker" value="' .$_POST['AppointmentDate']. '" />
   				<input type="submit" value="Go to ' .$_POST['AppointmentDate']. ' appointments" />
 			</form>
@@ -107,7 +106,7 @@ for($x = 0; $x < $arrlength; $x++) {
 		}
 		
 		echo'
-		<form action="brightmoorPantry.php" method="post">
+		<form action="storehousePantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
@@ -115,14 +114,14 @@ for($x = 0; $x < $arrlength; $x++) {
    		}	else {
    			//coming from brightmoorPantry page
    			echo'
-			<form action="brightmoorPantry.php" method="post">
+			<form action="storehousePantry.php" method="post">
     			<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     			<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
    			</form>
    			';
    			
    			echo'
-			<form action="appointments.php" method="post">
+			<form action="storehouseAppointments.php" method="post">
 				<input type="hidden" name="datepicker" value="' .$_POST['AppointmentDate']. '" />
   				<input type="submit" value="Go to ' .$_POST['AppointmentDate']. ' appointments" />
 			</form>
@@ -150,20 +149,20 @@ for($x = 0; $x < $arrlength; $x++) {
     echo "Appointment record deleted.<br><br>";
     if ($_POST['previousFormDate'] != NULL){
     echo '
-		<form action="appointments.php" method="post">
+		<form action="storehouseAppointments.php" method="post">
 			<input type="hidden" name="datepicker" value="' .$_POST['previousFormDate']. '" />
   			<input type="submit" value="Return to ' .$previousDisplayDate. ' appointments" />
 		</form>';
 	
 		echo'
-		<form action="brightmoorPantry.php" method="post">
+		<form action="storehousePantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="View '.$clientName.'\'s Client Page" />
    		</form>
    		';
 	} else {
 			echo'
-		<form action="brightmoorPantry.php" method="post">
+		<form action="storehousePantry.php" method="post">
     		<input type="hidden" name="ClientID" value="' .$_POST['ClientID']. '" />
     		<input type="submit" value="Return to '.$clientName.'\'s Client Page" />
    		</form>

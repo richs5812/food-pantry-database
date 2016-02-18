@@ -8,8 +8,7 @@
 <body>
 
 <header>
-<img src="images/brightmoor_logo.jpg" width=500px>
-<h1>Brightmoor Connection Database</h1>
+	<?php require_once ('header.html');?>
 </header>
 
 <section style="max-width: 600px;">

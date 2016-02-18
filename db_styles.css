@@ -20,7 +20,8 @@ header img {
 header h1 {
 	display: inline-block;
 	/*font-family: sans-serif;*/
-	font-style: italic;
+	/*font-style: italic;*/
+	vertical-align: middle;
 }
 
 p.sessionText {
@@ -320,4 +321,10 @@ li.nav a {
 
 li.nav a:hover {
     background-color: #111;
+}
+
+body#brightmoor a#nav-brightmoor,
+body#storehouse a#nav-storehouse
+{
+background-color: 333333;
 }
